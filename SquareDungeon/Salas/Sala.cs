@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SquareDungeon.Entidades;
 
-namespace SquareDungeon.Sala
+namespace SquareDungeon.Salas
 {
     abstract class Sala
     {
@@ -12,9 +8,9 @@ namespace SquareDungeon.Sala
 
         private bool visitado;
 
-        protected Entidad.Entidad entidad;
+        protected Entidad entidad;
 
-        public Sala(byte x, byte y, Entidad.Entidad entidad)
+        public Sala(byte x, byte y, Entidad entidad)
         {
             this.x = x;
             this.y = y;
@@ -30,6 +26,6 @@ namespace SquareDungeon.Sala
 
         public byte GetY() => y;
 
-        public virtual Entidad.Entidad GetEntidad() => entidad;
+        public virtual Entidad GetEntidad() => entidad;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SquareDungeon.Entidad.Mob
+﻿using System;
+
+namespace SquareDungeon.Entidades.Mobs
 {
     abstract class Mob : Entidad
     {
@@ -32,8 +34,26 @@
             exp = 0;
         }
 
-        protected virtual void SubirNivel() { }
+        protected virtual void subirNivel() { }
 
-        public virtual void SubirNivel(int exp) { }
+        public void SubirNivel(int exp)
+        {
+            if (this.exp + exp >= Mob.EXP_MAX)
+            {
+                subirNivel();
+                this.exp = 0;
+                SubirNivel((this.exp + exp) - Mob.EXP_MAX);
+            }
+            else
+                this.exp += exp;
+        }
+
+        protected bool subirStat(byte statCrec)
+        {
+            Random random = new Random();
+            int num = random.Next(0, 100);
+
+            return num <= statCrec;
+        }
     }
 }
