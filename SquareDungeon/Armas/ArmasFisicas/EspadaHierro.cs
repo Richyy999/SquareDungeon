@@ -1,0 +1,30 @@
+﻿using System;
+
+using SquareDungeon.Entidades.Mobs;
+
+using static SquareDungeon.Habilidades.SinHabilidad;
+
+namespace SquareDungeon.Armas.ArmasFisicas
+{
+    class EspadaHierro : ArmaFisica
+    {
+        private const int USOS_MAX = 20;
+        private const int DANO = 5;
+
+        private const string NOMBRE = "Espada de hierro";
+
+        public EspadaHierro(Mob portador) : base(DANO, USOS_MAX, NOMBRE, SIN_HABILIDAD, portador)
+        { }
+
+        public override void RepararArma(int usos)
+        {
+            if (usos <= 0)
+                throw new ArgumentException("usos", "No se puede reparar un arma con usos menores a 1");
+
+            if (this.usos + usos <= USOS_MAX)
+                this.usos += usos;
+            else
+                this.usos = USOS_MAX;
+        }
+    }
+}

@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+
+using SquareDungeon.Objetos;
 using SquareDungeon.Armas;
+using SquareDungeon.Habilidades;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
@@ -26,12 +30,19 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         private int nivelAnt;
         private int expAnt;
 
-        private Arma[] armas;
+        protected Arma[] armas;
 
-        public Jugador(byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte defCrec, byte resCrec,
+        protected List<Habilidad> habilidades;
+
+        protected Objeto[] objetos;
+
+        protected Jugador(int pv, int fue, int mag, int agi, int def, int res, int probCrit, int danCrit,
+            byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte defCrec, byte resCrec,
             byte probCritCrec, byte danCritCerc,
-            int pv, int fue, int mag, int agi, int def, int res, int probCrit, int danCrit) :
-            base(pv, fue, mag, agi, def, res, probCrit, danCrit)
+            int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax,
+            int probCritMax, int danCritMax, Habilidad habilidad) :
+            base(pv, fue, mag, agi, def, res, probCrit, danCrit,
+                pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax)
         {
             this.pvCrec = pvCrec;
             this.fueCrec = fueCrec;
@@ -55,58 +66,69 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             expAnt = 0;
 
             armas = new Arma[4];
+
+            habilidades = new List<Habilidad>();
+            habilidades.Add(habilidad);
+
+            objetos = new Objeto[15];
         }
 
         protected override void subirNivel()
         {
             Random random = new Random();
-            if (subirStat(pvCrec))
+            if (puedeSubirStat(pvCrec))
             {
                 pvAnt = pv;
-                pv += random.Next(1, 2);
+                subirStat(INDICE_VIDA, random.Next(1, 3), pvMax);
             }
-            if (subirStat(fueCrec))
+            if (puedeSubirStat(fueCrec))
             {
                 fueAnt = fue;
-                fue += random.Next(1, 2);
+                subirStat(INDICE_FUERZA, random.Next(1, 3), fueMax);
             }
-            if (subirStat(magCrec))
+            if (puedeSubirStat(magCrec))
             {
                 magAnt = mag;
-                mag += random.Next(1, 2);
+                subirStat(INDICE_MAGIA, random.Next(1, 3), magMax);
             }
-            if (subirStat(agiCrec))
+            if (puedeSubirStat(agiCrec))
             {
                 agiAnt = agi;
-                agi += random.Next(1, 2);
+                subirStat(INDICE_AGILIDAD, random.Next(1, 3), agiMax);
             }
-            if (subirStat(defCrec))
+            if (puedeSubirStat(defCrec))
             {
                 defAnt = def;
-                def += random.Next(1, 2);
+                subirStat(INDICE_DEFENSA, random.Next(1, 3), defMax);
             }
-            if (subirStat(resCrec))
+            if (puedeSubirStat(resCrec))
             {
                 resAnt = res;
-                res += random.Next(1, 2);
+                subirStat(INDICE_RESISTENCIA, random.Next(1, 3), resMax);
             }
-            if (subirStat(probCritCrec))
+            if (puedeSubirStat(probCritCrec))
             {
                 probCritAnt = probCrit;
-                probCrit += random.Next(1, 2);
+                subirStat(INDICE_PROBABILIDAD_CRITICO, random.Next(1, 3), probCritMax);
             }
-            if (subirStat(danCritCrec))
+            if (puedeSubirStat(danCritCrec))
             {
                 danCritAnt = danCrit;
-                danCrit += random.Next(2, 4);
+                subirStat(INDICE_DANO_CRITICO, random.Next(2, 5), danCritMax);
             }
         }
 
-        public int[,] GetStats() => new int[,]
+        public override void SubirNivel(int exp)
+        {
+            expAnt = this.exp;
+            base.SubirNivel(exp);
+        }
+
+        public int[,] GetStatsNuevos() => new int[,]
         { { pvAnt, pv}, { fueAnt, fue}, { magAnt, mag}, { agiAnt, agi}, {defAnt, def }, {resAnt, res },
             {probCritAnt, probCrit }, {danCritAnt, danCrit }, {expAnt, exp }, {nivelAnt, nivel } };
 
-        public virtual bool EquiparArma(Arma arma) => false;
+        public abstract bool EquiparArma(Arma arma);
 
         public void EliminarArma(Arma arma)
         {
@@ -117,6 +139,42 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             }
         }
 
-        public Arma[] GetArmas() => armas;
+        public virtual Arma[] GetArmas() => armas;
+
+        public void AnadirHabilidad(Habilidad habilidad)
+        {
+            habilidades.Add(habilidad);
+        }
+
+        public bool AnadirObjeto(Objeto objeto)
+        {
+            for (int i = 0; i < objetos.Length; i++)
+            {
+                if (objetos[i] == null)
+                {
+                    objetos[i] = objeto;
+                    return true;
+                }
+
+                if (objetos[i].GetNombre().Equals(objeto.GetNombre()))
+                {
+                    objetos[i].AnadirCantidad(objeto.GetCantidad());
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void EliminarObjeto(Objeto objeto)
+        {
+            for (int i = 0; i < objetos.Length; i++)
+            {
+                if (objetos[i] == objeto)
+                    objetos[i] = null;
+            }
+        }
+
+        public Objeto[] GetObjetos() => objetos;
     }
 }
