@@ -9,11 +9,11 @@ namespace SquareDungeon.Armas.ArmasMagicas
 {
     abstract class ArmaMagica : Arma
     {
-        protected ArmaMagica(int dano, int usos, string nombre, Habilidad habilidad, Mob portador) :
-            base(dano, usos, nombre, habilidad, portador)
+        protected ArmaMagica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad, Mob portador) :
+            base(dano, usos, nombre, descripcion, habilidad, portador)
         { }
 
-        public override bool Danar(Mob mob)
+        public override bool Atacar(Mob mob)
         {
             if (usos <= SIN_USOS)
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
@@ -22,7 +22,9 @@ namespace SquareDungeon.Armas.ArmasMagicas
             int ata = mag + this.dano;
 
             int dano = ata - mob.GetStat(INDICE_RESISTENCIA);
+            int crit = 1 + mob.GetCritico();
 
+            dano *= crit;
             return mob.Danar(dano);
         }
     }

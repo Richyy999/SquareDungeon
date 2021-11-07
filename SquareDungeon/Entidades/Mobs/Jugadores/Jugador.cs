@@ -30,6 +30,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         private int nivelAnt;
         private int expAnt;
 
+        protected Arma armaCombate;
+
         protected Arma[] armas;
 
         protected List<Habilidad> habilidades;
@@ -40,9 +42,10 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte defCrec, byte resCrec,
             byte probCritCrec, byte danCritCerc,
             int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax,
-            int probCritMax, int danCritMax, Habilidad habilidad) :
+            int probCritMax, int danCritMax,
+            string nombre, string descripcion, Habilidad habilidad) :
             base(pv, fue, mag, agi, def, res, probCrit, danCrit,
-                pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax)
+                pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax, nombre, descripcion)
         {
             this.pvCrec = pvCrec;
             this.fueCrec = fueCrec;
@@ -139,7 +142,27 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             }
         }
 
-        public virtual Arma[] GetArmas() => armas;
+        public abstract Arma[] GetArmas();
+
+        public void SetArmaCombate(Arma arma)
+        {
+            armaCombate = arma;
+        }
+
+        public abstract Arma GetArmaCombate();
+
+        public List<Habilidad> GetHabilidadesPorTipo(int tipo)
+        {
+            List<Habilidad> habilidades = new List<Habilidad>();
+
+            foreach (Habilidad habilidad in this.habilidades)
+            {
+                if (habilidad.GetTipoHabilidad() == tipo)
+                    habilidades.Add(habilidad);
+            }
+
+            return habilidades;
+        }
 
         public void AnadirHabilidad(Habilidad habilidad)
         {
@@ -148,6 +171,9 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public bool AnadirObjeto(Objeto objeto)
         {
+            if (objeto == null)
+                return true;
+
             for (int i = 0; i < objetos.Length; i++)
             {
                 if (objetos[i] == null)

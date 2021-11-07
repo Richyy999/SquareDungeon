@@ -15,6 +15,7 @@ namespace SquareDungeon.Entidades.Mobs
         public const int INDICE_PROBABILIDAD_CRITICO = 5;
         public const int INDICE_DANO_CRITICO = 6;
         public const int INDICE_VIDA = 7;
+        public const int INDICE_VIDA_TOTAL = 8;
 
         protected readonly int pvMax;
         protected readonly int fueMax;
@@ -26,6 +27,7 @@ namespace SquareDungeon.Entidades.Mobs
         protected readonly int danCritMax;
 
         protected int pv;
+        protected int pvTotal;
         protected int fue;
         protected int mag;
         protected int agi;
@@ -46,9 +48,11 @@ namespace SquareDungeon.Entidades.Mobs
         protected int danCritCom;
 
         protected Mob(int pv, int fue, int mag, int agi, int def, int res, int probCrit, int danCrit,
-            int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax, int probCritMax, int danCritMax)
+            int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax, int probCritMax, int danCritMax,
+            string nombre, string descripcion) : base(nombre, descripcion)
         {
             this.pv = pv;
+            this.pvTotal = pv;
             this.fue = fue;
             this.mag = mag;
             this.agi = agi;
@@ -89,6 +93,7 @@ namespace SquareDungeon.Entidades.Mobs
             {
                 if (this.exp + exp >= Mob.EXP_MAX)
                 {
+                    nivel++;
                     subirNivel();
                     this.exp = 0;
                     SubirNivel((this.exp + exp) - Mob.EXP_MAX);
@@ -111,12 +116,74 @@ namespace SquareDungeon.Entidades.Mobs
             if (valor <= 0)
                 throw new ArgumentException("valor", "El valor para subir un stat debe ser mayor que 0");
 
-            int stat = GetStat(indice);
+            switch (indice)
+            {
+                case INDICE_VIDA:
+                    if (pv + valor <= max)
+                    {
+                        pv += valor;
+                        pvTotal += valor;
+                    }
+                    else
+                    {
+                        pv = max;
+                        pvTotal = max;
+                    }
+                    break;
 
-            if (stat + valor <= max)
-                stat += valor;
-            else
-                stat = max;
+                case INDICE_FUERZA:
+                    if (fue + valor <= max)
+                        fue += valor;
+                    else
+                        fue = max;
+                    break;
+
+                case INDICE_MAGIA:
+                    if (mag + valor <= max)
+                        mag += valor;
+                    else
+                        mag = max;
+                    break;
+
+                case INDICE_AGILIDAD:
+                    if (agi + valor <= max)
+                        agi += valor;
+                    else
+                        agi = max;
+                    break;
+
+                case INDICE_DEFENSA:
+                    if (def + valor <= max)
+                        def += valor;
+                    else
+                        def = max;
+                    break;
+
+                case INDICE_RESISTENCIA:
+                    if (res + valor <= max)
+                        res += valor;
+                    else
+                        res = max;
+                    break;
+
+                case INDICE_PROBABILIDAD_CRITICO:
+                    if (probCrit + valor <= max)
+                        probCrit += valor;
+                    else
+                        probCrit = max;
+                    break;
+
+                case INDICE_DANO_CRITICO:
+                    if (danCrit + valor <= max)
+                        danCrit += valor;
+                    else
+                        danCrit = max;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("indice",
+                        $"Se ha recibido el índice {indice}, debe estar entre 0 y 7");
+            }
         }
 
         public int GetStat(int indice)
@@ -125,6 +192,9 @@ namespace SquareDungeon.Entidades.Mobs
             {
                 case INDICE_VIDA:
                     return pv;
+
+                case INDICE_VIDA_TOTAL:
+                    return pvTotal;
 
                 case INDICE_FUERZA:
                     return fue;
@@ -186,10 +256,45 @@ namespace SquareDungeon.Entidades.Mobs
 
         public virtual int[] GetStats() => new int[] { pv, fue, mag, agi, def, res, probCrit, danCrit, exp, nivel };
 
-        public void SetStatCombate(int indice, int valor)
+        protected int[] getStatsMax() =>
+            new int[] { pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax };
+
+        public void AlterarStatCombate(int indice, int valor)
         {
-            int stat = GetStatCombate(indice);
-            stat += valor;
+            switch (indice)
+            {
+                case INDICE_FUERZA:
+                    fueCom += valor;
+                    break;
+
+                case INDICE_MAGIA:
+                    magCom += valor;
+                    break;
+
+                case INDICE_AGILIDAD:
+                    agiCom += valor;
+                    break;
+
+                case INDICE_DEFENSA:
+                    defCom += valor;
+                    break;
+
+                case INDICE_RESISTENCIA:
+                    resCom += valor;
+                    break;
+
+                case INDICE_PROBABILIDAD_CRITICO:
+                    probCritCom += valor;
+                    break;
+
+                case INDICE_DANO_CRITICO:
+                    danCritCom += valor;
+                    break;
+
+                default:
+                    throw new ArgumentException("indice",
+                    $"Se ha recibido un índice incorrecto. Utiliza las constantes de clase");
+            }
         }
 
         public void ReiniciarStatsCombate()
@@ -201,6 +306,15 @@ namespace SquareDungeon.Entidades.Mobs
             resCom = res;
             probCritCom = probCrit;
             danCritCom = danCrit;
+        }
+
+        public int GetCritico()
+        {
+            Random random = new Random();
+            if (random.Next(0, 101) <= probCritCom)
+                return danCritCom / 100;
+            else
+                return 0;
         }
 
         public bool Danar(int dano)

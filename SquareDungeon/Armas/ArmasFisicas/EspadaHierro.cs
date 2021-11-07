@@ -11,9 +11,8 @@ namespace SquareDungeon.Armas.ArmasFisicas
         private const int USOS_MAX = 20;
         private const int DANO = 5;
 
-        private const string NOMBRE = "Espada de hierro";
-
-        public EspadaHierro(Mob portador) : base(DANO, USOS_MAX, NOMBRE, SIN_HABILIDAD, portador)
+        public EspadaHierro(Mob portador, string nombre, string descripcion) :
+            base(DANO, USOS_MAX, nombre, descripcion, SIN_HABILIDAD, portador)
         { }
 
         public override void RepararArma(int usos)

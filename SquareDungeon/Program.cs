@@ -1,6 +1,11 @@
-﻿using SquareDungeon.Entidades.Mobs.Jugadores;
+﻿using System;
+
+using SquareDungeon.Habilidades.Ataque;
 using SquareDungeon.Armas.ArmasFisicas;
-using SquareDungeon.Armas.ArmasMagicas;
+using SquareDungeon.Entidades.Mobs.Enemigos;
+using SquareDungeon.Entidades.Mobs.Jugadores;
+
+using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon
 {
@@ -8,35 +13,28 @@ namespace SquareDungeon
     {
         static void Main(string[] args)
         {
-            Guerrero guerrero = new Guerrero();
+            Console.WriteLine("Bienvenido. Introduce tu nombre:");
+            string nombre = Console.ReadLine();
 
-            GrimorioBasico grimorio = new GrimorioBasico(guerrero);
+            Guerrero guerrero = new Guerrero(nombre, new AntiSlime());
+            EspadaHierro espadaHierro = new EspadaHierro(guerrero, NOMBRE_ESPADA_HIERRO, DESC_ESPADA_HIERRO);
+            guerrero.EquiparArma(espadaHierro);
 
-            guerrero.EquiparArma(grimorio);
+            Slime slime = new Slime(null);
 
-            int[] stats = guerrero.GetStats();
+            guerrero.SubirNivel(10 * 100);
+            slime.SubirNivel(10 * 100);
 
-            foreach (int stat in stats)
+            int res = Partida.Combatir(guerrero, slime, null);
+            if (res == Partida.RESULTADO_JUGADOR_GANA)
             {
-                System.Console.WriteLine(stat);
+                guerrero.ReiniciarStatsCombate();
+                Console.WriteLine("¡Victoria!");
+                Console.WriteLine($"¡Obtienes {slime.GetExp()} puntos de experiencia!");
+                guerrero.SubirNivel(slime.GetExp());
             }
-
-            System.Console.WriteLine();
-
-            guerrero.SubirNivel(157);
-
-            int[,] statsNuevos = guerrero.GetStatsNuevos();
-
-            System.Console.WriteLine($"PV         {statsNuevos[0, 0]}  ->  {statsNuevos[0, 1]}");
-            System.Console.WriteLine($"Fue        {statsNuevos[1, 0]}  ->  {statsNuevos[1, 1]}");
-            System.Console.WriteLine($"Mag        {statsNuevos[2, 0]}  ->  {statsNuevos[2, 1]}");
-            System.Console.WriteLine($"Agi        {statsNuevos[3, 0]}  ->  {statsNuevos[3, 1]}");
-            System.Console.WriteLine($"Def        {statsNuevos[4, 0]}  ->  {statsNuevos[4, 1]}");
-            System.Console.WriteLine($"Res        {statsNuevos[5, 0]}  ->  {statsNuevos[5, 1]}");
-            System.Console.WriteLine($"ProbCrit   {statsNuevos[6, 0]}  ->  {statsNuevos[6, 1]}");
-            System.Console.WriteLine($"DañoCrit   {statsNuevos[7, 0]}  ->  {statsNuevos[7, 1]}");
-            System.Console.WriteLine($"EXP        {statsNuevos[8, 0]}  ->  {statsNuevos[8, 1]}");
-            System.Console.WriteLine($"Nivel      {statsNuevos[9, 0]}  ->  {statsNuevos[9, 1]}");
+            else
+                Console.WriteLine("Derrota");
         }
     }
 }

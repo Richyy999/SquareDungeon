@@ -1,7 +1,9 @@
 ﻿using System;
 using SquareDungeon.Armas;
 using SquareDungeon.Armas.ArmasFisicas;
+using SquareDungeon.Habilidades;
 
+using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
@@ -9,9 +11,14 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
     class Guerrero : Jugador
     {
 
-        public Guerrero() : base(20, 4, 1, 2, 3, 1, 10, 15,
+        public Guerrero(string nombre, Habilidad habilidad) : base(20, 4, 1, 2, 3, 1, 10, 15,
             75, 80, 5, 50, 60, 10, 20, 40,
-            60, 55, 15, 35, 40, 20, 40, 100, SIN_HABILIDAD)
+            60, 55, 15, 35, 40, 20, 40, 100, nombre, DESC_GUERRERO, habilidad)
+        { }
+
+        public Guerrero(string nombre) : base(20, 4, 1, 2, 3, 1, 10, 15,
+            75, 80, 5, 50, 60, 10, 20, 40,
+            60, 55, 15, 35, 40, 20, 40, 100, nombre, DESC_GUERRERO, SIN_HABILIDAD)
         { }
 
         public override bool EquiparArma(Arma arma)
@@ -32,6 +39,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             return false;
         }
 
-        public override ArmaFisica[] GetArmas() => (ArmaFisica[])armas;
+        public override ArmaFisica[] GetArmas()
+        {
+            ArmaFisica[] armas = new ArmaFisica[4];
+            for (int i = 0; i < armas.Length; i++)
+            {
+                armas[i] = (ArmaFisica)this.armas[i];
+            }
+
+            return armas;
+        }
+
+        public override ArmaFisica GetArmaCombate() => (ArmaFisica)armaCombate;
     }
 }

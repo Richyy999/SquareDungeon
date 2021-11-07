@@ -9,10 +9,10 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
 
         protected Jefe(int pv, int fue, int mag, int agi, int def, int res, int probCrit, int danCrit,
             int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax, int probCritMax, int danCritMax,
-            Objeto drop, Habilidad habilidad) :
+            string nombre, string descripcion, int dropExp, Objeto drop, Habilidad habilidad) :
             base(pv, fue, mag, agi, def, res, probCrit, danCrit,
                 pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax,
-                drop)
+                nombre, descripcion, dropExp, drop)
         {
             this.habilidad = habilidad;
         }

@@ -2,6 +2,7 @@
 
 using SquareDungeon.Entidades.Mobs;
 
+using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Armas.ArmasMagicas
@@ -11,11 +12,9 @@ namespace SquareDungeon.Armas.ArmasMagicas
         private const int USOS_MAX = 20;
         private const int DANO = 5;
 
-        private const string NOMBRE = "Grimorio básico";
-
-        public GrimorioBasico(Mob portador) : base(DANO, USOS_MAX, NOMBRE, SIN_HABILIDAD, portador)
-        {
-        }
+        public GrimorioBasico(Mob portador, string nombre, string descripcion) :
+            base(DANO, USOS_MAX, nombre, descripcion, SIN_HABILIDAD, portador)
+        { }
 
         public override void RepararArma(int usos)
         {

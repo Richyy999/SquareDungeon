@@ -1,6 +1,7 @@
-﻿
-using SquareDungeon.Entidades.Mobs.Enemigos;
+﻿using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
+
+using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades
 {
@@ -8,12 +9,10 @@ namespace SquareDungeon.Habilidades
     {
         public static readonly SinHabilidad SIN_HABILIDAD = new SinHabilidad();
 
-        private SinHabilidad() : base("Sin habilidad") { }
+        private SinHabilidad() :
+            base(100, PRIORIDAD_MINIMA, TIPO_PRE_COMBATE, NOMBRE_SIN_HABILIDAD, DESC_SIN_HABILIDAD)
+        { }
 
-        public override void RealizarAccion(Jugador jugador, Enemigo enemigo)
-        {
-        }
-
-        public override Habilidad GetHabilidad() => SIN_HABILIDAD;
+        public override int RealizarAccion(Jugador jugador, Enemigo enemigo) => RESULTADO_SIN_ACTIVAR;
     }
 }
