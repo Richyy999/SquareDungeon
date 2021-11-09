@@ -1,5 +1,8 @@
-﻿using SquareDungeon.Habilidades;
+﻿using System;
+
+using SquareDungeon.Habilidades;
 using SquareDungeon.Objetos;
+using SquareDungeon.Entidades.Mobs.Jugadores;
 
 namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
 {
@@ -14,6 +17,9 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
                 pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax,
                 nombre, descripcion, dropExp, drop)
         {
+            if (habilidad.GetTipoHabilidad() != Habilidad.TIPO_ATAQUE)
+                throw new ArgumentException("habilidad", "Los jefes solo pueden tener habilidades de tipo ataque");
+
             this.habilidad = habilidad;
         }
     }

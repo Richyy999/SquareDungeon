@@ -35,7 +35,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
         {
             int diferencia = getDiferenciaStat(pv, pvMax);
             if (diferencia > 0)
-                subirStat(INDICE_VIDA, diferencia, pvMax);
+                subirStat(INDICE_VIDA_TOTAL, diferencia, pvMax);
 
             diferencia = getDiferenciaStat(fue, fueMax);
             if (diferencia > 0)

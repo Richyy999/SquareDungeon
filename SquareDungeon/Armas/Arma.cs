@@ -2,6 +2,7 @@
 
 using SquareDungeon.Habilidades;
 using SquareDungeon.Entidades.Mobs;
+using SquareDungeon.Entidades.Mobs.Jugadores;
 
 using static SquareDungeon.Resources.Resource;
 
@@ -21,18 +22,16 @@ namespace SquareDungeon.Armas
         private string nombre;
         private string descripcion;
 
-        protected Arma(int dano, int usos, string nombre, string descripcion, Habilidad habilidad, Mob portador)
+        protected Arma(int dano, int usos, string nombre, string descripcion, Habilidad habilidad)
         {
             this.dano = dano;
             this.usos = usos;
 
             this.habilidad = habilidad;
 
-            this.portador = portador;
-
             this.nombre = GetPropiedad(FICHERO_NOMBRE_ARMAS, nombre);
 
-            this.descripcion = GetPropiedad(FICHERO_DESC_ARMAS, descripcion);
+            this.descripcion = GetPropiedad(FICHERO_DESC_ARMAS, descripcion).Replace(SALTO_LINEA, '\n');
 
             if (this.nombre == null)
                 throw new ArgumentNullException("nombre", $"El nombre del arma {nombre} no existe");
@@ -40,6 +39,16 @@ namespace SquareDungeon.Armas
             if (this.descripcion == null)
                 throw new ArgumentNullException("descripcion",
                     $"La descripción {descripcion} del arma {nombre} no existe");
+        }
+
+        public abstract int GetUsosMaximos();
+
+        public void SetPortador(Mob portador)
+        {
+            if (!portador.GetType().IsSubclassOf(typeof(Jugador)))
+                throw new ArgumentException("portador", "Solo los jugadores pueden ortar armas");
+
+            this.portador = portador;
         }
 
         public virtual void GastarArma()
@@ -53,6 +62,8 @@ namespace SquareDungeon.Armas
         public abstract void RepararArma(int usos);
 
         public abstract bool Atacar(Mob mob);
+
+        public Habilidad GetHabilidad() => habilidad;
 
         public int GetDano() => dano;
 

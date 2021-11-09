@@ -17,6 +17,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         private int resAnt;
         private int probCritAnt;
         private int danCritAnt;
+        private int nivelAnt;
+        private int expAnt;
 
         private byte pvCrec;
         private byte fueCrec;
@@ -26,9 +28,6 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         private byte resCrec;
         private byte probCritCrec;
         private byte danCritCrec;
-
-        private int nivelAnt;
-        private int expAnt;
 
         protected Arma armaCombate;
 
@@ -40,7 +39,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         protected Jugador(int pv, int fue, int mag, int agi, int def, int res, int probCrit, int danCrit,
             byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte defCrec, byte resCrec,
-            byte probCritCrec, byte danCritCerc,
+            byte probCritCrec, byte danCritCrec,
             int pvMax, int fueMax, int magMax, int agiMax, int defMax, int resMax,
             int probCritMax, int danCritMax,
             string nombre, string descripcion, Habilidad habilidad) :
@@ -54,18 +53,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             this.defCrec = defCrec;
             this.resCrec = resCrec;
             this.probCritCrec = probCritCrec;
-            this.danCritCrec = danCritCerc;
+            this.danCritCrec = danCritCrec;
 
-            pvAnt = 0;
-            fueAnt = 0;
-            magAnt = 0;
-            agiAnt = 0;
-            defAnt = 0;
-            resAnt = 0;
-            probCritAnt = 0;
-            danCritAnt = 0;
-
-            nivelAnt = 0;
+            pvAnt = pv;
+            fueAnt = fue;
+            magAnt = mag;
+            agiAnt = agi;
+            defAnt = def;
+            resAnt = res;
+            probCritAnt = probCrit;
+            danCritAnt = danCrit;
+            nivelAnt = 1;
             expAnt = 0;
 
             armas = new Arma[4];
@@ -81,8 +79,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             Random random = new Random();
             if (puedeSubirStat(pvCrec))
             {
-                pvAnt = pv;
-                subirStat(INDICE_VIDA, random.Next(1, 3), pvMax);
+                pvAnt = pvTotal;
+                subirStat(INDICE_VIDA_TOTAL, random.Next(1, 3), pvMax);
             }
             if (puedeSubirStat(fueCrec))
             {
@@ -121,14 +119,14 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             }
         }
 
-        public override void SubirNivel(int exp)
+        public override bool SubirNivel(int exp)
         {
             expAnt = this.exp;
-            base.SubirNivel(exp);
+            return base.SubirNivel(exp);
         }
 
         public int[,] GetStatsNuevos() => new int[,]
-        { { pvAnt, pv}, { fueAnt, fue}, { magAnt, mag}, { agiAnt, agi}, {defAnt, def }, {resAnt, res },
+        { { pvAnt, pvTotal}, { fueAnt, fue}, { magAnt, mag}, { agiAnt, agi}, {defAnt, def }, {resAnt, res },
             {probCritAnt, probCrit }, {danCritAnt, danCrit }, {expAnt, exp }, {nivelAnt, nivel } };
 
         public abstract bool EquiparArma(Arma arma);
@@ -151,6 +149,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public abstract Arma GetArmaCombate();
 
+        public List<Habilidad> GetHabilidades() => habilidades;
+
         public List<Habilidad> GetHabilidadesPorTipo(int tipo)
         {
             List<Habilidad> habilidades = new List<Habilidad>();
@@ -164,9 +164,19 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             return habilidades;
         }
 
-        public void AnadirHabilidad(Habilidad habilidad)
+        public bool AnadirHabilidad(Habilidad habilidad)
         {
-            habilidades.Add(habilidad);
+            bool contiene = false;
+            foreach (Habilidad hab in habilidades)
+            {
+                if (hab.GetNombre().Equals(habilidad.GetNombre()))
+                    contiene = true;
+            }
+
+            if (!contiene)
+                habilidades.Add(habilidad);
+
+            return !contiene;
         }
 
         public bool AnadirObjeto(Objeto objeto)

@@ -10,8 +10,8 @@ namespace SquareDungeon.Armas.ArmasFisicas
     abstract class ArmaFisica : Arma
     {
 
-        protected ArmaFisica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad, Mob portador) :
-            base(dano, usos, nombre, descripcion, habilidad, portador)
+        protected ArmaFisica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad) :
+            base(dano, usos, nombre, descripcion, habilidad)
         { }
 
         public override bool Atacar(Mob mob)
@@ -23,7 +23,9 @@ namespace SquareDungeon.Armas.ArmasFisicas
             int ata = fue + this.dano;
 
             int dano = ata - mob.GetStat(INDICE_DEFENSA);
-            int crit = 1 + mob.GetCritico();
+            int crit = 1 + portador.GetCritico();
+
+            usos--;
 
             dano *= crit;
             return mob.Danar(dano);

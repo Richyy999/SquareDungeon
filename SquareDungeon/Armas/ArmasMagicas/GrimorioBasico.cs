@@ -12,8 +12,8 @@ namespace SquareDungeon.Armas.ArmasMagicas
         private const int USOS_MAX = 20;
         private const int DANO = 5;
 
-        public GrimorioBasico(Mob portador, string nombre, string descripcion) :
-            base(DANO, USOS_MAX, nombre, descripcion, SIN_HABILIDAD, portador)
+        public GrimorioBasico() :
+            base(DANO, USOS_MAX, NOMBRE_GRIMORIO_BASICO, DESC_GRIMORIO_BASICO, SIN_HABILIDAD)
         { }
 
         public override void RepararArma(int usos)
@@ -26,5 +26,7 @@ namespace SquareDungeon.Armas.ArmasMagicas
             else
                 this.usos = USOS_MAX;
         }
+
+        public override int GetUsosMaximos() => USOS_MAX;
     }
 }

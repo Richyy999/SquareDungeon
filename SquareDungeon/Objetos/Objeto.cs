@@ -4,6 +4,8 @@ using SquareDungeon.Salas;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
+using static SquareDungeon.Resources.Resource;
+
 namespace SquareDungeon.Objetos
 {
     abstract class Objeto
@@ -13,14 +15,22 @@ namespace SquareDungeon.Objetos
         protected int cantidad;
 
         protected string nombre;
+        protected string descripcion;
 
-        protected Objeto(int cantidad, string nombre)
+        protected Objeto(int cantidad, string nombre, string descripcion)
         {
             this.cantidad = cantidad;
-            this.nombre = nombre;
+
+            this.nombre = GetPropiedad(FICHERO_NOMBRE_OBJETOS, nombre);
+            this.descripcion = GetPropiedad(FICHERO_DESC_OBJETOS, descripcion).Replace(SALTO_LINEA, '\n');
         }
 
-        public abstract void RealizarAccion(Jugador jugador, Enemigo enemigo, Sala sala);
+        public virtual void RealizarAccion(Jugador jugador, Enemigo enemigo, Sala sala)
+        {
+            cantidad--;
+            if (cantidad == 0)
+                jugador.EliminarObjeto(this);
+        }
 
         public void AnadirCantidad(int cantidad)
         {
@@ -36,5 +46,7 @@ namespace SquareDungeon.Objetos
         public int GetCantidad() => cantidad;
 
         public string GetNombre() => nombre;
+
+        public string GetDescripcion() => descripcion;
     }
 }

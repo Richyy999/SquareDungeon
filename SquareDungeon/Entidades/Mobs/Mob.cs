@@ -52,7 +52,7 @@ namespace SquareDungeon.Entidades.Mobs
             string nombre, string descripcion) : base(nombre, descripcion)
         {
             this.pv = pv;
-            this.pvTotal = pv;
+            pvTotal = pv;
             this.fue = fue;
             this.mag = mag;
             this.agi = agi;
@@ -84,31 +84,113 @@ namespace SquareDungeon.Entidades.Mobs
 
         protected abstract void subirNivel();
 
-        public virtual void SubirNivel(int exp)
+        public virtual bool SubirNivel(int exp)
         {
+            bool suboNivel = false;
+
             if (exp < 0)
                 throw new ArgumentOutOfRangeException("exp", "No se puede recibir una cantidad negativa de experiencia");
 
             if (nivel < NIVEL_MAX)
             {
-                if (this.exp + exp >= Mob.EXP_MAX)
+                if (this.exp + exp >= EXP_MAX)
                 {
+                    suboNivel = true;
                     nivel++;
                     subirNivel();
+                    int expActual = this.exp;
                     this.exp = 0;
-                    SubirNivel((this.exp + exp) - Mob.EXP_MAX);
+                    SubirNivel((expActual + exp) - EXP_MAX);
                 }
                 else
                     this.exp += exp;
             }
+
+            return suboNivel;
         }
 
         protected bool puedeSubirStat(byte statCrec)
         {
             Random random = new Random();
-            int num = random.Next(0, 101);
+            int num = random.Next(101);
 
             return num <= statCrec;
+        }
+
+        public void SubirStat(int indice, int valor)
+        {
+            if (valor <= 0)
+                throw new ArgumentException("valor", "El valor para subir un stat debe ser mayor que 0");
+
+            switch (indice)
+            {
+                case INDICE_VIDA:
+                    if (pv + valor <= pvTotal)
+                        pv += valor;
+                    else
+                        pv = pvTotal;
+                    break;
+
+                case INDICE_VIDA_TOTAL:
+                    if (pvTotal + valor <= pvMax)
+                        pvTotal += valor;
+                    else
+                        pvTotal = pvMax;
+                    break;
+
+                case INDICE_FUERZA:
+                    if (fue + valor <= fueMax)
+                        fue += valor;
+                    else
+                        fue = fueMax;
+                    break;
+
+                case INDICE_MAGIA:
+                    if (mag + valor <= magMax)
+                        mag += valor;
+                    else
+                        mag = magMax;
+                    break;
+
+                case INDICE_AGILIDAD:
+                    if (agi + valor <= agiMax)
+                        agi += valor;
+                    else
+                        agi = agiMax;
+                    break;
+
+                case INDICE_DEFENSA:
+                    if (def + valor <= defMax)
+                        def += valor;
+                    else
+                        def = defMax;
+                    break;
+
+                case INDICE_RESISTENCIA:
+                    if (res + valor <= resMax)
+                        res += valor;
+                    else
+                        res = resMax;
+                    break;
+
+                case INDICE_PROBABILIDAD_CRITICO:
+                    if (probCrit + valor <= probCritMax)
+                        probCrit += valor;
+                    else
+                        probCrit = probCritMax;
+                    break;
+
+                case INDICE_DANO_CRITICO:
+                    if (danCrit + valor <= danCritMax)
+                        danCrit += valor;
+                    else
+                        danCrit = danCritMax;
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException("indice",
+                        $"Se ha recibido el índice {indice}, debe estar entre 0 y 7. Utiliza las constantes de clase");
+            }
         }
 
         protected void subirStat(int indice, int valor, int max)
@@ -118,17 +200,11 @@ namespace SquareDungeon.Entidades.Mobs
 
             switch (indice)
             {
-                case INDICE_VIDA:
+                case INDICE_VIDA_TOTAL:
                     if (pv + valor <= max)
-                    {
-                        pv += valor;
                         pvTotal += valor;
-                    }
                     else
-                    {
-                        pv = max;
                         pvTotal = max;
-                    }
                     break;
 
                 case INDICE_FUERZA:
@@ -182,7 +258,7 @@ namespace SquareDungeon.Entidades.Mobs
 
                 default:
                     throw new ArgumentOutOfRangeException("indice",
-                        $"Se ha recibido el índice {indice}, debe estar entre 0 y 7");
+                        $"Se ha recibido el índice {indice}, utiliza las constante sde clase");
             }
         }
 
@@ -254,7 +330,7 @@ namespace SquareDungeon.Entidades.Mobs
             }
         }
 
-        public virtual int[] GetStats() => new int[] { pv, fue, mag, agi, def, res, probCrit, danCrit, exp, nivel };
+        public virtual int[] GetStats() => new int[] { pvTotal, pv, fue, mag, agi, def, res, probCrit, danCrit, exp, nivel };
 
         protected int[] getStatsMax() =>
             new int[] { pvMax, fueMax, magMax, agiMax, defMax, resMax, probCritMax, danCritMax };
@@ -311,7 +387,7 @@ namespace SquareDungeon.Entidades.Mobs
         public int GetCritico()
         {
             Random random = new Random();
-            if (random.Next(0, 101) <= probCritCom)
+            if (random.Next(101) <= probCritCom)
                 return danCritCom / 100;
             else
                 return 0;
@@ -323,5 +399,7 @@ namespace SquareDungeon.Entidades.Mobs
 
             return pv <= 0;
         }
+
+        public int GetNivel() => nivel;
     }
 }

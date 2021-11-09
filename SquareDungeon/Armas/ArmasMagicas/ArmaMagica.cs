@@ -9,8 +9,8 @@ namespace SquareDungeon.Armas.ArmasMagicas
 {
     abstract class ArmaMagica : Arma
     {
-        protected ArmaMagica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad, Mob portador) :
-            base(dano, usos, nombre, descripcion, habilidad, portador)
+        protected ArmaMagica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad) :
+            base(dano, usos, nombre, descripcion, habilidad)
         { }
 
         public override bool Atacar(Mob mob)

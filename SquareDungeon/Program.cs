@@ -13,28 +13,19 @@ namespace SquareDungeon
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Bienvenido. Introduce tu nombre:");
+            Console.WriteLine("¡Bienvenido!\nEscribe tu nombre:");
             string nombre = Console.ReadLine();
-
+            
             Guerrero guerrero = new Guerrero(nombre, new AntiSlime());
-            EspadaHierro espadaHierro = new EspadaHierro(guerrero, NOMBRE_ESPADA_HIERRO, DESC_ESPADA_HIERRO);
-            guerrero.EquiparArma(espadaHierro);
+            ViolaSlimes violaSlimes = new ViolaSlimes();
+            violaSlimes.SetPortador(guerrero);
+            guerrero.EquiparArma(violaSlimes);
 
-            Slime slime = new Slime(null);
+            Partida partida = new Partida(guerrero);
+            partida.Jugar();
 
-            guerrero.SubirNivel(10 * 100);
-            slime.SubirNivel(10 * 100);
-
-            int res = Partida.Combatir(guerrero, slime, null);
-            if (res == Partida.RESULTADO_JUGADOR_GANA)
-            {
-                guerrero.ReiniciarStatsCombate();
-                Console.WriteLine("¡Victoria!");
-                Console.WriteLine($"¡Obtienes {slime.GetExp()} puntos de experiencia!");
-                guerrero.SubirNivel(slime.GetExp());
-            }
-            else
-                Console.WriteLine("Derrota");
+            Console.WriteLine("¡Derrotaste al jefe!");
+            Console.WriteLine("Fin del juego");
         }
     }
 }

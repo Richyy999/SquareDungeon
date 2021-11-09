@@ -16,7 +16,7 @@ namespace SquareDungeon.Entidades
             else
                 this.nombre = GetPropiedad(FICHERO_NOMBRE_ENTIDADES, nombre);
 
-            this.descripcion = GetPropiedad(FICHERO_DESC_ENTIDADES, descripcion);
+            this.descripcion = GetPropiedad(FICHERO_DESC_ENTIDADES, descripcion).Replace(SALTO_LINEA, '\n');
         }
 
         public string GetNombre() => nombre;

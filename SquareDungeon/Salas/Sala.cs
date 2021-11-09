@@ -1,31 +1,44 @@
-﻿using SquareDungeon.Entidades;
+﻿using System;
+
+using SquareDungeon.Entidades.Mobs.Jugadores;
 
 namespace SquareDungeon.Salas
 {
     abstract class Sala
     {
-        private byte x, y;
+        public const int ESTADO_SIN_VISITAR = 0;
+        public const int ESTADO_VISITADO = 1;
+        public const int ESTADO_COFRE_SIN_ABRIR = 2;
+        public const int ESTADO_SALA_JEFE_SIN_ABRIR = 3;
+        public const int ESTADO_SALA_JEFE_ABIERTA = 4;
 
-        private bool visitado;
+        protected int x, y;
 
-        protected Entidad entidad;
+        private int estado;
 
-        public Sala(byte x, byte y, Entidad entidad)
+        protected Sala(int x, int y)
         {
             this.x = x;
             this.y = y;
 
-            this.entidad = entidad;
-
-            this.visitado = false;
+            this.estado = ESTADO_SIN_VISITAR;
         }
 
-        public bool EstaVisitado() => visitado;
+        public void SetEstado(int estado)
+        {
+            if (estado < 0 || estado > 4)
+                throw new ArgumentException("estado",
+                    "Se ha recibido un estado inválido para la sala, utiliza las constantes de clase");
 
-        public byte GetX() => x;
+            this.estado = estado;
+        }
 
-        public byte GetY() => y;
+        public int GetEstado() => estado;
 
-        public virtual Entidad GetEntidad() => entidad;
+        public int GetX() => x;
+
+        public int GetY() => y;
+
+        public abstract void Entrar(Partida partida, Jugador jugador);
     }
 }

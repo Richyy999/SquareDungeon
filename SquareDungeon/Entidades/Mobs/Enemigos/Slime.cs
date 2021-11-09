@@ -8,7 +8,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
     class Slime : Enemigo
     {
         public Slime(Objeto drop) : base(50, 1, 2, 0, 0, 3, 5, 20,
-            300, 15, 25, 10, 10, 30, 20, 50, NOMBRE_SLIME, DESC_SLIME, 20, drop)
+            300, 15, 25, 10, 10, 30, 20, 50, NOMBRE_SLIME, DESC_SLIME, 102, drop)
         { }
 
         public override bool Atacar(Jugador jugador)
