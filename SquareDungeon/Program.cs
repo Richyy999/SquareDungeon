@@ -8,9 +8,7 @@ namespace SquareDungeon
     {
         static void Main(string[] args)
         {
-            Jugador jugador = Fabrica.GenerarJugador();
-
-            Partida partida = new Partida(jugador);
+            Partida partida = new Partida();
             partida.Jugar();
 
             int res = partida.GetResultado();

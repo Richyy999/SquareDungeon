@@ -28,6 +28,7 @@ namespace SquareDungeon
         public const int MENU_HABILIDADES = 13;
 
         public const int ELECCION_GUERRERO = 100;
+        public const int ELECCION_MAGO = 101;
 
         private const string CASILLA_JUGADOR = " o ";
         private const string CASILLA_COFRE = " + ";
@@ -725,6 +726,7 @@ namespace SquareDungeon
                 Console.Clear();
                 Console.WriteLine("Elige a tu personaje:");
                 Console.WriteLine("1) Guerrero");
+                Console.WriteLine("2) Mago");
 
                 try
                 {
@@ -734,6 +736,9 @@ namespace SquareDungeon
                     {
                         case 1:
                             return ELECCION_GUERRERO;
+
+                        case 2:
+                            return ELECCION_MAGO;
 
                         default:
                             Console.WriteLine("Opción no válida. Elige uno de los personajes disponibles");

@@ -224,5 +224,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         }
 
         public Objeto[] GetObjetos() => objetos;
+
+        public Type GetTipoArmas() => armas[0].GetType();
     }
 }

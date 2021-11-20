@@ -2,14 +2,19 @@
 
 using SquareDungeon.Entidades.Mobs;
 using SquareDungeon.Entidades.Mobs.Jugadores;
-using SquareDungeon.Habilidades;
+
+using static SquareDungeon.Habilidades.SinHabilidad;
+using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Armas.ArmasMagicas
 {
-    abstract class ArmaMagica : Arma
+    class EspadaMagica : ArmaMagica
     {
-        protected ArmaMagica(int dano, int usos, string nombre, string descripcion, Habilidad habilidad) :
-            base(dano, usos, nombre, descripcion, habilidad)
+        private const int USOS_MAX = 25;
+
+        private const int DANO = 7;
+
+        public EspadaMagica() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MAGICA, DESC_ESPADA_MAGICA, SIN_HABILIDAD)
         { }
 
         public override bool Atacar(Mob mob)
@@ -20,7 +25,7 @@ namespace SquareDungeon.Armas.ArmasMagicas
             int mag = portador.GetStatCombate(Mob.INDICE_MAGIA);
             int ata = mag + this.dano;
 
-            int dano = ata - mob.GetStatCombate(Mob.INDICE_RESISTENCIA);
+            int dano = ata - mob.GetStatCombate(Mob.INDICE_DEFENSA);
             int crit = 1 + mob.GetCritico();
 
             dano *= crit;
@@ -48,5 +53,20 @@ namespace SquareDungeon.Armas.ArmasMagicas
 
             return ataque;
         }
+
+        public override void RepararArma(int usos)
+        {
+            if (usos <= 0)
+                throw new ArgumentException("usos", "Los usos deben ser mayores a 0");
+
+            usos /= 3;
+
+            if (this.usos + usos >= USOS_MAX)
+                this.usos = USOS_MAX;
+            else
+                this.usos += usos;
+        }
+
+        public override int GetUsosMaximos() => USOS_MAX;
     }
 }

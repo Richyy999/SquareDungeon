@@ -5,6 +5,7 @@ using SquareDungeon.Objetos;
 using SquareDungeon.Armas;
 using SquareDungeon.Habilidades;
 using SquareDungeon.Habilidades.Ataque;
+using SquareDungeon.Habilidades.PreCombate;
 using SquareDungeon.Entidades.Cofres;
 using SquareDungeon.Armas.ArmasFisicas;
 using SquareDungeon.Armas.ArmasMagicas;
@@ -14,13 +15,21 @@ using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
 
 namespace SquareDungeon
 {
-    static class Fabrica
+    class Fabrica
     {
         private const int NUMERO_SALAS_MAXIMO = 64;
 
-        public static Jugador GenerarJugador()
+        private Jugador jugador;
+
+        public Fabrica()
         {
-            Jugador jugador;
+            jugador = generarJugador();
+        }
+
+        public Jugador GetJugador() => jugador;
+
+        private Jugador generarJugador()
+        {
             string nombre = EntradaSalida.PedirNombre();
             int eleccion = EntradaSalida.PedirPersonaje();
             switch (eleccion)
@@ -32,14 +41,20 @@ namespace SquareDungeon
                     espadaHierro.SetPortador(jugador);
                     break;
 
+                case EntradaSalida.ELECCION_MAGO:
+                    jugador = new Mago(nombre, generarHabilidad());
+                    GrimorioBasico grimorio = new GrimorioBasico();
+                    jugador.EquiparArma(grimorio);
+                    grimorio.SetPortador(jugador);
+                    break;
+
                 default:
                     throw new ArgumentException("Se ha seleccionado un personaje que no existe");
             }
-
             return jugador;
         }
 
-        public static Sala[,] GenerarTablero()
+        public Sala[,] GenerarTablero()
         {
             Random random = new Random();
             Sala[,] tablero = new Sala[8, 8];
@@ -84,7 +99,7 @@ namespace SquareDungeon
             return tablero;
         }
 
-        private static int[] getPosicionLibre(Sala[,] tablero)
+        private int[] getPosicionLibre(Sala[,] tablero)
         {
             Random random = new Random();
 
@@ -99,7 +114,7 @@ namespace SquareDungeon
             return posicion;
         }
 
-        private static Jefe generarJefe()
+        private Jefe generarJefe()
         {
             Random random = new Random();
             int num = random.Next(1);
@@ -114,7 +129,7 @@ namespace SquareDungeon
             }
         }
 
-        private static void crearSalasEnemigos(SalaEnemigo[] salas, Sala[,] tablero)
+        private void crearSalasEnemigos(SalaEnemigo[] salas, Sala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -126,7 +141,7 @@ namespace SquareDungeon
             }
         }
 
-        private static SalaEnemigo generarSalaEnemigo(Sala[,] tablero)
+        private SalaEnemigo generarSalaEnemigo(Sala[,] tablero)
         {
             Random random = new Random();
             int num = random.Next(2);
@@ -136,7 +151,7 @@ namespace SquareDungeon
             switch (num)
             {
                 case 0:
-                    enemigo = new Slime(generarObjeto());
+                    enemigo = new Slime(new Pocion());
                     break;
 
                 case 1:
@@ -153,7 +168,7 @@ namespace SquareDungeon
             return salaEnemigo;
         }
 
-        private static void crearSalasCofre(SalaCofre[] salas, Sala[,] tablero)
+        private void crearSalasCofre(SalaCofre[] salas, Sala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -165,7 +180,7 @@ namespace SquareDungeon
             }
         }
 
-        public static SalaCofre generarSalaCofre(Sala[,] tablero)
+        public SalaCofre generarSalaCofre(Sala[,] tablero)
         {
             Random random = new Random();
             int num = random.Next(3);
@@ -195,10 +210,10 @@ namespace SquareDungeon
             return salaCofre;
         }
 
-        private static Habilidad generarHabilidad()
+        private Habilidad generarHabilidad()
         {
             Random random = new Random();
-            int num = random.Next(3);
+            int num = random.Next(4);
             Habilidad habilidad;
 
             switch (num)
@@ -215,6 +230,10 @@ namespace SquareDungeon
                     habilidad = new BanoMagia();
                     break;
 
+                case 3:
+                    habilidad = new Asesinato();
+                    break;
+
                 default:
                     throw new IndexOutOfRangeException("El índice de crear enemigos está fuera del rango");
             }
@@ -222,16 +241,32 @@ namespace SquareDungeon
             return habilidad;
         }
 
-        private static Objeto generarObjeto()
+        private Objeto generarObjeto()
         {
             Random random = new Random();
-            int num = random.Next(1);
+            int num = random.Next(5);
             Objeto objeto;
 
             switch (num)
             {
                 case 0:
                     objeto = new Pocion();
+                    break;
+
+                case 1:
+                    objeto = new PocionAsesina();
+                    break;
+
+                case 2:
+                    objeto = new PocionFuerza();
+                    break;
+
+                case 3:
+                    objeto = new PocionLetal();
+                    break;
+
+                case 4:
+                    objeto = new PocionMagia();
                     break;
 
                 default:
@@ -241,42 +276,66 @@ namespace SquareDungeon
             return objeto;
         }
 
-        private static Arma generarArma()
+        private Arma generarArma()
         {
-            Random random = new Random();
-            int num = random.Next(5);
             Arma arma;
-
-            switch (num)
+            Random random = new Random();
+            if (jugador.GetTipoArmas() == typeof(ArmaFisica))
             {
-                case 0:
-                    arma = new EspadaHierro();
-                    break;
+                int num = random.Next(4);
 
-                case 1:
-                    arma = new GrimorioBasico();
-                    break;
+                switch (num)
+                {
+                    case 0:
+                        arma = new EspadaHierro();
+                        break;
 
-                case 2:
-                    arma = new ViolaSlimes();
-                    break;
+                    case 1:
+                        arma = new ViolaSlimes();
+                        break;
 
-                case 3:
-                    arma = new EspadaMaldita();
-                    break;
+                    case 2:
+                        arma = new EspadaMaldita();
+                        break;
 
-                case 4:
-                    arma = new AplastaCraneos();
-                    break;
+                    case 3:
+                        arma = new AplastaCraneos();
+                        break;
 
-                default:
-                    throw new IndexOutOfRangeException("El índice de crear armas está fuera del rango");
+                    default:
+                        throw new IndexOutOfRangeException("El índice de crear armas está fuera del rango");
+                }
+            }
+            else
+            {
+                int num = random.Next(4);
+                switch (num)
+                {
+                    case 0:
+                        arma = new GrimorioBasico();
+                        break;
+
+                    case 1:
+                        arma = new BastonMagico();
+                        break;
+
+                    case 2:
+                        arma = new EspadaMagica();
+                        break;
+
+                    case 3:
+                        arma = new GrimorioLetal();
+                        break;
+
+                    default:
+                        throw new IndexOutOfRangeException("El índice de crear armas está fuera del rango");
+                }
             }
 
             return arma;
         }
 
-        private static void crearSalasVacias(SalaVacia[] salas, Sala[,] tablero)
+        private void crearSalasVacias(SalaVacia[] salas, Sala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -288,7 +347,7 @@ namespace SquareDungeon
             }
         }
 
-        private static SalaVacia generarSalasVacias(Sala[,] tablero)
+        private SalaVacia generarSalasVacias(Sala[,] tablero)
         {
             int[] posicion = getPosicionLibre(tablero);
             return new SalaVacia(posicion[0], posicion[1]);

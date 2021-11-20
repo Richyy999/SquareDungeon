@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 using static System.IO.File;
 
@@ -34,19 +33,31 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_ANTI_SLIME = "antiSlime";
         public const string NOMBRE_DOS_POR_UNO = "2x1";
         public const string NOMBRE_BANO_MAGIA = "banoMagia";
+        public const string NOMBRE_ASESINATO = "asesinato";
 
         public const string NOMBRE_HABILIDAD_TROL = "habTrol";
+
+        public const string NOMBRE_SANACION = "sanacion";
 
         public const string NOMBRE_ESPADA_HIERRO = "espHierro";
         public const string NOMBRE_VIOLA_SLIMES = "violaSlimes";
         public const string NOMBRE_ESPADA_MALDITA = "espadaMaldita";
         public const string NOMBRE_APLASTA_CRANEOS = "aplastaCraneos";
+
         public const string NOMBRE_GRIMORIO_BASICO = "grimBasico";
+        public const string NOMBRE_BASTON_MAGICO = "bastonMagico";
+        public const string NOMBRE_ESPADA_MAGICA = "espadaMagica";
+        public const string NOMBRE_GRIMORIO_LETAL = "grimLetal";
 
         public const string NOMBRE_LLAVE_JEFE = "llaveJefe";
         public const string NOMBRE_POCION = "pocion";
+        public const string NOMBRE_POCION_FUERZA = "pocionFuerza";
+        public const string NOMBRE_POCION_MAGIA = "pocionMagia";
+        public const string NOMBRE_POCION_LETAL = "pocionLetal";
+        public const string NOMBRE_POCION_ASESINA = "pocionAsesina";
 
         public const string DESC_GUERRERO = "guerrero";
+        public const string DESC_MAGO = "mago";
 
         public const string DESC_TROL = "trol";
 
@@ -62,17 +73,28 @@ namespace SquareDungeon.Resources
         public const string DESC_ANTI_SLIME = "antiSlime";
         public const string DESC_DOS_POR_UNO = "2x1";
         public const string DESC_BANO_MAGIA = "banoMagia";
+        public const string DESC_ASESINATO = "asesinato";
 
         public const string DESC_HABILIDAD_TROL = "habTrol";
+
+        public const string DESC_SANACION = "sanacion";
 
         public const string DESC_ESPADA_HIERRO = "espHierro";
         public const string DESC_VIOLA_SLIMES = "violaSlimes";
         public const string DESC_ESPADA_MALDITA = "espadaMaldita";
         public const string DESC_APLASTA_CRANEOS = "aplastaCraneos";
+
         public const string DESC_GRIMORIO_BASICO = "grimBasico";
+        public const string DESC_BASTON_MAGICO = "bastonMagico";
+        public const string DESC_ESPADA_MAGICA = "espadaMagica";
+        public const string DESC_GRIMORIO_LETAL = "grimLetal";
 
         public const string DESC_LLAVE_JEFE = "llaveJefe";
         public const string DESC_POCION = "pocion";
+        public const string DESC_POCION_FUERZA = "pocionFuerza";
+        public const string DESC_POCION_MAGIA = "pocionMagia";
+        public const string DESC_POCION_LETAL = "pocionLetal";
+        public const string DESC_POCION_ASESINA = "pocionAsesina";
 
         private const string SEPARADOR = "=";
 

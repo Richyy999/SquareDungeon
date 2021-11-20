@@ -35,15 +35,15 @@ namespace SquareDungeon
         private int jugadorY;
         private int resultado;
 
-        public Partida(Jugador jugador)
+        public Partida()
         {
-            this.jugador = jugador;
-
             jugadorX = 7;
             jugadorY = 0;
             resultado = RESULTADO_EN_JUEGO;
 
-            tablero = Fabrica.GenerarTablero();
+            Fabrica fabrica = new Fabrica();
+            jugador = fabrica.GetJugador();
+            tablero = fabrica.GenerarTablero();
         }
 
         public void Jugar()
@@ -165,8 +165,14 @@ namespace SquareDungeon
             List<Habilidad> habilidadesPreCombate = jugador.GetHabilidadesPorTipo(Habilidad.TIPO_PRE_COMBATE);
             foreach (Habilidad habilidad in habilidadesPreCombate)
             {
-                habilidad.RealizarAccion(jugador, enemigo);
+                if (habilidad.Ejecutar())
+                {
+                    MostrarHabilidad(jugador, habilidad);
+                    habilidad.RealizarAccion(jugador, enemigo);
+                }
             }
+
+            Thread.Sleep(1000);
 
             // Se obtienen los PV iniciales para dibujar las barras de vida
             int pvInicialesEnemigo = enemigo.GetStat(Mob.INDICE_VIDA);

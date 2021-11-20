@@ -9,7 +9,7 @@ namespace SquareDungeon.Armas.ArmasMagicas
 {
     class GrimorioBasico : ArmaMagica
     {
-        private const int USOS_MAX = 20;
+        private const int USOS_MAX = 50;
         private const int DANO = 5;
 
         public GrimorioBasico() :
@@ -20,7 +20,8 @@ namespace SquareDungeon.Armas.ArmasMagicas
         {
             if (usos <= 0)
                 throw new ArgumentException("usos", "No se puede reparar un arma con usos menores a 1");
-
+            
+            usos /= 2;
             if (this.usos + usos <= USOS_MAX)
                 this.usos += usos;
             else

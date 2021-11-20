@@ -22,9 +22,9 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
 
         public virtual bool Atacar(Jugador jugador)
         {
-            int ata = (int)(fue * 1.2);
+            int ata = (int)(fueCom * 1.2);
 
-            int dano = ata - jugador.GetStat(INDICE_DEFENSA);
+            int dano = ata - jugador.GetStatCombate(INDICE_DEFENSA);
             if (dano < 0)
                 dano = 0;
 

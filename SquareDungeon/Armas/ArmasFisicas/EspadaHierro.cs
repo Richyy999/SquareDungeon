@@ -21,7 +21,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             if (usos <= 0)
                 throw new ArgumentException("usos", "No se puede reparar un arma con usos menores a 1");
 
-            usos = usos / 4;
+            usos = usos / 2;
             if (this.usos + usos <= USOS_MAX)
                 this.usos += usos;
             else
@@ -29,10 +29,5 @@ namespace SquareDungeon.Armas.ArmasFisicas
         }
 
         public override int GetUsosMaximos() => USOS_MAX;
-
-        public void QueSoy()
-        {
-            Console.WriteLine("Soy una espada de hierro");
-        }
     }
 }

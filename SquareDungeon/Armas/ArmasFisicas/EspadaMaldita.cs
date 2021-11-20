@@ -47,6 +47,15 @@ namespace SquareDungeon.Armas.ArmasFisicas
             return mob.Danar(dano);
         }
 
+        public override bool Atacar(Mob mob, int danoAdicional)
+        {
+            bool ataque = Atacar(mob);
+            if (!ataque)
+                return mob.Danar(danoAdicional);
+
+            return ataque;
+        }
+
         public override void RepararArma(int usos)
         { }
 

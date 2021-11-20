@@ -28,7 +28,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             dano *= crit;
 
             if (mob.GetType() == typeof(Esqueleto))
-                dano *= 2;
+                dano = (int)(dano * 2.5);
 
             try
             {
@@ -47,7 +47,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
         public override bool Atacar(Mob mob, int danoAdicional)
         {
-            bool ataque = base.Atacar(mob, danoAdicional);
+            bool ataque = Atacar(mob);
             if (!ataque)
                 return mob.Danar(danoAdicional);
 

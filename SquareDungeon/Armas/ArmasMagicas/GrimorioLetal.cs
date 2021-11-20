@@ -1,43 +1,46 @@
 ﻿using System;
 
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
-using SquareDungeon.Habilidades.Ataque;
 using SquareDungeon.Entidades.Mobs.Enemigos;
+using SquareDungeon.Entidades.Mobs.Jugadores;
+using SquareDungeon.Habilidades.PreCombate;
 
 using static SquareDungeon.Resources.Resource;
 
-namespace SquareDungeon.Armas.ArmasFisicas
+namespace SquareDungeon.Armas.ArmasMagicas
 {
-    class ViolaSlimes : ArmaFisica
+    class GrimorioLetal : ArmaMagica
     {
-        private const int USOS_MAX = 20;
-        private const int DANO = 7;
+        private const int USOS_MAX = 15;
+        private const int DANO = 9;
 
-        public ViolaSlimes() :
-            base(DANO, USOS_MAX, NOMBRE_VIOLA_SLIMES, DESC_VIOLA_SLIMES, new AntiSlime())
+        public GrimorioLetal() :
+            base(DANO, USOS_MAX, NOMBRE_GRIMORIO_LETAL, DESC_GRIMORIO_LETAL, new Asesinato())
         { }
 
         public override bool Atacar(Mob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
+            int mag = portador.GetStatCombate(Mob.INDICE_MAGIA);
+            int ata = mag + this.dano;
+            int dano = ata - mob.GetStatCombate(Mob.INDICE_RESISTENCIA);
 
-            int fue = portador.GetStatCombate(Mob.INDICE_FUERZA);
-            int ata = fue + this.dano;
-
-            int dano = ata - mob.GetStatCombate(Mob.INDICE_DEFENSA);
-            int crit = 1 + portador.GetCritico();
-
-            dano *= crit;
-            if (habilidad.Ejecutar() && mob.GetType() == typeof(Slime))
+            if (habilidad.Ejecutar())
             {
                 EntradaSalida.MostrarHabilidad(this, habilidad);
-                dano *= 3;
+                try
+                {
+                    Jugador jugador = (Jugador)portador;
+                    Enemigo enemigo = (Enemigo)mob;
+                    habilidad.RealizarAccion(jugador, enemigo);
+                }
+                catch (InvalidCastException)
+                {
+
+                }
             }
 
-            if (mob.GetType() == typeof(Slime))
-                dano *= 3;
+            int crit = 1 + portador.GetCritico();
+            dano *= crit;
 
             try
             {
@@ -68,8 +71,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             if (usos <= 0)
                 throw new ArgumentException("usos", "Los usos deben ser mayores a 0");
 
-            usos = usos / 5;
-
+            usos /= 5;
             if (this.usos + usos >= USOS_MAX)
                 this.usos = USOS_MAX;
             else
