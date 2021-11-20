@@ -20,10 +20,11 @@ namespace SquareDungeon.Salas
             if (GetEstado() == ESTADO_SIN_VISITAR)
             {
                 Random random = new Random();
-                int diferencia = random.Next(-1, 2);
+                int diferencia = random.Next(2);
+                diferencia--;
                 int nivelJugador = jugador.GetNivel() + diferencia;
-
-                enemigo.SubirNivel(nivelJugador * Mob.EXP_MAX);
+                if (nivelJugador >= 0)
+                    enemigo.SubirNivel(nivelJugador * Mob.EXP_MAX);
 
                 partida.SetPosicionJugador(x, y);
 

@@ -10,8 +10,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
     class Guerrero : Jugador
     {
-
-        public Guerrero(string nombre, Habilidad habilidad) : base(20, 4, 1, 20, 3, 1, 10, 15,
+        public Guerrero(string nombre, Habilidad habilidad) : base(20, 4, 1, 2, 3, 1, 10, 15,
             75, 80, 5, 50, 60, 10, 20, 40,
             60, 55, 15, 35, 40, 20, 40, 100, nombre, DESC_GUERRERO, habilidad)
         { }

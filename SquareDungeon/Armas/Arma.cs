@@ -31,7 +31,7 @@ namespace SquareDungeon.Armas
 
             this.nombre = GetPropiedad(FICHERO_NOMBRE_ARMAS, nombre);
 
-            this.descripcion = GetPropiedad(FICHERO_DESC_ARMAS, descripcion).Replace(SALTO_LINEA, '\n');
+            this.descripcion = GetPropiedad(FICHERO_DESC_ARMAS, descripcion);
 
             if (this.nombre == null)
                 throw new ArgumentNullException("nombre", $"El nombre del arma {nombre} no existe");
@@ -62,6 +62,8 @@ namespace SquareDungeon.Armas
         public abstract void RepararArma(int usos);
 
         public abstract bool Atacar(Mob mob);
+
+        public abstract bool Atacar(Mob mob, int danoAdicional);
 
         public Habilidad GetHabilidad() => habilidad;
 

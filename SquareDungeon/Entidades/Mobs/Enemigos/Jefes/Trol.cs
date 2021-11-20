@@ -9,7 +9,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
     class Trol : Jefe
     {
         public Trol() :
-            base(100, 3, 1, 2, 3, 2, 10, 40, 1000, 50, 10, 25, 40, 30, 50, 100,
+            base(250, 7, 1, 2, 3, 2, 10, 40, 1000, 50, 10, 25, 40, 30, 50, 100,
                 NOMBRE_TROL, DESC_TROL, 120, null, new HabilidadTrol())
         { }
 
@@ -17,7 +17,6 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
         {
             if (habilidad.Ejecutar())
             {
-                EntradaSalida.MostrarHabilidad(this, habilidad);
                 int resultadoHabilidad = habilidad.RealizarAccion(jugador, this);
 
                 if (resultadoHabilidad != Habilidad.RESULTADO_SIN_ACTIVAR)

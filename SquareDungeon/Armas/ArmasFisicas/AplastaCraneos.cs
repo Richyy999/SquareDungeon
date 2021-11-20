@@ -1,28 +1,24 @@
 ﻿using System;
 
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
-using SquareDungeon.Habilidades.Ataque;
 using SquareDungeon.Entidades.Mobs.Enemigos;
+using SquareDungeon.Entidades.Mobs.Jugadores;
 
 using static SquareDungeon.Resources.Resource;
+using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
-    class ViolaSlimes : ArmaFisica
+    class AplastaCraneos : ArmaFisica
     {
         private const int USOS_MAX = 20;
-        private const int DANO = 7;
+        private const int DANO = 8;
 
-        public ViolaSlimes() :
-            base(DANO, USOS_MAX, NOMBRE_VIOLA_SLIMES, DESC_VIOLA_SLIMES, new AntiSlime())
+        public AplastaCraneos() : base(DANO, USOS_MAX, NOMBRE_APLASTA_CRANEOS, DESC_APLASTA_CRANEOS, SIN_HABILIDAD)
         { }
 
         public override bool Atacar(Mob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
-
             int fue = portador.GetStatCombate(Mob.INDICE_FUERZA);
             int ata = fue + this.dano;
 
@@ -30,14 +26,9 @@ namespace SquareDungeon.Armas.ArmasFisicas
             int crit = 1 + portador.GetCritico();
 
             dano *= crit;
-            if (habilidad.Ejecutar() && mob.GetType() == typeof(Slime))
-            {
-                EntradaSalida.MostrarHabilidad(this, habilidad);
-                dano *= 3;
-            }
 
-            if (mob.GetType() == typeof(Slime))
-                dano *= 3;
+            if (mob.GetType() == typeof(Esqueleto))
+                dano *= 2;
 
             try
             {
@@ -54,16 +45,19 @@ namespace SquareDungeon.Armas.ArmasFisicas
             return mob.Danar(dano);
         }
 
+        public override bool Atacar(Mob mob, int danoAdicional)
+        {
+            bool ataque = base.Atacar(mob, danoAdicional);
+            if (!ataque)
+                return mob.Danar(danoAdicional);
+
+            return ataque;
+        }
+
         public override void RepararArma(int usos)
         {
-            if (usos <= 0)
-                throw new ArgumentException("usos", "Los usos deben ser mayores a 0");
-
-            usos = usos / 5;
-
-            if (this.usos + usos >= USOS_MAX)
-                this.usos = USOS_MAX;
-            else
+            usos /= 3;
+            if (this.usos + usos < USOS_MAX)
                 this.usos += usos;
         }
 

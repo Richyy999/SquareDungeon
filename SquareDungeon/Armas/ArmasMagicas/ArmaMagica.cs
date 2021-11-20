@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SquareDungeon.Entidades.Mobs;
+using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Habilidades;
 
 using static SquareDungeon.Entidades.Mobs.Mob;
@@ -25,7 +26,29 @@ namespace SquareDungeon.Armas.ArmasMagicas
             int crit = 1 + mob.GetCritico();
 
             dano *= crit;
+
+            try
+            {
+                Jugador portador = (Jugador)this.portador;
+                usos--;
+                if (usos == SIN_USOS)
+                    portador.EliminarArma(this);
+            }
+            catch (InvalidCastException)
+            {
+
+            }
+
             return mob.Danar(dano);
+        }
+
+        public override bool Atacar(Mob mob, int danoAdicional)
+        {
+            bool ataque = Atacar(mob);
+            if (!ataque)
+                return mob.Danar(danoAdicional);
+
+            return ataque;
         }
     }
 }

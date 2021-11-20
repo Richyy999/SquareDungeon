@@ -13,7 +13,7 @@ namespace SquareDungeon.Habilidades.Ataque
 {
     class AntiSlime : Habilidad
     {
-        public AntiSlime() : base(30, PRIORIDAD_ALTA, TIPO_ATAQUE, NOMBRE_ANTI_SLIME, DESC_ANTI_SLIME) { }
+        public AntiSlime() : base(30, PRIORIDAD_MEDIA, TIPO_ATAQUE, NOMBRE_ANTI_SLIME, DESC_ANTI_SLIME) { }
 
         public override int RealizarAccion(Jugador jugador, Enemigo enemigo)
         {
@@ -22,16 +22,22 @@ namespace SquareDungeon.Habilidades.Ataque
 
             Arma arma = jugador.GetArmaCombate();
 
-            int fue = jugador.GetStatCombate(Mob.INDICE_FUERZA);
-            int ata = fue + arma.GetDano();
-
             int dano;
             if (arma.GetType().IsSubclassOf(typeof(ArmaFisica)))
-                dano = ata - enemigo.GetStat(Mob.INDICE_DEFENSA);
+            {
+                int fue = jugador.GetStatCombate(Mob.INDICE_FUERZA);
+                int ata = fue + arma.GetDano();
+                dano = ata - enemigo.GetStatCombate(Mob.INDICE_DEFENSA);
+            }
             else if (arma.GetType().IsSubclassOf(typeof(ArmaMagica)))
-                dano = ata - enemigo.GetStat(Mob.INDICE_RESISTENCIA);
+            {
+                int mag = jugador.GetStatCombate(Mob.INDICE_MAGIA);
+                int ata = mag + arma.GetDano();
+                dano = ata - enemigo.GetStatCombate(Mob.INDICE_RESISTENCIA);
+            }
             else
-                throw new ArgumentException("Se ha utilizado un arma no válida. Todas las armas deben heredar de " +
+                throw new ArgumentException("Se ha utilizado un arma no válida." +
+                    "Todas las armas deben heredar de " +
                     $"{typeof(ArmaFisica)} o de {typeof(ArmaMagica)}");
 
             int crit = 1 + jugador.GetCritico();

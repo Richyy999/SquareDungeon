@@ -25,6 +25,9 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             int ata = (int)(fue * 1.2);
 
             int dano = ata - jugador.GetStat(INDICE_DEFENSA);
+            if (dano < 0)
+                dano = 0;
+
             int crit = 1 + GetCritico();
 
             dano *= crit;

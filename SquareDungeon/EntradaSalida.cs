@@ -27,6 +27,8 @@ namespace SquareDungeon
         public const int MENU_OBJETOS = 12;
         public const int MENU_HABILIDADES = 13;
 
+        public const int ELECCION_GUERRERO = 100;
+
         private const string CASILLA_JUGADOR = " o ";
         private const string CASILLA_COFRE = " + ";
         private const string CASILLA_JEFE = " X ";
@@ -63,7 +65,7 @@ namespace SquareDungeon
                 puntos += "*";
             }
 
-            while (puntos.Length < 20)
+            while (puntos.Length < 26)
             {
                 puntos += '·';
             }
@@ -214,7 +216,7 @@ namespace SquareDungeon
                         llave = (LlaveJefe)objeto;
             }
 
-            Console.WriteLine("Necesitas la llave del jefe para entrar en esta sala");
+            Console.WriteLine("¿Quieres abrir esta sala?");
 
             if (llave == null)
                 return llave;
@@ -702,6 +704,47 @@ namespace SquareDungeon
         {
             Console.WriteLine("Has encontrado la sala del Jefe. Se necesita la Llave del Jefe para abrirla");
             Thread.Sleep(1500);
+        }
+
+        public static string PedirNombre()
+        {
+            Console.Clear();
+            Console.WriteLine("¡Bienvenido!\nEscribe tu nombre:");
+            string nombre = "";
+            do
+            {
+                nombre = Console.ReadLine();
+            } while (nombre.Trim().Equals(""));
+            return nombre.Trim();
+        }
+
+        public static int PedirPersonaje()
+        {
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Elige a tu personaje:");
+                Console.WriteLine("1) Guerrero");
+
+                try
+                {
+                    string input = Console.ReadLine();
+                    int eleccion = int.Parse(input);
+                    switch (eleccion)
+                    {
+                        case 1:
+                            return ELECCION_GUERRERO;
+
+                        default:
+                            Console.WriteLine("Opción no válida. Elige uno de los personajes disponibles");
+                            break;
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Ja ja ja, muy gracioso...");
+                }
+            } while (true);
         }
     }
 }

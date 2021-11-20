@@ -22,7 +22,7 @@ namespace SquareDungeon.Objetos
             this.cantidad = cantidad;
 
             this.nombre = GetPropiedad(FICHERO_NOMBRE_OBJETOS, nombre);
-            this.descripcion = GetPropiedad(FICHERO_DESC_OBJETOS, descripcion).Replace(SALTO_LINEA, '\n');
+            this.descripcion = GetPropiedad(FICHERO_DESC_OBJETOS, descripcion);
         }
 
         public virtual void RealizarAccion(Jugador jugador, Enemigo enemigo, Sala sala)

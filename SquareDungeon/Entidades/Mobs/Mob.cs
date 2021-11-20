@@ -341,30 +341,51 @@ namespace SquareDungeon.Entidades.Mobs
             {
                 case INDICE_FUERZA:
                     fueCom += valor;
+                    if (fueCom <= 0)
+                        fueCom = 0;
+
                     break;
 
                 case INDICE_MAGIA:
                     magCom += valor;
+                    if (magCom <= 0)
+                        magCom = 0;
+
                     break;
 
                 case INDICE_AGILIDAD:
                     agiCom += valor;
+                    if (agiCom <= 0)
+                        agiCom = 0;
+
                     break;
 
                 case INDICE_DEFENSA:
                     defCom += valor;
+                    if (defCom <= 0)
+                        defCom = 0;
+
                     break;
 
                 case INDICE_RESISTENCIA:
                     resCom += valor;
+                    if (resCom <= 0)
+                        resCom = 0;
+
                     break;
 
                 case INDICE_PROBABILIDAD_CRITICO:
                     probCritCom += valor;
+                    if (probCritCom <= 0)
+                        probCritCom = 0;
+
                     break;
 
                 case INDICE_DANO_CRITICO:
                     danCritCom += valor;
+                    if (danCritCom <= 0)
+                        danCritCom = 0;
+
                     break;
 
                 default:
@@ -395,6 +416,9 @@ namespace SquareDungeon.Entidades.Mobs
 
         public bool Danar(int dano)
         {
+            if (dano < 0)
+                throw new ArgumentException("dano", "EL daño no puede ser inferior a 0");
+
             pv -= dano;
 
             return pv <= 0;

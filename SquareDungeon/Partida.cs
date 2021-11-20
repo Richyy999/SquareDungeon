@@ -151,6 +151,8 @@ namespace SquareDungeon
             this.resultado = resultado;
         }
 
+        public int GetResultado() => resultado;
+
         public void SetPosicionJugador(int x, int y)
         {
             jugadorX = x;
@@ -188,6 +190,7 @@ namespace SquareDungeon
                                 habilidadesCombateEjecutadas.Add(hab);
                 }
 
+                //Se elige entre utilizar un objeto o atacar con un arma
                 int eleccion = ElegirArmaObjeto();
                 if (eleccion == ELEGIR_OBJETO)
                 {
@@ -209,7 +212,10 @@ namespace SquareDungeon
 
                     int res = ataqueJugador(jugador, enemigo);
                     if (res == RESULTADO_JUGADOR_GANA)
+                    {
+                        jugador.ReiniciarStatsCombate();
                         return res;
+                    }
                 }
 
                 // Ataca el enemigo
@@ -221,11 +227,14 @@ namespace SquareDungeon
 
                 int velJugador = jugador.GetStatCombate(Mob.INDICE_AGILIDAD);
                 int velEnemigo = enemigo.GetStatCombate(Mob.INDICE_AGILIDAD);
-                if (velJugador - velEnemigo > 4)
+                if (velJugador - velEnemigo > 4 && eleccion == ELEGIR_ARMA)
                 {
                     int res = ataqueJugador(jugador, enemigo);
                     if (res == RESULTADO_JUGADOR_GANA)
+                    {
+                        jugador.ReiniciarStatsCombate();
                         return res;
+                    }
                 }
 
                 if (velEnemigo - velJugador > 4)

@@ -9,6 +9,7 @@ using SquareDungeon.Entidades.Cofres;
 using SquareDungeon.Armas.ArmasFisicas;
 using SquareDungeon.Armas.ArmasMagicas;
 using SquareDungeon.Entidades.Mobs.Enemigos;
+using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
 
 namespace SquareDungeon
@@ -16,6 +17,27 @@ namespace SquareDungeon
     static class Fabrica
     {
         private const int NUMERO_SALAS_MAXIMO = 64;
+
+        public static Jugador GenerarJugador()
+        {
+            Jugador jugador;
+            string nombre = EntradaSalida.PedirNombre();
+            int eleccion = EntradaSalida.PedirPersonaje();
+            switch (eleccion)
+            {
+                case EntradaSalida.ELECCION_GUERRERO:
+                    jugador = new Guerrero(nombre, generarHabilidad());
+                    EspadaHierro espadaHierro = new EspadaHierro();
+                    jugador.EquiparArma(espadaHierro);
+                    espadaHierro.SetPortador(jugador);
+                    break;
+
+                default:
+                    throw new ArgumentException("Se ha seleccionado un personaje que no existe");
+            }
+
+            return jugador;
+        }
 
         public static Sala[,] GenerarTablero()
         {
@@ -107,7 +129,7 @@ namespace SquareDungeon
         private static SalaEnemigo generarSalaEnemigo(Sala[,] tablero)
         {
             Random random = new Random();
-            int num = random.Next(1);
+            int num = random.Next(2);
 
             Enemigo enemigo;
 
@@ -115,6 +137,10 @@ namespace SquareDungeon
             {
                 case 0:
                     enemigo = new Slime(generarObjeto());
+                    break;
+
+                case 1:
+                    enemigo = new Esqueleto(generarObjeto());
                     break;
 
                 default:
@@ -172,13 +198,21 @@ namespace SquareDungeon
         private static Habilidad generarHabilidad()
         {
             Random random = new Random();
-            int num = random.Next(1);
+            int num = random.Next(3);
             Habilidad habilidad;
 
             switch (num)
             {
                 case 0:
                     habilidad = new AntiSlime();
+                    break;
+                case 1:
+
+                    habilidad = new DosPorUno();
+                    break;
+
+                case 2:
+                    habilidad = new BanoMagia();
                     break;
 
                 default:
@@ -210,7 +244,7 @@ namespace SquareDungeon
         private static Arma generarArma()
         {
             Random random = new Random();
-            int num = random.Next(3);
+            int num = random.Next(5);
             Arma arma;
 
             switch (num)
@@ -225,6 +259,14 @@ namespace SquareDungeon
 
                 case 2:
                     arma = new ViolaSlimes();
+                    break;
+
+                case 3:
+                    arma = new EspadaMaldita();
+                    break;
+
+                case 4:
+                    arma = new AplastaCraneos();
                     break;
 
                 default:

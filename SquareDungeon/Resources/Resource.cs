@@ -23,6 +23,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_TROL = "trol";
 
         public const string NOMBRE_SLIME = "slime";
+        public const string NOMBRE_ESQUELETO = "esqueleto";
 
         public const string NOMBRE_COFRE_HABILIDAD = "cofreHabilidad";
         public const string NOMBRE_COFRE_OBJETO = "cofreObjeto";
@@ -31,11 +32,15 @@ namespace SquareDungeon.Resources
 
         public const string NOMBRE_SIN_HABILIDAD = "sinHabilidad";
         public const string NOMBRE_ANTI_SLIME = "antiSlime";
+        public const string NOMBRE_DOS_POR_UNO = "2x1";
+        public const string NOMBRE_BANO_MAGIA = "banoMagia";
 
         public const string NOMBRE_HABILIDAD_TROL = "habTrol";
 
         public const string NOMBRE_ESPADA_HIERRO = "espHierro";
         public const string NOMBRE_VIOLA_SLIMES = "violaSlimes";
+        public const string NOMBRE_ESPADA_MALDITA = "espadaMaldita";
+        public const string NOMBRE_APLASTA_CRANEOS = "aplastaCraneos";
         public const string NOMBRE_GRIMORIO_BASICO = "grimBasico";
 
         public const string NOMBRE_LLAVE_JEFE = "llaveJefe";
@@ -46,6 +51,7 @@ namespace SquareDungeon.Resources
         public const string DESC_TROL = "trol";
 
         public const string DESC_SLIME = "slime";
+        public const string DESC_ESQUELETO = "esqueleto";
 
         public const string DESC_COFRE_HABILIDAD = "cofreHabilidad";
         public const string DESC_COFRE_OBJETO = "cofreObjeto";
@@ -54,11 +60,15 @@ namespace SquareDungeon.Resources
 
         public const string DESC_SIN_HABILIDAD = "sinHabilidad";
         public const string DESC_ANTI_SLIME = "antiSlime";
+        public const string DESC_DOS_POR_UNO = "2x1";
+        public const string DESC_BANO_MAGIA = "banoMagia";
 
         public const string DESC_HABILIDAD_TROL = "habTrol";
 
         public const string DESC_ESPADA_HIERRO = "espHierro";
         public const string DESC_VIOLA_SLIMES = "violaSlimes";
+        public const string DESC_ESPADA_MALDITA = "espadaMaldita";
+        public const string DESC_APLASTA_CRANEOS = "aplastaCraneos";
         public const string DESC_GRIMORIO_BASICO = "grimBasico";
 
         public const string DESC_LLAVE_JEFE = "llaveJefe";
@@ -75,7 +85,7 @@ namespace SquareDungeon.Resources
             {
                 string[] prop = linea.Split(SEPARADOR);
                 if (prop[0].Equals(propiedad))
-                    return prop[1];
+                    return prop[1].Replace(SALTO_LINEA, '\n');
             }
 
             return null;

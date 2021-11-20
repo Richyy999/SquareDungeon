@@ -39,7 +39,7 @@ namespace SquareDungeon.Habilidades
             this.tipoHabilidad = tipoHabilidad;
 
             this.nombre = GetPropiedad(FICHERO_NOMBRE_HABILIDADES, nombre);
-            this.descripcion = GetPropiedad(FICHERO_DESC_HABILIDADES, descripcion).Replace(SALTO_LINEA, '\n');
+            this.descripcion = GetPropiedad(FICHERO_DESC_HABILIDADES, descripcion);
         }
 
         public abstract int RealizarAccion(Jugador jugador, Enemigo enemigo);

@@ -133,11 +133,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public void EliminarArma(Arma arma)
         {
-            for (int i = 0; i < armas.Length; i++)
+            Arma[] armas = new Arma[this.armas.Length];
+            for (int i = 0; i < this.armas.Length; i++)
             {
-                if (armas[i] == arma)
-                    armas[i] = null;
+                if (this.armas[i] == null)
+                    continue;
+
+                if (this.armas[i] != arma)
+                    armas[i] = this.armas[i];
             }
+
+            this.armas = armas;
         }
 
         public abstract Arma[] GetArmas();
@@ -204,11 +210,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public void EliminarObjeto(Objeto objeto)
         {
-            for (int i = 0; i < objetos.Length; i++)
+            Objeto[] objetos = new Objeto[this.objetos.Length];
+            for (int i = 0; i < this.objetos.Length; i++)
             {
-                if (objetos[i] == objeto)
-                    objetos[i] = null;
+                if (this.objetos[i] == null)
+                    continue;
+
+                if (this.objetos[i].GetNombre() != objeto.GetNombre())
+                    objetos[i] = this.objetos[i];
             }
+
+            this.objetos = objetos;
         }
 
         public Objeto[] GetObjetos() => objetos;
