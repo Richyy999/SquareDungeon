@@ -22,9 +22,7 @@ namespace SquareDungeon.Habilidades.ReducirDano
         public override void ResetearHabilidad()
         {
             base.ResetearHabilidad();
-
-            danoReducido = 0;
-            reducido = false;
+            init();
         }
 
         public override bool EjecutarAtaqueRival(AbstractMob ejecutor, AbstractMob victima, Sala sala)
@@ -50,7 +48,17 @@ namespace SquareDungeon.Habilidades.ReducirDano
         {
             int dano = Util.GetDano(ejecutor, victima);
 
-            return dano + danoReducido;
+            dano += danoReducido;
+
+            init();
+
+            return dano;
+        }
+
+        private void init()
+        {
+            danoReducido = 0;
+            reducido = false;
         }
     }
 }
