@@ -48,6 +48,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_VIOLA_SLIMES = "violaSlimes";
         public const string NOMBRE_ESPADA_MALDITA = "espadaMaldita";
         public const string NOMBRE_APLASTA_CRANEOS = "aplastaCraneos";
+        public const string NOMBRE_DAGA_HIERRO = "dagaHierro";
 
         // Nombre armas mágicas
         public const string NOMBRE_GRIMORIO_BASICO = "grimBasico";
@@ -66,6 +67,7 @@ namespace SquareDungeon.Resources
         // Descripción jugador
         public const string DESC_GUERRERO = "guerrero";
         public const string DESC_MAGO = "mago";
+        public const string DESC_LADRON = "ladron";
 
         // Descripción jefes
         public const string DESC_TROL = "trol";
@@ -97,6 +99,7 @@ namespace SquareDungeon.Resources
         public const string DESC_VIOLA_SLIMES = "violaSlimes";
         public const string DESC_ESPADA_MALDITA = "espadaMaldita";
         public const string DESC_APLASTA_CRANEOS = "aplastaCraneos";
+        public const string DESC_DAGA_HIERRO = "dagaHierro";
 
         // Descripción armas mágicas
         public const string DESC_GRIMORIO_BASICO = "grimBasico";

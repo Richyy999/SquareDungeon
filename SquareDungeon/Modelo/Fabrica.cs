@@ -53,6 +53,13 @@ namespace SquareDungeon.Modelo
                     grimorio.SetPortador(jugador);
                     break;
 
+                case EntradaSalida.ELECCION_LADRON:
+                    jugador = new Ladron(nombre, generarHabilidad());
+                    DagaHierro dagaHierro = new DagaHierro();
+                    jugador.EquiparArma(dagaHierro);
+                    dagaHierro.SetPortador(jugador);
+                    break;
+
                 default:
                     throw new ArgumentException("Se ha seleccionado un personaje que no existe");
             }

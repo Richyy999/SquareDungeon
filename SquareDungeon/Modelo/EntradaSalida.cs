@@ -30,6 +30,7 @@ namespace SquareDungeon.Modelo
 
         public const int ELECCION_GUERRERO = 100;
         public const int ELECCION_MAGO = 101;
+        public const int ELECCION_LADRON = 102;
 
         private const string CASILLA_JUGADOR = " o ";
         private const string CASILLA_COFRE = " + ";
@@ -741,6 +742,7 @@ namespace SquareDungeon.Modelo
                 Console.WriteLine("Elige a tu personaje:");
                 Console.WriteLine("1) Guerrero");
                 Console.WriteLine("2) Mago");
+                Console.WriteLine("3) Ladrón");
 
                 try
                 {
@@ -753,6 +755,9 @@ namespace SquareDungeon.Modelo
 
                         case 2:
                             return ELECCION_MAGO;
+
+                        case 3:
+                            return ELECCION_LADRON;
 
                         default:
                             Console.WriteLine("Opción no válida. Elige uno de los personajes disponibles");
