@@ -5,7 +5,7 @@ using SquareDungeon.Habilidades;
 
 namespace SquareDungeon.Entidades.Mobs
 {
-    abstract class AbstractMob : Entidad
+    abstract class AbstractMob : AbstractEntidad
     {
         public const int EXP_MAX = 100;
         public const int NIVEL_MAX = 50;

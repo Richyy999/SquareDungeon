@@ -4,14 +4,14 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Entidades
 {
-    abstract class Entidad
+    abstract class AbstractEntidad
     {
         private string nombre;
         private string descripcion;
 
-        protected Entidad(string nombre, string descripcion)
+        protected AbstractEntidad(string nombre, string descripcion)
         {
-            if (this.GetType().IsSubclassOf(typeof(AbstractJugador)))
+            if (this is AbstractJugador)
                 this.nombre = nombre;
             else
                 this.nombre = GetPropiedad(FICHERO_NOMBRE_ENTIDADES, nombre);

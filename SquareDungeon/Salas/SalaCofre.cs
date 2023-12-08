@@ -40,7 +40,7 @@ namespace SquareDungeon.Salas
                             if (!objetoAnadido)
                             {
                                 Console.WriteLine("Tu inventario está lleno, elimina un objeto para obtener más espacio");
-                                Objeto objeto = ElegirObjeto(jugador.GetObjetos());
+                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                                 if (objeto != null)
                                     jugador.EliminarObjeto(objeto);
                                 else
@@ -65,7 +65,7 @@ namespace SquareDungeon.Salas
                             if (!objetoAnadido)
                             {
                                 Console.WriteLine("Tu inventario está lleno, elimina un objeto para obtener más espacio");
-                                Objeto objeto = ElegirObjeto(jugador.GetObjetos());
+                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                                 if (objeto != null)
                                     jugador.EliminarObjeto(objeto);
                                 else

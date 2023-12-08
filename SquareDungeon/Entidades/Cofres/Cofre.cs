@@ -2,7 +2,7 @@
 
 namespace SquareDungeon.Entidades.Cofres
 {
-    abstract class Cofre : Entidad
+    abstract class Cofre : AbstractEntidad
     {
         protected Object contenido;
 

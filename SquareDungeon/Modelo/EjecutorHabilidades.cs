@@ -32,28 +32,38 @@ namespace SquareDungeon.Modelo
             this.habilidades.Add(habilidad);
         }
 
-        public void EjecutarPreCombate()
+        public bool EjecutarPreCombate()
         {
+            bool ejecutado = false;
+
             foreach (AbstractHabilidad habilidad in habilidades)
             {
                 if (habilidad.EjecutarPreCombate(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
                     habilidad.RealizarAccionPreCombate(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    ejecutado = true;
                 }
             }
+
+            return ejecutado;
         }
 
-        public void EjecutarPreAtaque()
+        public bool EjecutarPreAtaque()
         {
+            bool ejecutado = false;
+
             foreach (AbstractHabilidad habilidad in habilidades)
             {
                 if (habilidad.EjecutarPreAtaque(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
                     habilidad.RealizarAccionPreAtaque(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    ejecutado=true;
                 }
             }
+
+            return ejecutado;
         }
 
         public int EjecutarAtaque()
@@ -96,28 +106,38 @@ namespace SquareDungeon.Modelo
             return danoRecibido;
         }
 
-        public void EjecutarPostAtaque()
+        public bool EjecutarPostAtaque()
         {
+            bool ejecutado = false;
+
             foreach (AbstractHabilidad habilidad in habilidades)
             {
                 if (habilidad.EjecutarPostAtaque(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
                     habilidad.RealizarAccionPostAtaque(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    ejecutado = true;
                 }
             }
+
+            return ejecutado;
         }
 
-        public void EjecutarPostCombate()
+        public bool EjecutarPostCombate()
         {
+            bool ejecutado = false;
+
             foreach (AbstractHabilidad habilidad in habilidades)
             {
                 if (habilidad.EjecutarPostCombate(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
                     habilidad.RealizarAccionPostCombate(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    ejecutado = true;
                 }
             }
+
+            return ejecutado;
         }
 
         public void ResetearHabilidades()

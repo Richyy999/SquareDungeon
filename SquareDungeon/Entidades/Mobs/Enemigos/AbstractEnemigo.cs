@@ -4,13 +4,13 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
 {
     abstract class AbstractEnemigo : AbstractMob
     {
-        protected Objeto drop;
+        protected AbstractObjeto drop;
 
         private int dropExp;
 
         protected AbstractEnemigo(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax, int probCritMax, int danCritMax,
-            string nombre, string descripcion, int dropExp, Objeto drop) :
+            string nombre, string descripcion, int dropExp, AbstractObjeto drop) :
             base(pv, fue, mag, agi, hab, def, res, probCrit, danCrit,
                 pvMax, fueMax, magMax, agiMax, habMax, defMax, resMax, probCritMax, danCritMax, nombre, descripcion)
         {
@@ -75,7 +75,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             return statSubido - stat;
         }
 
-        public virtual Objeto Drop() => drop;
+        public virtual AbstractObjeto Drop() => drop;
 
         public int GetExp() => dropExp;
 

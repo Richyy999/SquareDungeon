@@ -8,7 +8,7 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
-    abstract class Objeto
+    abstract class AbstractObjeto
     {
         public const int CANTIDAD_MAX = 32;
 
@@ -17,7 +17,7 @@ namespace SquareDungeon.Objetos
         protected string nombre;
         protected string descripcion;
 
-        protected Objeto(int cantidad, string nombre, string descripcion)
+        protected AbstractObjeto(int cantidad, string nombre, string descripcion)
         {
             this.cantidad = cantidad;
 

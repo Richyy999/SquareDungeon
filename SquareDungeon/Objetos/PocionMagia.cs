@@ -7,7 +7,7 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
-    class PocionMagia : Objeto
+    class PocionMagia : AbstractObjeto
     {
         public PocionMagia() : base(1, NOMBRE_POCION_MAGIA, DESC_POCION_MAGIA) { }
 

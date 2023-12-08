@@ -36,7 +36,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         protected AbstractArma[] armas;
 
-        protected Objeto[] objetos;
+        protected AbstractObjeto[] objetos;
 
         protected AbstractJugador(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
             byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte habCrec, byte defCrec, byte resCrec,
@@ -74,7 +74,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             habilidades = new List<AbstractHabilidad>();
             habilidades.Add(habilidad);
 
-            objetos = new Objeto[15];
+            objetos = new AbstractObjeto[15];
         }
 
         protected override void subirNivel()
@@ -183,7 +183,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             return !contiene;
         }
 
-        public bool AnadirObjeto(Objeto objeto)
+        public bool AnadirObjeto(AbstractObjeto objeto)
         {
             if (objeto == null)
                 return true;
@@ -206,9 +206,9 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             return false;
         }
 
-        public void EliminarObjeto(Objeto objeto)
+        public void EliminarObjeto(AbstractObjeto objeto)
         {
-            Objeto[] objetos = new Objeto[this.objetos.Length];
+            AbstractObjeto[] objetos = new AbstractObjeto[this.objetos.Length];
             int indice = 0;
             for (int i = 0; i < this.objetos.Length; i++)
             {
@@ -225,7 +225,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             this.objetos = objetos;
         }
 
-        public Objeto[] GetObjetos() => objetos;
+        public AbstractObjeto[] GetObjetos() => objetos;
 
         public Type GetTipoArmas() => armas[0].GetType();
     }

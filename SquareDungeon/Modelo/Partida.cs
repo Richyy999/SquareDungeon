@@ -110,7 +110,7 @@ namespace SquareDungeon.Modelo
                                 break;
 
                             case MENU_OBJETOS:
-                                Objeto objeto = ElegirObjeto(jugador.GetObjetos());
+                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                                 if (objeto != null)
                                     MostrarUsarObjeto(objeto, jugador, null, null);
                                 if (jugador.GetObjetos()[0] == null)
@@ -178,7 +178,7 @@ namespace SquareDungeon.Modelo
 
                 if (eleccion == ELEGIR_OBJETO)
                 {
-                    Objeto objeto = ElegirObjeto(jugador.GetObjetos());
+                    AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                     if (objeto == null)
                         eleccion = ELEGIR_ARMA;
                     else
@@ -270,6 +270,8 @@ namespace SquareDungeon.Modelo
             }
             dano = ejecutorEnemigo.EjecutarAtaqueRival(dano);
 
+            EntradaSalida.MostrarDano(jugador, enemigo, dano);
+
             return enemigo.Danar(dano) ? RESULTADO_JUGADOR_GANA : RESULTADO_EN_JUEGO;
         }
 
@@ -282,6 +284,8 @@ namespace SquareDungeon.Modelo
                 dano = enemigo.Atacar(jugador);
             }
             dano = ejecutorJugador.EjecutarAtaqueRival(dano);
+
+            EntradaSalida.MostrarDano(jugador, enemigo, dano);
 
             return jugador.Danar(dano);
         }

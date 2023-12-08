@@ -137,6 +137,11 @@ namespace SquareDungeon.Modelo
             Console.WriteLine($"¡El {enemigo.GetNombre()} enemigo te ataca!");
         }
 
+        public static void MostrarDano(AbstractMob atacante, AbstractMob victima, int dano)
+        {
+            Console.WriteLine($"{atacante.GetNombre()} le inlfigió {dano} puntos de daño a {victima.GetNombre()}");
+        }
+
         public static int ElegirArmaObjeto()
         {
             do
@@ -165,7 +170,7 @@ namespace SquareDungeon.Modelo
             } while (true);
         }
 
-        public static Objeto ElegirObjeto(Objeto[] objetos)
+        public static AbstractObjeto ElegirObjeto(AbstractObjeto[] objetos)
         {
             if (objetos[0] == null)
             {
@@ -177,7 +182,7 @@ namespace SquareDungeon.Modelo
 
             for (int i = 0; i < objetos.Length; i++)
             {
-                Objeto objeto = objetos[i];
+                AbstractObjeto objeto = objetos[i];
                 if (objeto == null)
                     break;
 
@@ -209,13 +214,13 @@ namespace SquareDungeon.Modelo
             } while (true);
         }
 
-        public static LlaveJefe GetLlaveJefe(Objeto[] objetos)
+        public static LlaveJefe GetLlaveJefe(AbstractObjeto[] objetos)
         {
             if (objetos[0] == null)
                 return null;
 
             LlaveJefe llave = null;
-            foreach (Objeto objeto in objetos)
+            foreach (AbstractObjeto objeto in objetos)
             {
                 if (objeto != null)
                     if (objeto.GetType() == typeof(LlaveJefe))
@@ -371,14 +376,14 @@ namespace SquareDungeon.Modelo
         public static void MostrarVictoria(AbstractJugador jugador, AbstractEnemigo enemigo)
         {
             Console.WriteLine("¡Victoria!");
-            Objeto drop = enemigo.Drop();
+            AbstractObjeto drop = enemigo.Drop();
             if (drop != null)
                 Console.WriteLine($"¡Obtuviste {drop.GetNombre()}!");
 
             if (!jugador.AnadirObjeto(drop))
             {
                 Console.WriteLine("Tu inventario está lleno, elimina un objeto para ganar espacio");
-                Objeto objeto = ElegirObjeto(jugador.GetObjetos());
+                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                 jugador.EliminarObjeto(objeto);
             }
             Console.WriteLine($"¡Obtuviste {enemigo.GetExp()} puntos de experiencia!");
@@ -467,7 +472,7 @@ namespace SquareDungeon.Modelo
             Console.ReadLine();
         }
 
-        public static void MostrarObjetoConseguido(Objeto objeto)
+        public static void MostrarObjetoConseguido(AbstractObjeto objeto)
         {
             Console.WriteLine($"¡Obtuviste {objeto.GetNombre()}!");
             Console.WriteLine("\nPulsa Enter para continuar");
@@ -672,7 +677,7 @@ namespace SquareDungeon.Modelo
             Console.ReadLine();
         }
 
-        public static void MostrarUsarObjeto(Objeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
         {
             Console.Clear();
             Console.WriteLine(objeto.GetNombre() + " x " + objeto.GetCantidad());

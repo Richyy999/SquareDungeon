@@ -10,6 +10,7 @@ using SquareDungeon.Armas.ArmasMagicas;
 using SquareDungeon.Habilidades.Cura;
 using SquareDungeon.Habilidades.SubirStats;
 using SquareDungeon.Habilidades.DobleGolpe;
+using SquareDungeon.Habilidades.ReducirDano;
 using SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo;
 using SquareDungeon.Habilidades.DanoAdicional.StatEjecutor;
 using SquareDungeon.Entidades.Mobs.Enemigos;
@@ -42,6 +43,7 @@ namespace SquareDungeon.Modelo
                     EspadaHierro espadaHierro = new EspadaHierro();
                     jugador.EquiparArma(espadaHierro);
                     espadaHierro.SetPortador(jugador);
+                    jugador.AnadirHabilidad(new Rencor());
                     break;
 
                 case EntradaSalida.ELECCION_MAGO:
@@ -216,7 +218,7 @@ namespace SquareDungeon.Modelo
         private AbstractHabilidad generarHabilidad()
         {
             Random random = new Random();
-            int num = random.Next(6);
+            int num = random.Next(7);
             AbstractHabilidad habilidad;
 
             switch (num)
@@ -245,6 +247,10 @@ namespace SquareDungeon.Modelo
                     habilidad = new GolpeSanador();
                     break;
 
+                case 6:
+                    habilidad = new Rencor();
+                    break;
+
                 default:
                     throw new IndexOutOfRangeException("El índice de crear enemigos está fuera del rango");
             }
@@ -252,11 +258,11 @@ namespace SquareDungeon.Modelo
             return habilidad;
         }
 
-        private Objeto generarObjeto()
+        private AbstractObjeto generarObjeto()
         {
             Random random = new Random();
             int num = random.Next(5);
-            Objeto objeto;
+            AbstractObjeto objeto;
 
             switch (num)
             {

@@ -7,7 +7,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
 {
     class Slime : AbstractEnemigo
     {
-        public Slime(Objeto drop) : base(50, 1, 4, 0, 0, 0, 2, 5, 20,
+        public Slime(AbstractObjeto drop) : base(50, 1, 4, 0, 0, 0, 2, 5, 20,
             300, 15, 27, 10, 10, 10, 30, 20, 50, NOMBRE_SLIME, DESC_SLIME, 65, drop)
         { }
 
