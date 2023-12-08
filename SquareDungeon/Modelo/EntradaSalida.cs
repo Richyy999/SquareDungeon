@@ -406,7 +406,7 @@ namespace SquareDungeon.Modelo
             Console.WriteLine($"¡Has subido al nivel {jugador.GetNivel()}!");
             int[,] stats = jugador.GetStatsNuevos();
             string texto = "";
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 11; i++)
             {
                 string linea = "";
                 switch (i)
@@ -428,26 +428,30 @@ namespace SquareDungeon.Modelo
                         break;
 
                     case 4:
-                        linea += "Def       ";
+                        linea += "Hab       ";
                         break;
 
                     case 5:
-                        linea += "Res       ";
+                        linea += "Def       ";
                         break;
 
                     case 6:
-                        linea += "% Crítico ";
+                        linea += "Res       ";
                         break;
 
                     case 7:
-                        linea += "Daño Crit ";
+                        linea += "% Crítico ";
                         break;
 
                     case 8:
-                        linea += "Exp       ";
+                        linea += "Daño Crit ";
                         break;
 
                     case 9:
+                        linea += "Exp       ";
+                        break;
+
+                    case 10:
                         linea += "Nivel     ";
                         break;
                 }

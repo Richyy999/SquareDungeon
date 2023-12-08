@@ -100,6 +100,11 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
                 agiAnt = agi;
                 subirStat(INDICE_AGILIDAD, random.Next(1, 3), agiMax);
             }
+            if (puedeSubirStat(habCrec))
+            {
+                habAnt = hab;
+                subirStat(INDICE_HABILIDAD, random.Next(1, 3), habMax);
+            }
             if (puedeSubirStat(defCrec))
             {
                 defAnt = def;
@@ -135,7 +140,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         }
 
         public int[,] GetStatsNuevos() => new int[,]
-        { { pvAnt, pvTotal}, { fueAnt, fue}, { magAnt, mag}, { agiAnt, agi}, {defAnt, def }, {resAnt, res },
+        { { pvAnt, pvTotal}, { fueAnt, fue}, { magAnt, mag}, { agiAnt, agi}, {habAnt, hab}, {defAnt, def }, {resAnt, res },
             {probCritAnt, probCrit }, {danCritAnt, danCrit }, {expAnt, exp }, {nivelAnt, nivel } };
 
         public abstract bool EquiparArma(AbstractArma arma);
