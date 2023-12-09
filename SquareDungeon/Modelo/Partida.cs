@@ -43,6 +43,7 @@ namespace SquareDungeon.Modelo
             resultado = RESULTADO_EN_JUEGO;
 
             Fabrica fabrica = new Fabrica();
+            EntradaSalida.IndicarAvanzarDialogos();
             jugador = fabrica.GetJugador();
             tablero = fabrica.GenerarTablero();
         }
@@ -149,12 +150,15 @@ namespace SquareDungeon.Modelo
 
             EntradaSalida.Clear();
             // Se ejecutan todas las habilidades pre combate
-            ejecutorJugador.EjecutarPreCombate();
+            bool ejecutaJugador = ejecutorJugador.EjecutarPreCombate();
             Thread.Sleep(500);
 
             EntradaSalida.NuevaLinea();
-            ejecutorEnemigo.EjecutarPreCombate();
+            bool ejecutaEnemigo = ejecutorEnemigo.EjecutarPreCombate();
             Thread.Sleep(500);
+
+            if (ejecutaJugador || ejecutaEnemigo)
+                EntradaSalida.Esperar();
 
             // Se obtienen los PV iniciales para dibujar las barras de vida
             int pvInicialesEnemigo = enemigo.GetStat(AbstractMob.INDICE_VIDA_TOTAL);
@@ -243,10 +247,9 @@ namespace SquareDungeon.Modelo
                     }
 
                     ejecutorEnemigo.EjecutarPostAtaque();
-
-                    Thread.Sleep(1000);
                 }
 
+                EntradaSalida.Esperar();
             } while (true);
 
             jugador.ReiniciarStatsCombate();
@@ -270,7 +273,15 @@ namespace SquareDungeon.Modelo
             }
             dano = ejecutorEnemigo.EjecutarAtaqueRival(dano);
 
-            EntradaSalida.MostrarDano(jugador, enemigo, dano);
+            if (enemigo.Esquivar(jugador))
+            {
+                dano = 0;
+                EntradaSalida.MostrarEsquivar(enemigo, jugador);
+            }
+            else
+            {
+                EntradaSalida.MostrarDano(jugador, enemigo, dano);
+            }
 
             return enemigo.Danar(dano) ? RESULTADO_JUGADOR_GANA : RESULTADO_EN_JUEGO;
         }
@@ -285,7 +296,15 @@ namespace SquareDungeon.Modelo
             }
             dano = ejecutorJugador.EjecutarAtaqueRival(dano);
 
-            EntradaSalida.MostrarDano(jugador, enemigo, dano);
+            if (jugador.Esquivar(enemigo))
+            {
+                dano = 0;
+                EntradaSalida.MostrarEsquivar(enemigo, jugador);
+            }
+            else
+            {
+                EntradaSalida.MostrarDano(enemigo, jugador, dano);
+            }
 
             return jugador.Danar(dano);
         }

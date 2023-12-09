@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using SquareDungeon.Modelo;
 using SquareDungeon.Habilidades;
 
 namespace SquareDungeon.Entidades.Mobs
@@ -378,6 +379,22 @@ namespace SquareDungeon.Entidades.Mobs
             this.pv -= dano;
 
             return this.pv <= 0;
+        }
+
+        public bool Esquivar(AbstractMob atacante)
+        {
+            int agi = this.agiCom;
+            int hab = this.habCom;
+
+            int agiAtacante = atacante.agiCom;
+            int difAgi = agi - agiAtacante;
+
+            if (difAgi < 0)
+                difAgi = 0;
+
+            int destreza = (int)((difAgi + hab) / 2);
+
+            return Util.Probabilidad(destreza);
         }
 
         public int GetNivel() => nivel;

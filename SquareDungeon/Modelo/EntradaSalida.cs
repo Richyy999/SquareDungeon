@@ -334,6 +334,30 @@ namespace SquareDungeon.Modelo
             Console.WriteLine();
         }
 
+        public static void MostrarEsquivar(AbstractMob atacante, AbstractMob victima)
+        {
+            Console.WriteLine($"{victima.GetNombre()} esquivó el ataque de {atacante.GetNombre()}");
+        }
+
+        public static void IndicarAvanzarDialogos()
+        {
+            Console.WriteLine("Para avanzar los diálogos, pulsa Enter");
+            Esperar();
+        }
+
+        public static void Esperar(string mensaje)
+        {
+            if (mensaje.Length > 0)
+                Console.WriteLine(mensaje);
+
+            Console.ReadLine();
+        }
+
+        public static void Esperar()
+        {
+            Esperar("");
+        }
+
         public static int MenuAcciones()
         {
             do
@@ -378,7 +402,7 @@ namespace SquareDungeon.Modelo
             Console.WriteLine("¡Victoria!");
             AbstractObjeto drop = enemigo.Drop();
             if (drop != null)
-                Console.WriteLine($"¡Obtuviste {drop.GetNombre()}!");
+                Console.WriteLine($"¡Obtuviste {drop.GetNombre()} x {drop.GetCantidad()}!");
 
             if (!jugador.AnadirObjeto(drop))
             {
@@ -389,14 +413,12 @@ namespace SquareDungeon.Modelo
             Console.WriteLine($"¡Obtuviste {enemigo.GetExp()} puntos de experiencia!");
             if (jugador.SubirNivel(enemigo.GetExp()))
             {
-                Console.WriteLine("\nPulsa Enter para continuar");
-                Console.ReadLine();
+                Esperar("\nPulsa Enter para continuar");
                 mostrarNivelSubido(jugador);
             }
             else
             {
-                Console.WriteLine("\nPulsa Enter para continuar");
-                Console.ReadLine();
+                Esperar("\nPulsa Enter para continuar");
             }
         }
 
@@ -472,29 +494,25 @@ namespace SquareDungeon.Modelo
                 texto = linea + stat1 + " -> " + stat2;
                 Console.WriteLine(texto);
             }
-            Console.WriteLine("\nPulsa Enter para seguir");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para seguir");
         }
 
         public static void MostrarObjetoConseguido(AbstractObjeto objeto)
         {
             Console.WriteLine($"¡Obtuviste {objeto.GetNombre()}!");
-            Console.WriteLine("\nPulsa Enter para continuar");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar");
         }
 
         public static void MostrarHabilidadObtenida(AbstractHabilidad habilidad)
         {
             Console.WriteLine($"¡Obtuviste {habilidad.GetNombre()}!");
-            Console.WriteLine("\nPulsa Enter para continuar");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar");
         }
 
         public static void MostrarArmaConseguida(AbstractArma arma)
         {
             Console.WriteLine($"¡Obtuviste {arma.GetNombre()}!");
-            Console.WriteLine("\nPulsa Enter para continuar");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar");
         }
 
         public static void MostrarNoEquiparArma()
@@ -577,28 +595,32 @@ namespace SquareDungeon.Modelo
                     case 4:
                         linea += "Agi       ";
                         break;
-
+                    
                     case 5:
-                        linea += "Def       ";
+                        linea += "Hab       ";
                         break;
 
                     case 6:
-                        linea += "Res       ";
+                        linea += "Def       ";
                         break;
 
                     case 7:
-                        linea += "% Crítico ";
+                        linea += "Res       ";
                         break;
 
                     case 8:
-                        linea += "Daño Crit ";
+                        linea += "% Crítico ";
                         break;
 
                     case 9:
-                        linea += "Exp       ";
+                        linea += "Daño Crit ";
                         break;
 
                     case 10:
+                        linea += "Exp       ";
+                        break;
+
+                    case 11:
                         linea += "Nivel     ";
                         break;
                 }
@@ -613,8 +635,7 @@ namespace SquareDungeon.Modelo
             }
 
             Console.WriteLine(texto);
-            Console.WriteLine("\nPulsa Enter para volver");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para volver");
         }
 
         public static void MostrarArma(AbstractArma arma)
@@ -628,8 +649,7 @@ namespace SquareDungeon.Modelo
             AbstractHabilidad habilidad = arma.GetHabilidad();
             Console.WriteLine($"\nHabilidad: {habilidad.GetNombre()}");
             Console.WriteLine(habilidad.GetDescripcion());
-            Console.WriteLine("\nPulsa Enter para continuar\n");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar\n");
         }
 
         public static AbstractHabilidad ElegirHabilidad(List<AbstractHabilidad> habilidades)
@@ -677,8 +697,7 @@ namespace SquareDungeon.Modelo
             Console.Clear();
             Console.WriteLine(habilidad.GetNombre());
             Console.WriteLine(habilidad.GetDescripcion());
-            Console.WriteLine("\nPulsa Enter para continuar");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar");
         }
 
         public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
@@ -715,8 +734,7 @@ namespace SquareDungeon.Modelo
                     Console.WriteLine("No puede usar este objeto aquí");
                 }
             }
-            Console.WriteLine("\nPulsa Enter para continuar");
-            Console.ReadLine();
+            Esperar("\nPulsa Enter para continuar");
         }
 
         public static void DescubrirJefe()
