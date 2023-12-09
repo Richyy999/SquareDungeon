@@ -55,6 +55,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_BASTON_MAGICO = "bastonMagico";
         public const string NOMBRE_ESPADA_MAGICA = "espadaMagica";
         public const string NOMBRE_GRIMORIO_LETAL = "grimLetal";
+        public const string NOMBRE_ESPADA_ELFICA = "espadaElfica";
 
         // Nombre objetos
         public const string NOMBRE_LLAVE_JEFE = "llaveJefe";
@@ -68,6 +69,7 @@ namespace SquareDungeon.Resources
         public const string DESC_GUERRERO = "guerrero";
         public const string DESC_MAGO = "mago";
         public const string DESC_LADRON = "ladron";
+        public const string DESC_ELFA = "elfa";
 
         // Descripción jefes
         public const string DESC_TROL = "trol";
@@ -106,6 +108,7 @@ namespace SquareDungeon.Resources
         public const string DESC_BASTON_MAGICO = "bastonMagico";
         public const string DESC_ESPADA_MAGICA = "espadaMagica";
         public const string DESC_GRIMORIO_LETAL = "grimLetal";
+        public const string DESC_ESPADA_ELFICA = "espadaElfica";
 
         // Descripción objetos
         public const string DESC_LLAVE_JEFE = "llaveJefe";

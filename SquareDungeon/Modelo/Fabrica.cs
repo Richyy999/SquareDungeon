@@ -60,6 +60,14 @@ namespace SquareDungeon.Modelo
                     dagaHierro.SetPortador(jugador);
                     break;
 
+                case EntradaSalida.ELECCION_ELFA:
+                    jugador = new Elfa(nombre);
+                    EspadaElfica espadaElfica = new EspadaElfica();
+                    jugador.EquiparArma(espadaElfica);
+                    espadaElfica.SetPortador(jugador);
+                    break;
+                    
+
                 default:
                     throw new ArgumentException("Se ha seleccionado un personaje que no existe");
             }
