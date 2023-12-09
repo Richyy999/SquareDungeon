@@ -32,13 +32,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
             portador.AlterarStatCombate(AbstractMob.INDICE_FUERZA, disminucionFue);
 
-            if (mob is AbstractJugador)
-            {
-                AbstractJugador portador = (AbstractJugador)this.portador;
-                usos--;
-                if (usos == SIN_USOS)
-                    portador.EliminarArma(this);
-            }
+            GastarArma();
 
             return dano;
         }

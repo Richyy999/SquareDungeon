@@ -30,13 +30,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             if (mob.GetType() == typeof(Esqueleto))
                 dano = (int)(dano * 2.5);
 
-            if (mob is AbstractJugador)
-            {
-                AbstractJugador portador = (AbstractJugador)this.portador;
-                usos--;
-                if (usos == SIN_USOS)
-                    portador.EliminarArma(this);
-            }
+            GastarArma();
 
             return dano;
         }

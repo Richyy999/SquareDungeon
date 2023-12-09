@@ -53,7 +53,13 @@ namespace SquareDungeon.Armas
 
         public virtual void GastarArma()
         {
-            usos--;
+            if (portador is AbstractJugador)
+            {
+                AbstractJugador portador = (AbstractJugador)this.portador;
+                usos--;
+                if (usos == SIN_USOS)
+                    portador.EliminarArma(this);
+            }
 
             if (usos < SIN_USOS)
                 throw new InvalidOperationException("No se puede gastar un arma sin usos");

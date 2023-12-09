@@ -38,13 +38,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             if (mob.GetType() == typeof(Slime))
                 dano *= 3;
 
-            if (mob is AbstractJugador)
-            {
-                AbstractJugador portador = (AbstractJugador)this.portador;
-                usos--;
-                if (usos == SIN_USOS)
-                    portador.EliminarArma(this);
-            }
+            GastarArma();
 
             return dano;
         }
