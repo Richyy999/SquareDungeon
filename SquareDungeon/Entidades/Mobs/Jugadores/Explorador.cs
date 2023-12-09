@@ -1,30 +1,28 @@
 ﻿using System;
 
 using SquareDungeon.Armas;
-using SquareDungeon.Armas.ArmasMagicas;
 using SquareDungeon.Habilidades;
 
 using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
-using SquareDungeon.Armas.ArmasFisicas;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
-    internal class Elfa : AbstractJugador
+    internal class Explorador : AbstractJugador
     {
-        public Elfa(string nombre, AbstractHabilidad habilidad) : base(20, 1, 10, 5, 1, 2, 3, 10, 15,
+        public Explorador(string nombre, AbstractHabilidad habilidad) : base(20, 5, 6, 5, 1, 5, 3, 10, 15,
             67, 12, 89, 68, 45, 14, 73, 60, 65,
-            45, 15, 50, 30, 30, 10, 40, 50, 100, nombre, DESC_ELFA, habilidad)
+            45, 15, 50, 30, 30, 10, 40, 50, 100, nombre, DESC_EXPLORADOR, habilidad)
         { }
 
-        public Elfa(string nombre) : base(20, 1, 10, 5, 1, 2, 3, 10, 15,
+        public Explorador(string nombre) : base(20, 5, 6, 5, 1, 5, 3, 10, 15,
             67, 12, 89, 68, 45, 14, 73, 60, 65,
-            45, 15, 50, 30, 30, 10, 40, 50, 100, nombre, DESC_ELFA, SIN_HABILIDAD)
+            45, 15, 50, 30, 30, 10, 40, 50, 100, nombre, DESC_EXPLORADOR, SIN_HABILIDAD)
         { }
 
         public override bool EquiparArma(AbstractArma arma)
         {
-            if (!arma.GetType().IsSubclassOf(typeof(AbstractArmaMagica)))
+            if (!arma.GetType().IsSubclassOf(typeof(AbstractArma)))
                 throw new ArgumentException("arma",
                     $"El guerrero solo puede utilizar armas mágicas. Se ha recibido un {arma.GetType()}");
 
@@ -45,17 +43,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             return false;
         }
 
-        public override AbstractArmaMagica[] GetArmas()
+        public override AbstractArma[] GetArmas()
         {
-            AbstractArmaMagica[] armas = new AbstractArmaMagica[this.armas.Length];
+            AbstractArma[] armas = new AbstractArma[this.armas.Length];
             for (int i = 0; i < this.armas.Length; i++)
             {
-                armas[i] = (AbstractArmaMagica)this.armas[i];
+                armas[i] = (AbstractArma)this.armas[i];
             }
 
             return armas;
         }
 
-        public override AbstractArmaMagica GetArmaCombate() => (AbstractArmaMagica)armaCombate;
+        public override AbstractArma GetArmaCombate() => (AbstractArma)armaCombate;
     }
 }
