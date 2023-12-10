@@ -59,6 +59,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_ESPADA_MAGICA = "espadaMagica";
         public const string NOMBRE_GRIMORIO_LETAL = "grimLetal";
         public const string NOMBRE_ESPADA_ELFICA = "espadaElfica";
+        public const string NOMBRE_ESPADA_TRUENO = "espadaTrueno";
 
         // Nombre objetos
         public const string NOMBRE_LLAVE_JEFE = "llaveJefe";
@@ -116,6 +117,7 @@ namespace SquareDungeon.Resources
         public const string DESC_ESPADA_MAGICA = "espadaMagica";
         public const string DESC_GRIMORIO_LETAL = "grimLetal";
         public const string DESC_ESPADA_ELFICA = "espadaElfica";
+        public const string DESC_ESPADA_TRUENO = "espadaTrueno";
 
         // Descripción objetos
         public const string DESC_LLAVE_JEFE = "llaveJefe";

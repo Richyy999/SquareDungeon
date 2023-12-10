@@ -1,0 +1,21 @@
+﻿- - - - - HISTORIA - - - - -
+(Se elije la clase)
+Tras haber leido un cartel en el gremio sobre una mazmorra mágica, decides entrar, sabiendo que todo aquel que entra, no sale, en la que cada vez que se entra es distinta, por lo que es imposible cartografiar un mapa.
+Indeciso pero confiado, decides entrar y ver si llegas al tesoro, y consigues esa recompensa de tan solo ¡10 monedas de oro!
+
+[Has entrado]
+Al entrar notas un aura maligna y una niebla espesa, no sabes por donde has entrado ni donde está la salida.
+
+- - - - - PELEAS - - - - -
+[Peleas preboses]
+(Trol) Al entrar a la sala, te encuentras con la salida, pero está custiodada por un gran trol; este está dormido, pero al dar un paso en falso, se despierta, y ¡empieza el combate!
+
+[Peleas postboses]
+(Trol) Tras una intensa batalla, consigues derrotar al temible trol, este suelta de su cuello una llave con la que se abre la puerta para el siguiente psio. ¡Felicidades!
+
+- - - - - DERROTAS - - - - -
+[Peleas normales]
+Mientras peleabas, te tropezaste y te torciste el tobillo, dejandote expuesto al ataque enemigo. ¡Has muerto! Tranquilo, nadie se acordará de tí.
+
+[Peleas bosses]
+(Trol) Dejaste al trol sin un brazo, pero no te diste cuenta y este te atrapó con el otro, aplastandote todas las costillas, sufres una asfixia. ¡Has muerto! Nadie se acordará del día en el que entraste.

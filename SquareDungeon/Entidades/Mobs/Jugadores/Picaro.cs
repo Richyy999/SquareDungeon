@@ -10,7 +10,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
     internal class Picaro : AbstractJugador
     {
-        public Picaro(string nombre, AbstractHabilidad habilidad) : base(15, 3, 1, 8, 5, 2, 1, 6, 18,
+        public Picaro(string nombre, AbstractHabilidad habilidad) : base(20, 4, 1, 8, 5, 2, 1, 6, 18,
             75, 80, 5, 50, 50, 60, 10, 20, 40,
             55, 35, 10, 50, 45, 30, 20, 40, 100, nombre, DESC_PICARO, habilidad)
         { }
