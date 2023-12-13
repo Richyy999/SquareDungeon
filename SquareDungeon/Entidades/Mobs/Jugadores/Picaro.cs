@@ -1,10 +1,9 @@
 ﻿using System;
 using SquareDungeon.Armas;
 using SquareDungeon.Armas.ArmasFisicas;
+using SquareDungeon.Entidades.Mobs;
 using SquareDungeon.Habilidades;
-
 using static SquareDungeon.Resources.Resource;
-using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
