@@ -16,6 +16,7 @@ using SquareDungeon.Habilidades.DanoAdicional.StatEjecutor;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
+using SquareDungeon.Habilidades.Especiales;
 
 namespace SquareDungeon.Modelo
 {
@@ -58,6 +59,7 @@ namespace SquareDungeon.Modelo
                     DagaHierro dagaHierro = new DagaHierro();
                     jugador.EquiparArma(dagaHierro);
                     dagaHierro.SetPortador(jugador);
+                    jugador.AnadirHabilidad(new Esquivar());
                     break;
 
                 case EntradaSalida.ELECCION_EXPLORADOR:
@@ -308,6 +310,10 @@ namespace SquareDungeon.Modelo
 
                 case 4:
                     objeto = new PocionMagia();
+                    break;
+
+                case 5:
+                    objeto = new Cerveza();
                     break;
 
                 default:

@@ -7,14 +7,16 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
-    class Pocion : AbstractObjeto
+    class Cerveza : AbstractObjeto
     {
-        public Pocion() : base(1, NOMBRE_POCION, DESC_POCION) { }
+        public Cerveza() : base(1, NOMBRE_CERVEZA, DESC_CERVEZA) { }
 
         public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
         {
             base.RealizarAccion(jugador, enemigo, sala);
-            jugador.SubirStat(AbstractMob.INDICE_VIDA, 20);
+            jugador.SubirStat(AbstractMob.INDICE_VIDA, 45);
+            jugador.AlterarStatCombate(AbstractMob.INDICE_HABILIDAD, -3);
+            jugador.AlterarStatCombate(AbstractMob.INDICE_AGILIDAD, -3);
         }
     }
 }

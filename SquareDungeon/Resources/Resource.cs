@@ -40,6 +40,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_SANACION = "sanacion";
         public const string NOMBRE_GOLPE_SANADOR = "golpeSanador";
         public const string NOMBRE_RENCOR = "rencor";
+        public const string NOMBRE_ESQUIVAR = "esquivar";
 
         public const string NOMBRE_HABILIDAD_TROL = "habTrol";
 
@@ -68,6 +69,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_POCION_MAGIA = "pocionMagia";
         public const string NOMBRE_POCION_LETAL = "pocionLetal";
         public const string NOMBRE_POCION_ASESINA = "pocionAsesina";
+        public const string NOMBRE_CERVEZA = "cerveza";
 
         // Descripción jugador
         public const string DESC_GUERRERO = "guerrero";
@@ -98,6 +100,7 @@ namespace SquareDungeon.Resources
         public const string DESC_SANACION = "sanacion";
         public const string DESC_GOLPE_SANADOR = "golpeSanador";
         public const string DESC_RENCOR = "rencor";
+        public const string DESC_ESQUIVAR = "esquivar";
 
         public const string DESC_HABILIDAD_TROL = "habTrol";
 
@@ -126,6 +129,7 @@ namespace SquareDungeon.Resources
         public const string DESC_POCION_MAGIA = "pocionMagia";
         public const string DESC_POCION_LETAL = "pocionLetal";
         public const string DESC_POCION_ASESINA = "pocionAsesina";
+        public const string DESC_CERVEZA = "cerveza";
 
         public const char SALTO_LINEA = '/';
 
