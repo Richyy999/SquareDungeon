@@ -12,12 +12,12 @@ namespace SquareDungeon.Habilidades.Cura
         {
         }
 
-        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             return Util.Probabilidad(this.activacion);
         }
 
-        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int dano = Util.GetDano(ejecutor, victima);
             Sanar(ejecutor, dano / 2);

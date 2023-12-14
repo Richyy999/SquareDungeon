@@ -9,7 +9,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 {
     class EspadaHierro : AbstractArmaFisica
     {
-        private const int USOS_MAX = 50;
+        private const int USOS_MAX = 500;
         private const int DANO = 5;
 
         public EspadaHierro() :

@@ -11,12 +11,12 @@ namespace SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo
     {
         public AntiSlime() : base(30, PRIORIDAD_MEDIA, NOMBRE_ANTI_SLIME, DESC_ANTI_SLIME, Categorias.DANO_ADICIONAL_TIPO_ENEMIGO) { }
 
-        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
-            return victima is Slime;
+            return victima is Slime && Util.Probabilidad(this.activacion);
         }
 
-        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int dano = Util.GetDano(ejecutor, victima);
             return dano * 3;

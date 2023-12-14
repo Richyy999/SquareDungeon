@@ -65,11 +65,15 @@ namespace SquareDungeon.Armas
                 throw new InvalidOperationException("No se puede gastar un arma sin usos");
         }
 
+        public int Atacar(AbstractMob mob, bool ejecutarHabilidad, int danoAdicional)
+        {
+            int dano = Atacar(mob, ejecutarHabilidad);
+            return dano + danoAdicional;
+        }
+
         public abstract void RepararArma(int usos);
 
-        public abstract int Atacar(AbstractMob mob);
-
-        public abstract int Atacar(AbstractMob mob, int danoAdicional);
+        public abstract int Atacar(AbstractMob mob, bool ejecutarHabilidad);
 
         public AbstractHabilidad GetHabilidad() => habilidad;
 

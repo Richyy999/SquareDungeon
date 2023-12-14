@@ -12,11 +12,11 @@ namespace SquareDungeon.Modelo
 
         private AbstractMob victima;
 
-        private Sala sala;
+        private AbstractSala sala;
 
         private List<AbstractHabilidad> habilidades;
 
-        public EjecutorHabilidades(AbstractMob ejecutor, AbstractMob victima, Sala sala, List<AbstractHabilidad> habilidades)
+        public EjecutorHabilidades(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala, List<AbstractHabilidad> habilidades)
         {
             this.ejecutor = ejecutor;
             this.victima = victima;
@@ -59,7 +59,7 @@ namespace SquareDungeon.Modelo
                 {
                     habilidad.RealizarAccionPreAtaque(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
-                    ejecutado=true;
+                    ejecutado = true;
                 }
             }
 
@@ -78,6 +78,7 @@ namespace SquareDungeon.Modelo
             if (habilidadesEjecutadas.Count > 0)
             {
                 AbstractHabilidad habilidad = AbstractHabilidad.GetHabilidadPorPrioridad(habilidadesEjecutadas);
+                habilidadesEjecutadas.Add(habilidad);
                 int res = habilidad.RealizarAccionAtaque(ejecutor, victima, sala);
                 EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
                 return res;
@@ -114,9 +115,9 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPostAtaque(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                    habilidad.RealizarAccionPostAtaque(ejecutor, victima, sala);
-                    EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
-                    ejecutado = true;
+                        habilidad.RealizarAccionPostAtaque(ejecutor, victima, sala);
+                        EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                        ejecutado = true;
                 }
             }
 
@@ -131,9 +132,9 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPostCombate(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                    habilidad.RealizarAccionPostCombate(ejecutor, victima, sala);
-                    EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
-                    ejecutado = true;
+                        habilidad.RealizarAccionPostCombate(ejecutor, victima, sala);
+                        EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                        ejecutado = true;
                 }
             }
 

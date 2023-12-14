@@ -11,7 +11,7 @@ namespace SquareDungeon.Objetos
     {
         public PocionLetal() : base(1, NOMBRE_POCION_LETAL, DESC_POCION_LETAL) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             base.RealizarAccion(jugador, enemigo, sala);
             int danCritCom = jugador.GetStatCombate(AbstractMob.INDICE_DANO_CRITICO);

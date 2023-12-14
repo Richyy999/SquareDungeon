@@ -15,7 +15,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
             base(dano, usos, nombre, descripcion, habilidad)
         { }
 
-        public override int Atacar(AbstractMob mob)
+        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
         {
             if (usos <= SIN_USOS)
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
@@ -28,18 +28,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
             dano *= crit;
 
-            GastarArma();
-
             return dano;
-        }
-
-        public override int Atacar(AbstractMob mob, int danoAdicional)
-        {
-            int ataque = Atacar(mob);
-            if (ataque < mob.GetStat(AbstractMob.INDICE_VIDA))
-                return danoAdicional;
-
-            return ataque;
         }
     }
 }

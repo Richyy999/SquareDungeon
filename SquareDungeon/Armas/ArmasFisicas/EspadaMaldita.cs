@@ -15,7 +15,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
         public EspadaMaldita() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MALDITA, DESC_ESPADA_MALDITA, SIN_HABILIDAD)
         { }
 
-        public override int Atacar(AbstractMob mob)
+        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
         {
             if (usos <= SIN_USOS)
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
@@ -31,8 +31,6 @@ namespace SquareDungeon.Armas.ArmasFisicas
             int disminucionFue = (int)((fue *= 0.03) * -1);
 
             portador.AlterarStatCombate(AbstractMob.INDICE_FUERZA, disminucionFue);
-
-            GastarArma();
 
             return dano;
         }

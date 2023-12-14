@@ -5,7 +5,7 @@ using SquareDungeon.Entidades.Mobs.Jugadores;
 
 namespace SquareDungeon.Salas
 {
-    abstract class Sala
+    abstract class AbstractSala
     {
         public const int ESTADO_SIN_VISITAR = 0;
         public const int ESTADO_VISITADO = 1;
@@ -18,7 +18,7 @@ namespace SquareDungeon.Salas
 
         private int estado;
 
-        protected Sala(int x, int y)
+        protected AbstractSala(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -34,6 +34,8 @@ namespace SquareDungeon.Salas
 
             this.estado = estado;
         }
+
+        public virtual bool AbrirSala(AbstractJugador jugador) => true;
 
         public int GetEstado() => estado;
 

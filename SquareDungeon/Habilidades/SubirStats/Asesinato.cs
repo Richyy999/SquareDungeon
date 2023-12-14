@@ -10,7 +10,7 @@ namespace SquareDungeon.Habilidades.SubirStats
         public Asesinato() : base(PRIORIDAD_MAXIMA, NOMBRE_ASESINATO, DESC_ASESINATO, Categorias.SUBIR_STATS)
         { }
 
-        public override bool EjecutarPreCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarPreCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int habilidad = ejecutor.GetStatCombate(AbstractMob.INDICE_HABILIDAD);
             double extra = (AbstractMob.NIVEL_MAX - ejecutor.GetNivel()) / 10;
@@ -19,7 +19,7 @@ namespace SquareDungeon.Habilidades.SubirStats
             return Util.Probabilidad(porcentaje);
         }
 
-        public override void RealizarAccionPreCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override void RealizarAccionPreCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int probCrit = ejecutor.GetStatCombate(AbstractMob.INDICE_PROBABILIDAD_CRITICO);
             SubirStat(ejecutor, AbstractMob.INDICE_PROBABILIDAD_CRITICO, (int)(probCrit * 0.4));

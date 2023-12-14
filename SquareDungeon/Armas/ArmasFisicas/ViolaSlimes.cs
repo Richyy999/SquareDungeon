@@ -2,7 +2,7 @@
 
 using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
+using SquareDungeon.Habilidades;
 using SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
@@ -12,14 +12,14 @@ namespace SquareDungeon.Armas.ArmasFisicas
 {
     class ViolaSlimes : AbstractArmaFisica
     {
-        private const int USOS_MAX = 20;
+        private const int USOS_MAX = 200;
         private const int DANO = 7;
 
         public ViolaSlimes() :
             base(DANO, USOS_MAX, NOMBRE_VIOLA_SLIMES, DESC_VIOLA_SLIMES, new AntiSlime())
         { }
 
-        public override int Atacar(AbstractMob mob)
+        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
         {
             if (usos <= SIN_USOS)
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
@@ -32,13 +32,20 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
             dano *= crit;
 
-            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
-            ejecutor.EjecutarAtaque();
+            bool danoAdicional = false;
 
-            if (mob.GetType() == typeof(Slime))
+            if (ejecutarHabilidad)
+            {
+                EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
+                int res = ejecutor.EjecutarAtaque();
+                if (res != AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
+                    dano += res;
+
+                danoAdicional = true;
+            }
+
+            if (mob is Slime && danoAdicional)
                 dano *= 3;
-
-            GastarArma();
 
             return dano;
         }

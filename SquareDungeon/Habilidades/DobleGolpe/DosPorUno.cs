@@ -14,7 +14,7 @@ namespace SquareDungeon.Habilidades.DobleGolpe
         public DosPorUno() : base(PRIORIDAD_MAXIMA, NOMBRE_DOS_POR_UNO, DESC_DOS_POR_UNO, Categorias.DOBLE_GOLPE)
         { }
 
-        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int agilidad = ejecutor.GetStatCombate(AbstractMob.INDICE_AGILIDAD);
             double extra = (AbstractMob.NIVEL_MAX - ejecutor.GetNivel()) / 10;
@@ -23,7 +23,7 @@ namespace SquareDungeon.Habilidades.DobleGolpe
             return Util.Probabilidad(porcentaje);
         }
 
-        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int dano = 0;
             if (ejecutor is AbstractJugador)

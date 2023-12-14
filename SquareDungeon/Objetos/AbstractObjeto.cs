@@ -25,7 +25,7 @@ namespace SquareDungeon.Objetos
             this.descripcion = GetPropiedad(FICHERO_DESC_OBJETOS, descripcion);
         }
 
-        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             cantidad--;
             if (cantidad == 0)

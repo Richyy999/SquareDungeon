@@ -11,7 +11,7 @@ namespace SquareDungeon.Objetos
     {
         public Pocion() : base(1, NOMBRE_POCION, DESC_POCION) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             base.RealizarAccion(jugador, enemigo, sala);
             jugador.SubirStat(AbstractMob.INDICE_VIDA, 20);

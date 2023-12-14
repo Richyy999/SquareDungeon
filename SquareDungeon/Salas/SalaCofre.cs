@@ -11,7 +11,7 @@ using static SquareDungeon.Modelo.EntradaSalida;
 
 namespace SquareDungeon.Salas
 {
-    class SalaCofre : Sala
+    class SalaCofre : AbstractSala
     {
         private Cofre cofre;
 

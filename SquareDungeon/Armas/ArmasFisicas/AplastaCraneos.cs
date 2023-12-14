@@ -11,13 +11,13 @@ namespace SquareDungeon.Armas.ArmasFisicas
 {
     class AplastaCraneos : AbstractArmaFisica
     {
-        private const int USOS_MAX = 20;
+        private const int USOS_MAX = 200;
         private const int DANO = 8;
 
         public AplastaCraneos() : base(DANO, USOS_MAX, NOMBRE_APLASTA_CRANEOS, DESC_APLASTA_CRANEOS, SIN_HABILIDAD)
         { }
 
-        public override int Atacar(AbstractMob mob)
+        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
         {
             int fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
             int ata = fue + this.dano;
@@ -27,10 +27,8 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
             dano *= crit;
 
-            if (mob.GetType() == typeof(Esqueleto))
+            if (mob is Esqueleto)
                 dano = (int)(dano * 2.5);
-
-            GastarArma();
 
             return dano;
         }

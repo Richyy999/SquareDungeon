@@ -17,7 +17,7 @@ namespace SquareDungeon.Armas.ArmasMagicas
         public EspadaMagica() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MAGICA, DESC_ESPADA_MAGICA, SIN_HABILIDAD)
         { }
 
-        public override int Atacar(AbstractMob mob)
+        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
         {
             if (usos <= SIN_USOS)
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
@@ -29,8 +29,6 @@ namespace SquareDungeon.Armas.ArmasMagicas
             int crit = 1 + mob.GetCritico();
 
             dano *= crit;
-
-            GastarArma();
 
             return dano;
         }
