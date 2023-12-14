@@ -28,7 +28,7 @@ namespace SquareDungeon.Salas
                 if (PreguntarAbrirCofre())
                 {
                     SetEstado(ESTADO_VISITADO);
-                    if (cofre.GetType() == typeof(CofreObjeto))
+                    if (cofre is CofreObjeto)
                     {
                         CofreObjeto cofreObjeto = (CofreObjeto)cofre;
                         bool objetoAnadido;
@@ -53,7 +53,7 @@ namespace SquareDungeon.Salas
                                 MostrarObjetoConseguido(cofreObjeto.AbrirCofre());
                         } while (!objetoAnadido);
                     }
-                    else if (cofre.GetType() == typeof(CofreLLaveJefe))
+                    else if (cofre is CofreLLaveJefe)
                     {
                         CofreLLaveJefe cofreObjeto = (CofreLLaveJefe)cofre;
                         bool objetoAnadido;
@@ -78,7 +78,7 @@ namespace SquareDungeon.Salas
                                 MostrarObjetoConseguido(cofreObjeto.AbrirCofre());
                         } while (!objetoAnadido);
                     }
-                    else if (cofre.GetType() == typeof(CofreHabilidad))
+                    else if (cofre is CofreHabilidad)
                     {
                         CofreHabilidad cofreHabilidad = (CofreHabilidad)cofre;
                         AbstractHabilidad habilidad = cofreHabilidad.AbrirCofre();
@@ -88,7 +88,7 @@ namespace SquareDungeon.Salas
                         else
                             MostrarHabilidadEquipada(habilidad);
                     }
-                    else if (cofre.GetType() == typeof(CofreArma))
+                    else if (cofre is CofreArma)
                     {
                         CofreArma cofreArma = (CofreArma)cofre;
                         AbstractArma arma = cofreArma.AbrirCofre();
@@ -98,7 +98,6 @@ namespace SquareDungeon.Salas
                         {
                             try
                             {
-                                arma.SetPortador(jugador);
                                 armaAnadida = jugador.EquiparArma(arma);
                                 if (!armaAnadida)
                                 {

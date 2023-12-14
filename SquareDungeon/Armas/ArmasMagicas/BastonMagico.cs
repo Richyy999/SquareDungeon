@@ -15,14 +15,12 @@ namespace SquareDungeon.Armas.ArmasMagicas
             base(DANO, USOS_MAX, NOMBRE_BASTON_MAGICO, DESC_BASTON_MAGICO, new Sanacion())
         { }
 
-        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
+        public override int Atacar(AbstractMob mob)
         {
-            if (ejecutarHabilidad)
-            {
-                EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
-                ejecutor.EjecutarAtaque();
-            }
-            return base.Atacar(mob, ejecutarHabilidad);
+            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
+            ejecutor.EjecutarAtaque();
+
+            return base.Atacar(mob);
         }
 
         public override void RepararArma(int usos)

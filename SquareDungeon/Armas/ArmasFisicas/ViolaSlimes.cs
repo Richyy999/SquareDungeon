@@ -19,32 +19,16 @@ namespace SquareDungeon.Armas.ArmasFisicas
             base(DANO, USOS_MAX, NOMBRE_VIOLA_SLIMES, DESC_VIOLA_SLIMES, new AntiSlime())
         { }
 
-        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
+        public override int Atacar(AbstractMob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
+            int dano = base.Atacar(mob);
 
-            int fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
-            int ata = fue + this.dano;
+            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
+            int res = ejecutor.EjecutarAtaque();
+            if (res != AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
+                dano += res;
 
-            int dano = ata - mob.GetStatCombate(AbstractMob.INDICE_DEFENSA);
-            int crit = 1 + portador.GetCritico();
-
-            dano *= crit;
-
-            bool danoAdicional = false;
-
-            if (ejecutarHabilidad)
-            {
-                EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
-                int res = ejecutor.EjecutarAtaque();
-                if (res != AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
-                    dano += res;
-
-                danoAdicional = true;
-            }
-
-            if (mob is Slime && danoAdicional)
+            if (mob is Slime)
                 dano *= 3;
 
             return dano;

@@ -42,14 +42,12 @@ namespace SquareDungeon.Modelo
                     jugador = new Guerrero(nombre, generarHabilidad());
                     EspadaHierro espadaHierro = new EspadaHierro();
                     jugador.EquiparArma(espadaHierro);
-                    espadaHierro.SetPortador(jugador);
                     break;
 
                 case EntradaSalida.ELECCION_MAGO:
                     jugador = new Mago(nombre, generarHabilidad());
                     GrimorioBasico grimorio = new GrimorioBasico();
                     jugador.EquiparArma(grimorio);
-                    grimorio.SetPortador(jugador);
                     break;
 
                 default:

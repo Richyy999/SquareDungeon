@@ -1,8 +1,5 @@
-﻿using System;
-
-using SquareDungeon.Entidades.Mobs;
+﻿using SquareDungeon.Entidades.Mobs;
 using SquareDungeon.Entidades.Mobs.Enemigos;
-using SquareDungeon.Entidades.Mobs.Jugadores;
 
 using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
@@ -17,15 +14,9 @@ namespace SquareDungeon.Armas.ArmasFisicas
         public AplastaCraneos() : base(DANO, USOS_MAX, NOMBRE_APLASTA_CRANEOS, DESC_APLASTA_CRANEOS, SIN_HABILIDAD)
         { }
 
-        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
+        public override int Atacar(AbstractMob mob)
         {
-            int fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
-            int ata = fue + this.dano;
-
-            int dano = ata - mob.GetStatCombate(AbstractMob.INDICE_DEFENSA);
-            int crit = 1 + portador.GetCritico();
-
-            dano *= crit;
+            int dano = base.Atacar(mob);
 
             if (mob is Esqueleto)
                 dano = (int)(dano * 2.5);

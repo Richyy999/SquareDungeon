@@ -17,14 +17,12 @@ namespace SquareDungeon.Armas.ArmasMagicas
             base(DANO, USOS_MAX, NOMBRE_GRIMORIO_LETAL, DESC_GRIMORIO_LETAL, new Asesinato())
         { }
 
-        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
+        public override int Atacar(AbstractMob mob)
         {
             EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
             ejecutor.EjecutarPreCombate();
 
-            GastarArma();
-
-            return base.Atacar(mob, ejecutarHabilidad);
+            return base.Atacar(mob);
         }
 
         public override void RepararArma(int usos)

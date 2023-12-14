@@ -55,7 +55,7 @@ namespace SquareDungeon.Salas
                     return false;
 
                 llave.RealizarAccion(jugador, null, this);
-                SetEstado(SALA_JEFE);
+                SetEstado(ESTADO_SALA_JEFE_ABIERTA);
                 abierta = true;
                 return abierta;
             }

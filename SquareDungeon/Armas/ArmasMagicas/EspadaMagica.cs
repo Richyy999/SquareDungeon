@@ -1,7 +1,6 @@
 ﻿using System;
 
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
 
 using static SquareDungeon.Habilidades.SinHabilidad;
 using static SquareDungeon.Resources.Resource;
@@ -17,20 +16,13 @@ namespace SquareDungeon.Armas.ArmasMagicas
         public EspadaMagica() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MAGICA, DESC_ESPADA_MAGICA, SIN_HABILIDAD)
         { }
 
-        public override int Atacar(AbstractMob mob, bool ejecutarHabilidad)
+        public override int GetDanoBase(AbstractMob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
-
             int mag = portador.GetStatCombate(AbstractMob.INDICE_MAGIA);
             int ata = mag + this.dano;
+            int defEnemiga = mob.GetStatCombate(AbstractMob.INDICE_DEFENSA);
 
-            int dano = ata - mob.GetStatCombate(AbstractMob.INDICE_DEFENSA);
-            int crit = 1 + mob.GetCritico();
-
-            dano *= crit;
-
-            return dano;
+            return ata - defEnemiga;
         }
 
         public override void RepararArma(int usos)

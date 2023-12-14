@@ -127,10 +127,10 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             }
         }
 
-        public virtual int Atacar(AbstractEnemigo enemigo, bool ejecutarHabilidad)
+        public virtual int Atacar(AbstractEnemigo enemigo)
         {
             AbstractArma armaCombate = GetArmaCombate();
-            return armaCombate.Atacar(enemigo, ejecutarHabilidad);
+            return armaCombate.Atacar(enemigo);
         }
 
         public override bool SubirNivel(int exp)
