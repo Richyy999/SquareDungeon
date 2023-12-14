@@ -12,7 +12,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 {
     class ViolaSlimes : AbstractArmaFisica
     {
-        private const int USOS_MAX = 200;
+        private const int USOS_MAX = 20;
         private const int DANO = 7;
 
         public ViolaSlimes() :

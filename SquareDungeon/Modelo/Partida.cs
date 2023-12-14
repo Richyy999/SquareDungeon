@@ -289,7 +289,7 @@ namespace SquareDungeon.Modelo
             {
                 AbstractArma armaCombate = jugador.GetArmaCombate();
                 EntradaSalida.MostrarAtaque(jugador, armaCombate);
-                dano = jugador.Atacar(enemigo, true);
+                dano = jugador.Atacar(enemigo);
             }
 
             dano = ejecutorEnemigo.EjecutarAtaqueRival(dano);
