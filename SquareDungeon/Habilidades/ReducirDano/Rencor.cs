@@ -25,12 +25,12 @@ namespace SquareDungeon.Habilidades.ReducirDano
             init();
         }
 
-        public override bool EjecutarAtaqueRival(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarAtaqueRival(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             return Util.Probabilidad(this.activacion);
         }
 
-        public override int RealizarAccionAtaqueRival(AbstractMob ejecutor, AbstractMob victima, Sala sala, int danoRecibido)
+        public override int RealizarAccionAtaqueRival(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala, int danoRecibido)
         {
             int dano = (int)(danoRecibido * 0.7);
             danoReducido = danoRecibido - dano;
@@ -39,12 +39,12 @@ namespace SquareDungeon.Habilidades.ReducirDano
             return dano;
         }
 
-        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             return reducido;
         }
 
-        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala)
+        public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
             int dano = Util.GetDano(ejecutor, victima);
 

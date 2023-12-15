@@ -61,29 +61,29 @@ namespace SquareDungeon.Habilidades
 
         public virtual void ResetearHabilidad() { anulada = false; }
 
-        public virtual bool EjecutarPreCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarPreCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual bool EjecutarPreAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarPreAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual bool EjecutarAtaqueRival(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarAtaqueRival(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual bool EjecutarPostAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarPostAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual bool EjecutarPostCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala) => false;
+        public virtual bool EjecutarPostCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => false;
 
-        public virtual void RealizarAccionPreCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala) { }
+        public virtual void RealizarAccionPreCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) { }
 
-        public virtual void RealizarAccionPreAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) { }
+        public virtual void RealizarAccionPreAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) { }
 
-        public virtual int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) => RESULTADO_SIN_ACTIVAR;
+        public virtual int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) => RESULTADO_SIN_ACTIVAR;
 
-        public virtual int RealizarAccionAtaqueRival(AbstractMob ejecutor, AbstractMob victima, Sala sala, int danoRecibido) => danoRecibido;
+        public virtual int RealizarAccionAtaqueRival(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala, int danoRecibido) => danoRecibido;
 
-        public virtual void RealizarAccionPostAtaque(AbstractMob ejecutor, AbstractMob victima, Sala sala) { }
+        public virtual void RealizarAccionPostAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) { }
 
-        public virtual void RealizarAccionPostCombate(AbstractMob ejecutor, AbstractMob victima, Sala sala) { }
+        public virtual void RealizarAccionPostCombate(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala) { }
 
         public string GetCategoria() => this.categoria;
 

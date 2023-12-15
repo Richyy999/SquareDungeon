@@ -1,7 +1,5 @@
 ﻿using System;
 
-using SquareDungeon.Entidades.Mobs;
-
 using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
 

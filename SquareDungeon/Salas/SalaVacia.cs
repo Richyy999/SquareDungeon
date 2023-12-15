@@ -3,7 +3,7 @@ using SquareDungeon.Entidades.Mobs.Jugadores;
 
 namespace SquareDungeon.Salas
 {
-    class SalaVacia : Sala
+    class SalaVacia : AbstractSala
     {
         public SalaVacia(int x, int y) : base(x, y) { }
 

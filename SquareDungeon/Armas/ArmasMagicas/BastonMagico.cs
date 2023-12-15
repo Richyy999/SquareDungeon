@@ -17,9 +17,9 @@ namespace SquareDungeon.Armas.ArmasMagicas
 
         public override int Atacar(AbstractMob mob)
         {
-
             EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
             ejecutor.EjecutarAtaque();
+
             return base.Atacar(mob);
         }
 

@@ -35,7 +35,7 @@ namespace SquareDungeon.Modelo
             {
                 AbstractJugador jugador = (AbstractJugador)atacante;
                 AbstractArma arma = jugador.GetArmaCombate();
-                dano = arma.Atacar(victima);
+                dano = arma.GetDanoBase(victima);
 
             } else if (atacante is AbstractEnemigo)
             {

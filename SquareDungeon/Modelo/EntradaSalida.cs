@@ -11,7 +11,7 @@ using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
 using static SquareDungeon.Modelo.Partida;
-using static SquareDungeon.Salas.Sala;
+using static SquareDungeon.Salas.AbstractSala;
 
 namespace SquareDungeon.Modelo
 {
@@ -35,10 +35,10 @@ namespace SquareDungeon.Modelo
         public const int ELECCION_BARBARO = 104;
 
         private const string CASILLA_JUGADOR = " o ";
-        private const string CASILLA_COFRE = " + ";
-        private const string CASILLA_JEFE = " X ";
-        private const string CASILLA_ENEMIGO = " x ";
-        private const string CASILLA_JEFE_SIN_ABRIR = " * ";
+        private const string CASILLA_COFRE = " ? ";
+        private const string CASILLA_JEFE = " * ";
+        private const string CASILLA_ENEMIGO = " + ";
+        private const string CASILLA_JEFE_SIN_ABRIR = " x ";
         private const string CASILLA_VACIA = " \\ ";
         private const string CASILLA_SIN_VISITAR = "   ";
 
@@ -52,7 +52,7 @@ namespace SquareDungeon.Modelo
             }
             Console.WriteLine(nombre + nivel);
             Console.WriteLine(calcularBarraPV(pvIniciales, pvActuales));
-            if (mob.GetType().IsSubclassOf(typeof(AbstractJugador)))
+            if (mob is AbstractJugador)
             {
                 string pv = mob.GetStat(AbstractMob.INDICE_VIDA).ToString();
                 string pvTotal = mob.GetStat(AbstractMob.INDICE_VIDA_TOTAL).ToString();
@@ -99,7 +99,7 @@ namespace SquareDungeon.Modelo
             do
             {
                 Console.WriteLine(textoArmas);
-                string input = Console.ReadLine();
+                string input = Console.ReadLine().Trim();
                 try
                 {
                     armaElegida = int.Parse(input);
@@ -149,10 +149,10 @@ namespace SquareDungeon.Modelo
         {
             do
             {
-                Console.WriteLine("1) Atacar\n2) Utilizar objeto\n3) Hiur");
+                Console.WriteLine("1) Atacar\n2) Utilizar objeto\n3) Huir");
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
 
                     if (eleccion == 1)
@@ -200,7 +200,7 @@ namespace SquareDungeon.Modelo
                 Console.WriteLine(textoObjetos);
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
                     if (eleccion < 0 || eleccion > numObjetos)
                         Console.WriteLine("Elige un objeto dentro del rango de onjetos disponibles.");
@@ -226,7 +226,7 @@ namespace SquareDungeon.Modelo
             foreach (AbstractObjeto objeto in objetos)
             {
                 if (objeto != null)
-                    if (objeto.GetType() == typeof(LlaveJefe))
+                    if (objeto is LlaveJefe)
                         llave = (LlaveJefe)objeto;
             }
 
@@ -237,10 +237,10 @@ namespace SquareDungeon.Modelo
 
             do
             {
-                Console.WriteLine("1)Abrir sala\n2)No abrir la sala");
+                Console.WriteLine("1) Abrir sala\n2) No abrir la sala");
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
 
                     if (eleccion == 1)
@@ -265,7 +265,7 @@ namespace SquareDungeon.Modelo
                 Console.WriteLine("Esta sala contiene un cofre.\n¿Quieres abrirlo?\n1) Sí\n2) No");
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
 
                     if (eleccion == 1)
@@ -284,7 +284,7 @@ namespace SquareDungeon.Modelo
             } while (true);
         }
 
-        public static void MostrarTablero(Sala[,] tablero, int jugadorX, int jugadorY)
+        public static void MostrarTablero(AbstractSala[,] tablero, int jugadorX, int jugadorY)
         {
             Console.Clear();
             Console.WriteLine();
@@ -300,7 +300,7 @@ namespace SquareDungeon.Modelo
                         continue;
                     }
 
-                    Sala casilla = tablero[i, j];
+                    AbstractSala casilla = tablero[i, j];
                     switch (casilla.GetEstado())
                     {
                         case ESTADO_SIN_VISITAR:
@@ -348,17 +348,17 @@ namespace SquareDungeon.Modelo
             Esperar();
         }
 
-        public static void Esperar(string mensaje)
+        public static string Esperar(string mensaje)
         {
             if (mensaje.Length > 0)
                 Console.WriteLine(mensaje);
 
-            Console.ReadLine();
+            return Console.ReadLine().Trim();
         }
 
-        public static void Esperar()
+        public static string Esperar()
         {
-            Esperar("");
+            return Esperar("...");
         }
 
         public static int MenuAcciones()
@@ -369,7 +369,7 @@ namespace SquareDungeon.Modelo
                     "\n5) Menu");
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
                     switch (eleccion)
                     {
@@ -538,7 +538,7 @@ namespace SquareDungeon.Modelo
                 Console.WriteLine("1) Ver stats\n2) Ver armas\n3) Usar objeto\n4) Ver habilidades\n5) Volver");
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
                     switch (eleccion)
                     {
@@ -598,7 +598,7 @@ namespace SquareDungeon.Modelo
                     case 4:
                         linea += "Agi       ";
                         break;
-                    
+
                     case 5:
                         linea += "Hab       ";
                         break;
@@ -679,7 +679,7 @@ namespace SquareDungeon.Modelo
                 Console.WriteLine(texto);
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
                     if (eleccion < 0 || eleccion > numHabilidades)
                         Console.WriteLine("Elige un objeto dentro del rango de onjetos disponibles.");
@@ -703,7 +703,7 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para continuar");
         }
 
-        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             Console.Clear();
             Console.WriteLine(objeto.GetNombre() + " x " + objeto.GetCantidad());
@@ -714,7 +714,7 @@ namespace SquareDungeon.Modelo
             {
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     eleccion = int.Parse(input);
                     if (eleccion != 1 && eleccion != 2)
                         Console.WriteLine("Opción no válida");
@@ -753,8 +753,10 @@ namespace SquareDungeon.Modelo
             string nombre = "";
             do
             {
-                nombre = Console.ReadLine();
-            } while (nombre.Trim().Equals(""));
+                nombre = Console.ReadLine().Trim();
+                if (nombre.Length > 20)
+                    Console.WriteLine("El nombre no puede ser superior a 20 caracteres");
+            } while (nombre.Trim().Equals("") || nombre.Length > 20);
             return nombre.Trim();
         }
 
@@ -772,7 +774,7 @@ namespace SquareDungeon.Modelo
 
                 try
                 {
-                    string input = Console.ReadLine();
+                    string input = Console.ReadLine().Trim();
                     int eleccion = int.Parse(input);
                     switch (eleccion)
                     {
@@ -811,6 +813,30 @@ namespace SquareDungeon.Modelo
         public static void Clear()
         {
             Console.Clear();
+        }
+
+        public static int PreguntarNiveles()
+        {
+            Clear();
+            do
+            {
+                Console.WriteLine("Selecciona el número de pisos que deseas enfrentar");
+                Console.WriteLine("1) 1 Nivel\n2) 2 Niveles\n3) 3 Niveles\n4) 4 Niveles\n5) 5 Niveles");
+
+                try
+                {
+                    string input = Console.ReadLine().Trim();
+                    int eleccion = int.Parse(input);
+                    if (eleccion >= 1 && eleccion <= 5)
+                        return eleccion;
+                    else
+                        Console.WriteLine("Opción no válida");
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Ja ja ja, muy gracioso...");
+                }
+            } while (true);
         }
     }
 }

@@ -9,9 +9,7 @@ namespace SquareDungeon
         static void Main(string[] args)
         {
             Partida partida = new Partida();
-            partida.Jugar();
-
-            int res = partida.GetResultado();
+            int res = partida.JugarNiveles();
 
             if (res == Partida.RESULTADO_JEFE_ELIMINADO)
             {

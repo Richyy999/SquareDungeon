@@ -1,6 +1,4 @@
-﻿using System;
-using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
+﻿using SquareDungeon.Entidades.Mobs;
 
 using static SquareDungeon.Resources.Resource;
 using static SquareDungeon.Habilidades.SinHabilidad;
@@ -15,24 +13,20 @@ namespace SquareDungeon.Armas.ArmasFisicas
         public EspadaMaldita() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MALDITA, DESC_ESPADA_MALDITA, SIN_HABILIDAD)
         { }
 
+        public override int GetDanoBase(AbstractMob mob)
+        {
+            int fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
+            int ata = fue + this.dano;
+            int resEnemiga = mob.GetStatCombate(AbstractMob.INDICE_RESISTENCIA);
+            
+            return ata - resEnemiga;
+        }
+
         public override int Atacar(AbstractMob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
+            int dano = base.Atacar(mob);
 
-            double fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
-            int ata = (int)fue + this.dano;
-
-            int dano = ata - mob.GetStatCombate(AbstractMob.INDICE_RESISTENCIA);
-            int crit = 1 + portador.GetCritico();
-
-            dano *= crit;
-
-            int disminucionFue = (int)((fue *= 0.03) * -1);
-
-            portador.AlterarStatCombate(AbstractMob.INDICE_FUERZA, disminucionFue);
-
-            GastarArma();
+            // TODO habilidad que disminuya la fuerza en combate
 
             return dano;
         }

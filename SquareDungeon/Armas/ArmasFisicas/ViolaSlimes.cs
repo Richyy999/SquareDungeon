@@ -2,7 +2,7 @@
 
 using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Jugadores;
+using SquareDungeon.Habilidades;
 using SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
@@ -21,24 +21,15 @@ namespace SquareDungeon.Armas.ArmasFisicas
 
         public override int Atacar(AbstractMob mob)
         {
-            if (usos <= SIN_USOS)
-                throw new InvalidOperationException("No se puede usar un arma sin usos");
-
-            int fue = portador.GetStatCombate(AbstractMob.INDICE_FUERZA);
-            int ata = fue + this.dano;
-
-            int dano = ata - mob.GetStatCombate(AbstractMob.INDICE_DEFENSA);
-            int crit = 1 + portador.GetCritico();
-
-            dano *= crit;
+            int dano = base.Atacar(mob);
 
             EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
-            ejecutor.EjecutarAtaque();
+            int res = ejecutor.EjecutarAtaque();
+            if (res != AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
+                dano += res;
 
-            if (mob.GetType() == typeof(Slime))
+            if (mob is Slime)
                 dano *= 3;
-
-            GastarArma();
 
             return dano;
         }

@@ -42,15 +42,12 @@ namespace SquareDungeon.Modelo
                     jugador = new Guerrero(nombre, generarHabilidad());
                     EspadaHierro espadaHierro = new EspadaHierro();
                     jugador.EquiparArma(espadaHierro);
-                    espadaHierro.SetPortador(jugador);
-                    jugador.AnadirHabilidad(new Rencor());
                     break;
 
                 case EntradaSalida.ELECCION_MAGO:
                     jugador = new Mago(nombre, generarHabilidad());
                     GrimorioBasico grimorio = new GrimorioBasico();
                     jugador.EquiparArma(grimorio);
-                    grimorio.SetPortador(jugador);
                     break;
 
                 case EntradaSalida.ELECCION_PICARO:
@@ -83,15 +80,15 @@ namespace SquareDungeon.Modelo
             return jugador;
         }
 
-        public Sala[,] GenerarTablero()
+        public AbstractSala[,] GenerarTablero()
         {
             Random random = new Random();
-            Sala[,] tablero = new Sala[8, 8];
+            AbstractSala[,] tablero = new AbstractSala[8, 8];
             int numSalas = 0;
 
             // Creo una sala vacía donde aparece el jugador
             SalaVacia salaJugador = new SalaVacia(7, 0);
-            salaJugador.SetEstado(Sala.ESTADO_VISITADO);
+            salaJugador.SetEstado(AbstractSala.ESTADO_VISITADO);
             tablero[7, 0] = salaJugador;
             numSalas++;
 
@@ -128,7 +125,7 @@ namespace SquareDungeon.Modelo
             return tablero;
         }
 
-        private int[] getPosicionLibre(Sala[,] tablero)
+        private int[] getPosicionLibre(AbstractSala[,] tablero)
         {
             Random random = new Random();
 
@@ -158,7 +155,7 @@ namespace SquareDungeon.Modelo
             }
         }
 
-        private void crearSalasEnemigos(SalaEnemigo[] salas, Sala[,] tablero)
+        private void crearSalasEnemigos(SalaEnemigo[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -170,7 +167,7 @@ namespace SquareDungeon.Modelo
             }
         }
 
-        private SalaEnemigo generarSalaEnemigo(Sala[,] tablero)
+        private SalaEnemigo generarSalaEnemigo(AbstractSala[,] tablero)
         {
             Random random = new Random();
             int num = random.Next(2);
@@ -197,7 +194,7 @@ namespace SquareDungeon.Modelo
             return salaEnemigo;
         }
 
-        private void crearSalasCofre(SalaCofre[] salas, Sala[,] tablero)
+        private void crearSalasCofre(SalaCofre[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -209,7 +206,7 @@ namespace SquareDungeon.Modelo
             }
         }
 
-        public SalaCofre generarSalaCofre(Sala[,] tablero)
+        public SalaCofre generarSalaCofre(AbstractSala[,] tablero)
         {
             Random random = new Random();
             int num = random.Next(3);
@@ -376,7 +373,7 @@ namespace SquareDungeon.Modelo
             return arma;
         }
 
-        private void crearSalasVacias(SalaVacia[] salas, Sala[,] tablero)
+        private void crearSalasVacias(SalaVacia[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
             {
@@ -388,7 +385,7 @@ namespace SquareDungeon.Modelo
             }
         }
 
-        private SalaVacia generarSalasVacias(Sala[,] tablero)
+        private SalaVacia generarSalasVacias(AbstractSala[,] tablero)
         {
             int[] posicion = getPosicionLibre(tablero);
             return new SalaVacia(posicion[0], posicion[1]);

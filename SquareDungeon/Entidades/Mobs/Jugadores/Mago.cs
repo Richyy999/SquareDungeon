@@ -23,9 +23,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public override bool EquiparArma(AbstractArma arma)
         {
-            if (!arma.GetType().IsSubclassOf(typeof(AbstractArmaMagica)))
-                throw new ArgumentException("arma",
-                    $"El guerrero solo puede utilizar armas mágicas. Se ha recibido un {arma.GetType()}");
+            if (arma is not AbstractArmaMagica)
+                throw new ArgumentException("arma", $"El guerrero solo puede utilizar armas mágicas. Se ha recibido un {arma.GetType()}");
 
             for (int i = 0; i < armas.Length; i++)
             {
@@ -37,6 +36,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
                 if (armas[i] == null)
                 {
                     armas[i] = arma;
+                    arma.SetPortador(this);
                     return true;
                 }
             }

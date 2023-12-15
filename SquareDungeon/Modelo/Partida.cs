@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading;
-using System.Collections.Generic;
 
 using SquareDungeon.Salas;
 using SquareDungeon.Armas;
@@ -28,27 +27,47 @@ namespace SquareDungeon.Modelo
         public const int MOVER_IZQUIERDA = 13;
         public const int ABRIR_MENU = 14;
 
-        private Sala[,] tablero;
+        private const int DIFERENCIA_NIVEL = 10;
+
+        private AbstractSala[,] tablero;
 
         private AbstractJugador jugador;
+
+        private Fabrica fabrica;
 
         private int jugadorX;
         private int jugadorY;
         private int resultado;
+        private int nivelActual;
+        private int nivelMax;
 
         public Partida()
         {
-            jugadorX = 7;
-            jugadorY = 0;
-            resultado = RESULTADO_EN_JUEGO;
+            nivelActual = 0;
 
-            Fabrica fabrica = new Fabrica();
+            nivelMax = EntradaSalida.PreguntarNiveles();
             EntradaSalida.IndicarAvanzarDialogos();
+
+            fabrica = new Fabrica();
             jugador = fabrica.GetJugador();
-            tablero = fabrica.GenerarTablero();
         }
 
-        public void Jugar()
+        public int JugarNiveles()
+        {
+            while (nivelActual < nivelMax)
+            {
+                iniciarNivel();
+                jugar();
+                if (resultado == RESULTADO_ENEMIGO_GANA)
+                    return resultado;
+
+                nivelActual++;
+            }
+
+            return resultado;
+        }
+
+        private void jugar()
         {
             do
             {
@@ -59,32 +78,32 @@ namespace SquareDungeon.Modelo
                     case MOVER_ARRIBA:
                         if (jugadorX - 1 >= 0)
                         {
-                            Sala sala = tablero[jugadorX - 1, jugadorY];
-                            EntrarEnSala(sala, jugador);
+                            AbstractSala sala = tablero[jugadorX - 1, jugadorY];
+                            entrarEnSala(sala, jugador);
                         }
                         break;
 
                     case MOVER_ABAJO:
                         if (jugadorX + 1 < 8)
                         {
-                            Sala sala = tablero[jugadorX + 1, jugadorY];
-                            EntrarEnSala(sala, jugador);
+                            AbstractSala sala = tablero[jugadorX + 1, jugadorY];
+                            entrarEnSala(sala, jugador);
                         }
                         break;
 
                     case MOVER_DERECHA:
                         if (jugadorY + 1 < 8)
                         {
-                            Sala sala = tablero[jugadorX, jugadorY + 1];
-                            EntrarEnSala(sala, jugador);
+                            AbstractSala sala = tablero[jugadorX, jugadorY + 1];
+                            entrarEnSala(sala, jugador);
                         }
                         break;
 
                     case MOVER_IZQUIERDA:
                         if (jugadorY - 1 >= 0)
                         {
-                            Sala sala = tablero[jugadorX, jugadorY - 1];
-                            EntrarEnSala(sala, jugador);
+                            AbstractSala sala = tablero[jugadorX, jugadorY - 1];
+                            entrarEnSala(sala, jugador);
                         }
                         break;
 
@@ -133,7 +152,7 @@ namespace SquareDungeon.Modelo
             this.resultado = resultado;
         }
 
-        public int GetResultado() => resultado;
+        public int GetNivelPiso() => nivelActual * DIFERENCIA_NIVEL;
 
         public void SetPosicionJugador(int x, int y)
         {
@@ -141,7 +160,7 @@ namespace SquareDungeon.Modelo
             jugadorY = y;
         }
 
-        public int Combatir(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public int Combatir(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             int resultado;
 
@@ -268,9 +287,11 @@ namespace SquareDungeon.Modelo
 
             if (dano == AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
             {
-                EntradaSalida.MostrarAtaque(jugador, jugador.GetArmaCombate());
+                AbstractArma armaCombate = jugador.GetArmaCombate();
+                EntradaSalida.MostrarAtaque(jugador, armaCombate);
                 dano = jugador.Atacar(enemigo);
             }
+
             dano = ejecutorEnemigo.EjecutarAtaqueRival(dano);
 
             if (enemigo.Esquivar(jugador))
@@ -309,12 +330,18 @@ namespace SquareDungeon.Modelo
             return jugador.Danar(dano);
         }
 
-        private void EntrarEnSala(Sala sala, AbstractJugador jugador)
+        private void entrarEnSala(AbstractSala sala, AbstractJugador jugador)
         {
-            if (sala.GetType() == typeof(SalaJefe))
-                ((SalaJefe)sala).AbrirSala(jugador);
+            if (sala.AbrirSala(jugador))
+                sala.Entrar(this, jugador);
+        }
 
-            sala.Entrar(this, jugador);
+        private void iniciarNivel()
+        {
+            tablero = fabrica.GenerarTablero();
+            jugadorX = 7;
+            jugadorY = 0;
+            resultado = RESULTADO_EN_JUEGO;
         }
     }
 }

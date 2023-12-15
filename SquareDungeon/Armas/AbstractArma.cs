@@ -17,7 +17,7 @@ namespace SquareDungeon.Armas
 
         protected AbstractHabilidad habilidad;
 
-        protected AbstractMob portador;
+        protected AbstractJugador portador;
 
         private string nombre;
         private string descripcion;
@@ -43,33 +43,43 @@ namespace SquareDungeon.Armas
 
         public abstract int GetUsosMaximos();
 
-        public void SetPortador(AbstractMob portador)
-        {
-            if (!portador.GetType().IsSubclassOf(typeof(AbstractJugador)))
-                throw new ArgumentException("portador", "Solo los jugadores pueden ortar armas");
+        public abstract void RepararArma(int usos);
 
-            this.portador = portador;
+        public abstract int GetDanoBase(AbstractMob mob);
+
+        public virtual int Atacar(AbstractMob mob)
+        {
+            if (usos <= SIN_USOS)
+                throw new InvalidOperationException("No se puede usar un arma sin usos");
+
+            int danoBasico = GetDanoBase(mob);
+            int crit = 1 + portador.GetCritico();
+
+            GastarArma();
+
+            return danoBasico * crit;
         }
 
         public virtual void GastarArma()
         {
-            if (portador is AbstractJugador)
-            {
-                AbstractJugador portador = (AbstractJugador)this.portador;
-                usos--;
-                if (usos == SIN_USOS)
-                    portador.EliminarArma(this);
-            }
+            usos--;
+            if (usos == SIN_USOS)
+                portador.EliminarArma(this);
 
             if (usos < SIN_USOS)
                 throw new InvalidOperationException("No se puede gastar un arma sin usos");
         }
 
-        public abstract void RepararArma(int usos);
+        public void SetPortador(AbstractJugador portador)
+        {
+            this.portador = portador;
+        }
 
-        public abstract int Atacar(AbstractMob mob);
-
-        public abstract int Atacar(AbstractMob mob, int danoAdicional);
+        public int Atacar(AbstractMob mob, int danoAdicional)
+        {
+            int dano = Atacar(mob);
+            return dano + danoAdicional;
+        }
 
         public AbstractHabilidad GetHabilidad() => habilidad;
 

@@ -12,7 +12,7 @@ namespace SquareDungeon.Objetos
     {
         public PocionFuerza() : base(1, NOMBRE_POCION_FUERZA, DESC_POCION_FUERZA) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, Sala sala)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             base.RealizarAccion(jugador, enemigo, sala);
             int fueCom = jugador.GetStatCombate(AbstractMob.INDICE_FUERZA);

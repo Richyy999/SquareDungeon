@@ -365,7 +365,7 @@ namespace SquareDungeon.Entidades.Mobs
         public int GetCritico()
         {
             Random random = new Random();
-            if (random.Next(101) <= this.probCritCom)
+            if (Util.Probabilidad(this.probCritCom))
                 return this.danCritCom / 100;
             else
                 return 0;

@@ -22,8 +22,6 @@ namespace SquareDungeon.Armas.ArmasMagicas
             EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
             ejecutor.EjecutarPreCombate();
 
-            GastarArma();
-
             return base.Atacar(mob);
         }
 
