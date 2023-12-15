@@ -77,6 +77,7 @@ namespace SquareDungeon.Modelo
                     HachaHierro hachaHierro = new HachaHierro();
                     jugador.EquiparArma(hachaHierro);
                     hachaHierro.SetPortador(jugador);
+                    jugador.AnadirObjeto(new Cerveza());
                     break;
 
                 default:
@@ -287,7 +288,7 @@ namespace SquareDungeon.Modelo
         private AbstractObjeto generarObjeto()
         {
             Random random = new Random();
-            int num = random.Next(5);
+            int num = random.Next(6);
             AbstractObjeto objeto;
 
             switch (num)
