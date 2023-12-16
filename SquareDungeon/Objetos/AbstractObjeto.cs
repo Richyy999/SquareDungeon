@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SquareDungeon.Salas;
+using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
@@ -25,7 +26,7 @@ namespace SquareDungeon.Objetos
             this.descripcion = GetPropiedad(FICHERO_DESC_OBJETOS, descripcion);
         }
 
-        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             cantidad--;
             if (cantidad == 0)

@@ -132,7 +132,7 @@ namespace SquareDungeon.Modelo
                             case MENU_OBJETOS:
                                 AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
                                 if (objeto != null)
-                                    MostrarUsarObjeto(objeto, jugador, null, null);
+                                    MostrarUsarObjeto(objeto, jugador, null, null, this);
                                 if (jugador.GetObjetos()[0] == null)
                                     Thread.Sleep(1000);
 
@@ -205,7 +205,7 @@ namespace SquareDungeon.Modelo
                     if (objeto == null)
                         eleccion = ELEGIR_ARMA;
                     else
-                        objeto.RealizarAccion(jugador, enemigo, sala);
+                        objeto.RealizarAccion(jugador, enemigo, sala, this);
                 }
 
                 if (eleccion == ELEGIR_ARMA)

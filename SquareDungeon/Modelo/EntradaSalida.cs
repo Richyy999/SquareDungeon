@@ -700,7 +700,7 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para continuar");
         }
 
-        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             Console.Clear();
             Console.WriteLine(objeto.GetNombre() + " x " + objeto.GetCantidad());
@@ -725,7 +725,7 @@ namespace SquareDungeon.Modelo
             {
                 try
                 {
-                    objeto.RealizarAccion(jugador, enemigo, sala);
+                    objeto.RealizarAccion(jugador, enemigo, sala, partida);
                     if (objeto.GetCantidad() == 0)
                         Console.WriteLine($"Te quedaste sin {objeto.GetNombre()}");
                 }
