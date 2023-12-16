@@ -13,9 +13,9 @@ namespace SquareDungeon.Salas
 {
     class SalaCofre : AbstractSala
     {
-        private Cofre cofre;
+        private AbstractCofre cofre;
 
-        public SalaCofre(int x, int y, Cofre cofre) : base(x, y)
+        public SalaCofre(int x, int y, AbstractCofre cofre) : base(x, y)
         {
             this.cofre = cofre;
         }
@@ -27,100 +27,9 @@ namespace SquareDungeon.Salas
                 SetEstado(ESTADO_COFRE_SIN_ABRIR);
                 if (PreguntarAbrirCofre())
                 {
-                    SetEstado(ESTADO_VISITADO);
-                    if (cofre is CofreObjeto)
-                    {
-                        CofreObjeto cofreObjeto = (CofreObjeto)cofre;
-                        bool objetoAnadido;
-
-                        do
-                        {
-                            objetoAnadido = jugador.AnadirObjeto(cofreObjeto.AbrirCofre());
-
-                            if (!objetoAnadido)
-                            {
-                                Console.WriteLine("Tu inventario está lleno, elimina un objeto para obtener más espacio");
-                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
-                                if (objeto != null)
-                                    jugador.EliminarObjeto(objeto);
-                                else
-                                {
-                                    objetoAnadido = true;
-                                    SetEstado(ESTADO_COFRE_SIN_ABRIR);
-                                }
-                            }
-                            else
-                                MostrarObjetoConseguido(cofreObjeto.AbrirCofre());
-                        } while (!objetoAnadido);
-                    }
-                    else if (cofre is CofreLLaveJefe)
-                    {
-                        CofreLLaveJefe cofreObjeto = (CofreLLaveJefe)cofre;
-                        bool objetoAnadido;
-
-                        do
-                        {
-                            objetoAnadido = jugador.AnadirObjeto(cofreObjeto.AbrirCofre());
-
-                            if (!objetoAnadido)
-                            {
-                                Console.WriteLine("Tu inventario está lleno, elimina un objeto para obtener más espacio");
-                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
-                                if (objeto != null)
-                                    jugador.EliminarObjeto(objeto);
-                                else
-                                {
-                                    objetoAnadido = true;
-                                    SetEstado(ESTADO_COFRE_SIN_ABRIR);
-                                }
-                            }
-                            else
-                                MostrarObjetoConseguido(cofreObjeto.AbrirCofre());
-                        } while (!objetoAnadido);
-                    }
-                    else if (cofre is CofreHabilidad)
-                    {
-                        CofreHabilidad cofreHabilidad = (CofreHabilidad)cofre;
-                        AbstractHabilidad habilidad = cofreHabilidad.AbrirCofre();
-
-                        if (jugador.AnadirHabilidad(habilidad))
-                            MostrarHabilidadObtenida(habilidad);
-                        else
-                            MostrarHabilidadEquipada(habilidad);
-                    }
-                    else if (cofre is CofreArma)
-                    {
-                        CofreArma cofreArma = (CofreArma)cofre;
-                        AbstractArma arma = cofreArma.AbrirCofre();
-
-                        bool armaAnadida;
-                        do
-                        {
-                            try
-                            {
-                                armaAnadida = jugador.EquiparArma(arma);
-                                if (!armaAnadida)
-                                {
-                                    Console.WriteLine("No puedes llevar más armas, elimina una para tner espacio");
-                                    AbstractArma armaEliminar = ElegirArma(jugador.GetArmas());
-                                    if (armaEliminar != null)
-                                        jugador.EliminarArma(armaEliminar);
-                                    else
-                                    {
-                                        armaAnadida = true;
-                                        SetEstado(ESTADO_COFRE_SIN_ABRIR);
-                                    }
-                                }
-                                else
-                                    MostrarArmaConseguida(arma);
-                            }
-                            catch (ArgumentException)
-                            {
-                                armaAnadida = true;
-                                MostrarNoEquiparArma();
-                            }
-                        } while (!armaAnadida);
-                    }
+                    bool cofreAbierto = cofre.AbrirCofre(jugador, this, partida);
+                    if (cofreAbierto)
+                        SetEstado(ESTADO_VISITADO);
                 }
             }
 

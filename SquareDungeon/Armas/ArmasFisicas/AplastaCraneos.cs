@@ -8,7 +8,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
 {
     class AplastaCraneos : AbstractArmaFisica
     {
-        private const int USOS_MAX = 200;
+        private const int USOS_MAX = 20;
         private const int DANO = 8;
 
         public AplastaCraneos() : base(DANO, USOS_MAX, NOMBRE_APLASTA_CRANEOS, DESC_APLASTA_CRANEOS, SIN_HABILIDAD)

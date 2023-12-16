@@ -40,6 +40,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         protected AbstractObjeto[] objetos;
 
+        private LlaveJefe llaveJefe;
+
         protected AbstractJugador(int pv, int fue, int mag, int agi, int hab, int def, int res,
             byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte habCrec, byte defCrec, byte resCrec,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax,
@@ -228,6 +230,21 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             }
 
             this.objetos = objetos;
+        }
+
+        public LlaveJefe GetLlaveJefe() => llaveJefe;
+
+        public void SetLlaveJefe(LlaveJefe llaveJefe)
+        {
+            if (this.llaveJefe != null)
+                throw new ArgumentException("Ya posees la llave del jefe");
+
+            this.llaveJefe = llaveJefe;
+        }
+
+        public void EliminarLlaveJefe()
+        {
+            llaveJefe = null;
         }
 
         public AbstractObjeto[] GetObjetos() => objetos;

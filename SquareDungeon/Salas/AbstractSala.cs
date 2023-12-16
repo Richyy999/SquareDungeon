@@ -18,6 +18,8 @@ namespace SquareDungeon.Salas
 
         private int estado;
 
+        // TODO usar la variable Entidad
+
         protected AbstractSala(int x, int y)
         {
             this.x = x;
