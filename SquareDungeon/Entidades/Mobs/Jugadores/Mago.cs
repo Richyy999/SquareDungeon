@@ -5,20 +5,14 @@ using SquareDungeon.Armas.ArmasMagicas;
 using SquareDungeon.Habilidades;
 
 using static SquareDungeon.Resources.Resource;
-using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
     class Mago : AbstractJugador
     {
-        public Mago(string nombre, AbstractHabilidad habilidad) : base(18, 1, 8, 3, 2, 2, 3, 10, 17,
-            67, 12, 89, 68, 45, 14, 73, 60, 65,
-            55, 15, 50, 30, 30, 10, 40, 50, 125, nombre, DESC_MAGO, habilidad)
-        { }
-
-        public Mago(string nombre) : base(18, 1, 8, 3, 2, 2, 3, 10, 17,
-            67, 12, 89, 68, 45, 14, 73, 60, 65,
-            55, 15, 50, 30, 30, 10, 40, 50, 125, nombre, DESC_MAGO, SIN_HABILIDAD)
+        public Mago(string nombre, AbstractHabilidad habilidad) : base(18, 2, 4, 3, 4, 3, 4,
+            67, 12, 89, 68, 45, 14, 73,
+            55, 15, 60, 30, 30, 25, 40, nombre, DESC_MAGO, habilidad)
         { }
 
         public override bool EquiparArma(AbstractArma arma)

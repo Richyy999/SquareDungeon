@@ -10,6 +10,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
     abstract class AbstractJugador : AbstractMob
     {
+        private const int TOTAL_STATS_JUGADOR = 20;
+
         private int pvAnt;
         private int fueAnt;
         private int magAnt;
@@ -38,14 +40,12 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         protected AbstractObjeto[] objetos;
 
-        protected AbstractJugador(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
+        protected AbstractJugador(int pv, int fue, int mag, int agi, int hab, int def, int res,
             byte pvCrec, byte fueCrec, byte magCrec, byte agiCrec, byte habCrec, byte defCrec, byte resCrec,
-            byte probCritCrec, byte danCritCrec,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax,
-            int probCritMax, int danCritMax,
             string nombre, string descripcion, AbstractHabilidad habilidad) :
-            base(pv, fue, mag, agi, hab, def, res, probCrit, danCrit,
-                pvMax, fueMax, magMax, agiMax, habMax, defMax, resMax, probCritMax, danCritMax, nombre, descripcion)
+            base(pv, fue, mag, agi, hab, def, res, 5, 50,
+                pvMax, fueMax, magMax, agiMax, habMax, defMax, resMax, 100, 200, nombre, descripcion, TOTAL_STATS_JUGADOR)
         {
             this.pvCrec = pvCrec;
             this.fueCrec = fueCrec;
@@ -54,8 +54,8 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             this.habCrec = habCrec;
             this.defCrec = defCrec;
             this.resCrec = resCrec;
-            this.probCritCrec = probCritCrec;
-            this.danCritCrec = danCritCrec;
+            this.probCritCrec = 30;
+            this.danCritCrec = 70;
 
             pvAnt = pv;
             fueAnt = fue;

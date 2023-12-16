@@ -53,11 +53,15 @@ namespace SquareDungeon.Armas
                 throw new InvalidOperationException("No se puede usar un arma sin usos");
 
             int danoBasico = GetDanoBase(mob);
-            int crit = 1 + portador.GetCritico();
+            double crit = 1 + portador.GetCritico();
+
+            int dano = (int)(danoBasico * crit);
+            if (dano <= 0)
+                dano = 1;
 
             GastarArma();
 
-            return danoBasico * crit;
+            return dano;
         }
 
         public virtual void GastarArma()

@@ -4,6 +4,8 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
 {
     abstract class AbstractEnemigo : AbstractMob
     {
+        private const int TOTAL_STATS_ENEMIGO = 16;
+
         protected AbstractObjeto drop;
 
         private int dropExp;
@@ -12,7 +14,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax, int probCritMax, int danCritMax,
             string nombre, string descripcion, int dropExp, AbstractObjeto drop) :
             base(pv, fue, mag, agi, hab, def, res, probCrit, danCrit,
-                pvMax, fueMax, magMax, agiMax, habMax, defMax, resMax, probCritMax, danCritMax, nombre, descripcion)
+                pvMax, fueMax, magMax, agiMax, habMax, defMax, resMax, probCritMax, danCritMax, nombre, descripcion, TOTAL_STATS_ENEMIGO)
         {
             this.dropExp = dropExp;
 
@@ -27,9 +29,13 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             if (dano < 0)
                 dano = 0;
 
-            int crit = 1 + GetCritico();
+            double crit = 1 + GetCritico();
 
-            dano *= crit;
+            dano = (int)(dano * crit);
+
+            if (dano <= 0)
+                dano = 1;
+
             return dano;
         }
 

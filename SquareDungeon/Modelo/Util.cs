@@ -45,5 +45,17 @@ namespace SquareDungeon.Modelo
 
             return dano;
         }
+
+        public static int Sumar(params int[] numeros)
+        {
+            int res = 0;
+
+            foreach (int numero in numeros)
+            {
+                res += numero;
+            }
+
+            return res;
+        }
     }
 }

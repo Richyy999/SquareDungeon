@@ -1,5 +1,4 @@
-﻿using System;
-using SquareDungeon.Objetos;
+﻿using SquareDungeon.Objetos;
 
 using static SquareDungeon.Resources.Resource;
 

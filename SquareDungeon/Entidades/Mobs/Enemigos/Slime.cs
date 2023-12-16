@@ -16,8 +16,8 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             int ata = (int)(magCom * 1.2);
 
             int dano = ata - jugador.GetStatCombate(INDICE_RESISTENCIA);
-            if (dano < 0)
-                dano = 0;
+            if (dano <= 0)
+                dano = 1;
 
             return dano;
         }

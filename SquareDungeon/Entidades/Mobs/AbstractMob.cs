@@ -59,7 +59,7 @@ namespace SquareDungeon.Entidades.Mobs
 
         protected AbstractMob(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax, int probCritMax, int danCritMax,
-            string nombre, string descripcion) : base(nombre, descripcion)
+            string nombre, string descripcion, int statsMaximos) : base(nombre, descripcion)
         {
             this.pv = pv;
             this.pvTotal = pv;
@@ -95,6 +95,8 @@ namespace SquareDungeon.Entidades.Mobs
             this.exp = 0;
 
             this.habilidades = new List<AbstractHabilidad>();
+
+            validarStats(statsMaximos);
         }
 
         public virtual int[] GetStats() => new int[] { pvTotal, pv, fue, mag, agi, hab, def, res, probCrit, danCrit, exp, nivel };
@@ -364,7 +366,6 @@ namespace SquareDungeon.Entidades.Mobs
 
         public int GetCritico()
         {
-            Random random = new Random();
             if (Util.Probabilidad(this.probCritCom))
                 return this.danCritCom / 100;
             else
@@ -374,11 +375,16 @@ namespace SquareDungeon.Entidades.Mobs
         public bool Danar(int dano)
         {
             if (dano < 0)
-                throw new ArgumentException("dano", "EL daño no puede ser inferior a 0");
+                throw new ArgumentException("El daño no puede ser inferior a 0");
 
             this.pv -= dano;
 
-            return this.pv <= 0;
+            bool muerto = this.pv <= 0;
+
+            if (this.pv < 0)
+                this.pv = 0;
+
+            return muerto;
         }
 
         public bool Esquivar(AbstractMob atacante)
@@ -480,10 +486,15 @@ namespace SquareDungeon.Entidades.Mobs
 
         protected bool puedeSubirStat(byte statCrec)
         {
-            Random random = new Random();
-            int num = random.Next(101);
+            return Util.Probabilidad(statCrec);
+        }
 
-            return num <= statCrec;
+        private void validarStats(int statsMaximos)
+        {
+            int total = Util.Sumar(fue, mag, agi, hab, def, res);
+
+            if (total > statsMaximos)
+                throw new InvalidOperationException($"El valor de los stats iniciales ({total}) son más altos de lo permitido ({statsMaximos})");
         }
     }
 }

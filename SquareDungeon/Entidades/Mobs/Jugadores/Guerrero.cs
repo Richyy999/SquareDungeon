@@ -4,20 +4,15 @@ using SquareDungeon.Armas.ArmasFisicas;
 using SquareDungeon.Habilidades;
 
 using static SquareDungeon.Resources.Resource;
-using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Entidades.Mobs.Jugadores
 {
     class Guerrero : AbstractJugador
     {
-        public Guerrero(string nombre, AbstractHabilidad habilidad) : base(20, 4, 1, 2, 2, 3, 1, 10, 15,
-            75, 80, 5, 50, 50, 60, 10, 20, 40,
-            60, 55, 15, 35, 40, 40, 20, 40, 100, nombre, DESC_GUERRERO, habilidad)
-        { }
-
-        public Guerrero(string nombre) : base(20, 4, 1, 2, 2, 3, 1, 10, 15,
-            75, 80, 5, 50, 50, 60, 10, 20, 40,
-            60, 55, 15, 35, 40, 40, 20, 40, 100, nombre, DESC_GUERRERO, SIN_HABILIDAD)
+        public Guerrero(string nombre, AbstractHabilidad habilidad) : base(20, 4, 2, 3, 3, 4, 3,
+            75, 80, 5, 50, 60, 60, 35,
+            60, 55, 15, 35, 40, 45, 30,
+            nombre, DESC_GUERRERO, habilidad)
         { }
 
         public override bool EquiparArma(AbstractArma arma)
