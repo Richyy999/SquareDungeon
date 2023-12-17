@@ -1,7 +1,7 @@
 ﻿using SquareDungeon.Entidades.Mobs;
-
 using static SquareDungeon.Resources.Resource;
-using static SquareDungeon.Habilidades.SinHabilidad;
+using SquareDungeon.Modelo;
+using SquareDungeon.Habilidades.ReducirStats;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
@@ -10,7 +10,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
         private const int USOS_MAX = 25;
         private const int DANO = 8;
 
-        public EspadaMaldita() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MALDITA, DESC_ESPADA_MALDITA, SIN_HABILIDAD)
+        public EspadaMaldita() : base(DANO, USOS_MAX, NOMBRE_ESPADA_MALDITA, DESC_ESPADA_MALDITA, new Corrupcion())
         { }
 
         public override int GetDanoBase(AbstractMob mob)
@@ -26,7 +26,7 @@ namespace SquareDungeon.Armas.ArmasFisicas
         {
             int dano = base.Atacar(mob);
 
-            // TODO habilidad que disminuya la fuerza en combate
+            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, portador, this.habilidad);
 
             return dano;
         }

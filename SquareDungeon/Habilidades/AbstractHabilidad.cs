@@ -22,6 +22,7 @@ namespace SquareDungeon.Habilidades
             public const string DANO_ADICOINAL_STAT_EJECUTOR = "danoAdicionalEjecutor";
             public const string DOBLE_GOLPE = "dobleGolpe";
             public const string CONTRA_ATAQUE = "contraataque";
+            public const string REDUCIR_STATS = "reducirStats";
         }
 
         public const int PRIORIDAD_MAXIMA = 5;

@@ -16,6 +16,7 @@ using SquareDungeon.Habilidades.DanoAdicional.StatEjecutor;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
+using SquareDungeon.Habilidades.ReducirStats;
 
 namespace SquareDungeon.Modelo
 {
@@ -343,6 +344,7 @@ namespace SquareDungeon.Modelo
                     default:
                         throw new IndexOutOfRangeException("El índice de crear armas está fuera del rango");
                 }
+
             }
             else
             {
