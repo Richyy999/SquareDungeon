@@ -49,18 +49,12 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_VIOLA_SLIMES = "violaSlimes";
         public const string NOMBRE_ESPADA_MALDITA = "espadaMaldita";
         public const string NOMBRE_APLASTA_CRANEOS = "aplastaCraneos";
-        public const string NOMBRE_DAGA_HIERRO = "dagaHierro";
-        public const string NOMBRE_HACHA_HIERRO = "hachaHierro";
-        public const string NOMBRE_ARCO_CORTO = "arcoCorto";
-        public const string NOMBRE_LANZA_HIERRO = "lanzaHierro";
 
         // Nombre armas mágicas
         public const string NOMBRE_GRIMORIO_BASICO = "grimBasico";
         public const string NOMBRE_BASTON_MAGICO = "bastonMagico";
         public const string NOMBRE_ESPADA_MAGICA = "espadaMagica";
         public const string NOMBRE_GRIMORIO_LETAL = "grimLetal";
-        public const string NOMBRE_ESPADA_ELFICA = "espadaElfica";
-        public const string NOMBRE_ESPADA_TRUENO = "espadaTrueno";
 
         // Nombre objetos
         public const string NOMBRE_LLAVE_JEFE = "llaveJefe";
@@ -108,18 +102,12 @@ namespace SquareDungeon.Resources
         public const string DESC_VIOLA_SLIMES = "violaSlimes";
         public const string DESC_ESPADA_MALDITA = "espadaMaldita";
         public const string DESC_APLASTA_CRANEOS = "aplastaCraneos";
-        public const string DESC_DAGA_HIERRO = "dagaHierro";
-        public const string DESC_HACHA_HIERRO = "hachaHierro";
-        public const string DESC_ARCO_CORTO = "arcoCorto";
-        public const string DESC_LANZA_HIERRO = "lanzaHierro";
 
         // Descripción armas mágicas
         public const string DESC_GRIMORIO_BASICO = "grimBasico";
         public const string DESC_BASTON_MAGICO = "bastonMagico";
         public const string DESC_ESPADA_MAGICA = "espadaMagica";
         public const string DESC_GRIMORIO_LETAL = "grimLetal";
-        public const string DESC_ESPADA_ELFICA = "espadaElfica";
-        public const string DESC_ESPADA_TRUENO = "espadaTrueno";
 
         // Descripción objetos
         public const string DESC_LLAVE_JEFE = "llaveJefe";

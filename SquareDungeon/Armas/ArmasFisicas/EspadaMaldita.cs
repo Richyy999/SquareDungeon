@@ -26,7 +26,8 @@ namespace SquareDungeon.Armas.ArmasFisicas
         {
             int dano = base.Atacar(mob);
 
-            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, portador, this.habilidad);
+            EjecutorHabilidades ejecutor = new EjecutorHabilidades(this.portador, mob, this.habilidad);
+            ejecutor.EjecutarPreAtaque();
 
             return dano;
         }
