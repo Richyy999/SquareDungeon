@@ -48,6 +48,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_VIOLA_SLIMES = "violaSlimes";
         public const string NOMBRE_ESPADA_MALDITA = "espadaMaldita";
         public const string NOMBRE_APLASTA_CRANEOS = "aplastaCraneos";
+        public const string NOMBRE_JABALINA = "jabalina";
 
         // Nombre armas mágicas
         public const string NOMBRE_GRIMORIO_BASICO = "grimBasico";
@@ -97,6 +98,7 @@ namespace SquareDungeon.Resources
         public const string DESC_VIOLA_SLIMES = "violaSlimes";
         public const string DESC_ESPADA_MALDITA = "espadaMaldita";
         public const string DESC_APLASTA_CRANEOS = "aplastaCraneos";
+        public const string DESC_JABALINA = "jabalina";
 
         // Descripción armas mágicas
         public const string DESC_GRIMORIO_BASICO = "grimBasico";
