@@ -19,19 +19,34 @@ using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
 
 namespace SquareDungeon.Modelo
 {
+    /// <summary>
+    /// Clase encargada de generar las instancias durante la ejecución del juego
+    /// </summary>
     class Fabrica
     {
         private const int NUMERO_SALAS_MAXIMO = 64;
 
         private AbstractJugador jugador;
 
+        /// <summary>
+        /// Constructor de la clase. Crea al jugador
+        /// </summary>
         public Fabrica()
         {
             jugador = generarJugador();
         }
 
+        /// <summary>
+        /// Devuelve al jugador
+        /// </summary>
+        /// <returns><see cref="AbstractJugador"/></returns>
         public AbstractJugador GetJugador() => jugador;
 
+        /// <summary>
+        /// Genera el personaje del jugador en función de su elección
+        /// </summary>
+        /// <returns><see cref="AbstractJugador"/></returns>
+        /// <exception cref="ArgumentException">Lanza una excepción si se elige un personaje que no existe</exception>
         private AbstractJugador generarJugador()
         {
             string nombre = EntradaSalida.PedirNombre();
@@ -40,8 +55,10 @@ namespace SquareDungeon.Modelo
             {
                 case EntradaSalida.ELECCION_GUERRERO:
                     jugador = new Guerrero(nombre, generarHabilidad());
-                    EspadaHierro espadaHierro = new EspadaHierro();
-                    jugador.EquiparArma(espadaHierro);
+                    jugador.EquiparArma(new EspadaHierro());
+                    jugador.EquiparArma(new ViolaSlimes());
+                    jugador.EquiparArma(new AplastaCraneos());
+                    jugador.EquiparArma(new EspadaMaldita());
                     break;
 
                 case EntradaSalida.ELECCION_MAGO:
@@ -56,6 +73,10 @@ namespace SquareDungeon.Modelo
             return jugador;
         }
 
+        /// <summary>
+        /// Genera el tablero y su contenido
+        /// </summary>
+        /// <returns>Tablero de juego</returns>
         public AbstractSala[,] GenerarTablero()
         {
             Random random = new Random();
@@ -101,6 +122,11 @@ namespace SquareDungeon.Modelo
             return tablero;
         }
 
+        /// <summary>
+        /// Devuelve coordenadas del tablero que estén vacías
+        /// </summary>
+        /// <param name="tablero">Tablero de juego</param>
+        /// <returns>Array con las coordenadas x e y respectivamente</returns>
         private int[] getPosicionLibre(AbstractSala[,] tablero)
         {
             Random random = new Random();
@@ -116,6 +142,10 @@ namespace SquareDungeon.Modelo
             return posicion;
         }
 
+        /// <summary>
+        /// Genera el jefe del nivel
+        /// </summary>
+        /// <returns><see cref="AbstractJefe"/></returns>
         private AbstractJefe generarJefe()
         {
             Random random = new Random();
@@ -131,6 +161,11 @@ namespace SquareDungeon.Modelo
             }
         }
 
+        /// <summary>
+        /// Genera las salas de enemigos
+        /// </summary>
+        /// <param name="salas"><see cref="SalaEnemigo"/> del tablero</param>
+        /// <param name="tablero">Tablero de juego</param>
         private void crearSalasEnemigos(SalaEnemigo[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
@@ -143,6 +178,12 @@ namespace SquareDungeon.Modelo
             }
         }
 
+        /// <summary>
+        /// Genera una <see cref="SalaEnemigo"/>
+        /// </summary>
+        /// <param name="tablero">Tablero de juego</param>
+        /// <returns><see cref="SalaEnemigo"/></returns>
+        /// <exception cref="IndexOutOfRangeException">Lanza una excepción si se genera un enemigo que no existe</exception>
         private SalaEnemigo generarSalaEnemigo(AbstractSala[,] tablero)
         {
             Random random = new Random();
@@ -170,6 +211,11 @@ namespace SquareDungeon.Modelo
             return salaEnemigo;
         }
 
+        /// <summary>
+        /// Genera las salas de cofres
+        /// </summary>
+        /// <param name="salas"><see cref="SalaCofre"/> del tablero</param>
+        /// <param name="tablero">Tablero de juego</param>
         private void crearSalasCofre(SalaCofre[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
@@ -182,12 +228,18 @@ namespace SquareDungeon.Modelo
             }
         }
 
+        /// <summary>
+        /// Genera una <see cref="SalaCofre"/>
+        /// </summary>
+        /// <param name="tablero">Tablero de juego</param>
+        /// <returns><see cref="SalaCofre"/></returns>
+        /// <exception cref="IndexOutOfRangeException">Lanza una excepción si se genera un cofre que no existe</exception>
         public SalaCofre generarSalaCofre(AbstractSala[,] tablero)
         {
             Random random = new Random();
             int num = random.Next(3);
 
-            Cofre cofre;
+            AbstractCofre cofre;
             switch (num)
             {
                 case 0:
@@ -212,6 +264,11 @@ namespace SquareDungeon.Modelo
             return salaCofre;
         }
 
+        /// <summary>
+        /// Genera una habilidad de forma aleatoria
+        /// </summary>
+        /// <returns><see cref="AbstractHabilidad"/></returns>
+        /// <exception cref="IndexOutOfRangeException">Lanza una excepción si se genera una habilidad que no existe</exception>
         private AbstractHabilidad generarHabilidad()
         {
             Random random = new Random();
@@ -255,6 +312,11 @@ namespace SquareDungeon.Modelo
             return habilidad;
         }
 
+        /// <summary>
+        /// Genera un objeto de forma aleatoria
+        /// </summary>
+        /// <returns><see cref="AbstractObjeto"/></returns>
+        /// <exception cref="IndexOutOfRangeException">Lanza una excepción si se genera un objeto que no existe</exception>
         private AbstractObjeto generarObjeto()
         {
             Random random = new Random();
@@ -290,6 +352,11 @@ namespace SquareDungeon.Modelo
             return objeto;
         }
 
+        /// <summary>
+        /// Genera un arma según el tipo de arma del jugador
+        /// </summary>
+        /// <returns><see cref="AbstractArma"/></returns>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         private AbstractArma generarArma()
         {
             AbstractArma arma;
@@ -349,6 +416,11 @@ namespace SquareDungeon.Modelo
             return arma;
         }
 
+        /// <summary>
+        /// Genera salas vacías
+        /// </summary>
+        /// <param name="salas"><see cref="SalaVacia"/> del tablero</param>
+        /// <param name="tablero">Tablero de juego</param>
         private void crearSalasVacias(SalaVacia[] salas, AbstractSala[,] tablero)
         {
             for (int i = 0; i < salas.Length; i++)
@@ -361,6 +433,11 @@ namespace SquareDungeon.Modelo
             }
         }
 
+        /// <summary>
+        /// Genera una sala vacía
+        /// </summary>
+        /// <param name="tablero">Tablero de juego</param>
+        /// <returns><see cref="SalaVacia"/></returns>
         private SalaVacia generarSalasVacias(AbstractSala[,] tablero)
         {
             int[] posicion = getPosicionLibre(tablero);

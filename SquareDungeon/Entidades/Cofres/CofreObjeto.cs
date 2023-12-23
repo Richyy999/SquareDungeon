@@ -4,7 +4,10 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Entidades.Cofres
 {
-    class CofreObjeto : Cofre
+    /// <summary>
+    /// ofre que contiene un <see cref="AbstractObjeto">objeto</see>
+    /// </summary>
+    class CofreObjeto : AbstractCofre
     {
         public CofreObjeto(AbstractObjeto objeto) : base(NOMBRE_COFRE_OBJETO, DESC_COFRE_OBJETO, objeto) { }
 

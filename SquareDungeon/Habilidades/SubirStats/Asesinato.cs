@@ -5,6 +5,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.SubirStats
 {
+    /// <summary>
+    /// Aumenta la probabilidad de crítico del ejecutor
+    /// </summary>
     class Asesinato : AbstractSubirStats
     {
         public Asesinato() : base(PRIORIDAD_MAXIMA, NOMBRE_ASESINATO, DESC_ASESINATO, Categorias.SUBIR_STATS)

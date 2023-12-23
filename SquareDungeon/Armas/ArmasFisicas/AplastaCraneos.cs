@@ -6,9 +6,12 @@ using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
+    /// <summary>
+    /// Arma que duplica el daño si el enemigo es un <see cref="Esqueleto"/>
+    /// </summary>
     class AplastaCraneos : AbstractArmaFisica
     {
-        private const int USOS_MAX = 200;
+        private const int USOS_MAX = 20;
         private const int DANO = 8;
 
         public AplastaCraneos() : base(DANO, USOS_MAX, NOMBRE_APLASTA_CRANEOS, DESC_APLASTA_CRANEOS, SIN_HABILIDAD)

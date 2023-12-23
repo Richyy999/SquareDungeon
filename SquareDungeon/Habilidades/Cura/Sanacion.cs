@@ -4,6 +4,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.Cura
 {
+    /// <summary>
+    /// Sana al ejecutor de la habilidad un 30% de su vida máxima
+    /// </summary>
     class Sanacion : AbstractSanacion
     {
         public Sanacion() : base(50, PRIORIDAD_MAXIMA, NOMBRE_SANACION, DESC_SANACION, Categorias.CURAR)

@@ -8,6 +8,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
+    /// <summary>
+    /// Objeto que aumenta la fuerza del jugador en combate
+    /// </summary>
     class PocionFuerza : AbstractObjeto
     {
         public PocionFuerza() : base(1, NOMBRE_POCION_FUERZA, DESC_POCION_FUERZA) { }

@@ -5,6 +5,9 @@ using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
+    /// <summary>
+    /// Espada que calcula el daño en función de la resistencia mágica del enemigo.<br/>Reduce la fuerza de su <see cref="AbstractArma.portador">portador</see>
+    /// </summary>
     class EspadaMaldita : AbstractArmaFisica
     {
         private const int USOS_MAX = 25;

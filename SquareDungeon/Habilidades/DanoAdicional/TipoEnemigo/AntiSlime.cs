@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo
 {
+    /// <summary>
+    /// Triplica el daño infligido a <see cref="Slime">slimes</see>
+    /// </summary>
     class AntiSlime : AbstractHabilidad
     {
         public AntiSlime() : base(30, PRIORIDAD_MEDIA, NOMBRE_ANTI_SLIME, DESC_ANTI_SLIME, Categorias.DANO_ADICIONAL_TIPO_ENEMIGO) { }

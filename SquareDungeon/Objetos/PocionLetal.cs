@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
+    /// <summary>
+    /// Objeto que aumenta el daño crítico del jugador en combate
+    /// </summary>
     class PocionLetal : AbstractObjeto
     {
         public PocionLetal() : base(1, NOMBRE_POCION_LETAL, DESC_POCION_LETAL) { }

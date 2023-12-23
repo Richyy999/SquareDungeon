@@ -13,6 +13,9 @@ using static SquareDungeon.Modelo.EntradaSalida;
 
 namespace SquareDungeon.Modelo
 {
+    /// <summary>
+    /// Clase con los datos y la lógica de la partida
+    /// </summary>
     class Partida
     {
         public const int RESULTADO_JUGADOR_GANA = 0;
@@ -29,18 +32,45 @@ namespace SquareDungeon.Modelo
 
         private const int DIFERENCIA_NIVEL = 10;
 
+        /// <summary>
+        /// Tablero de juego
+        /// </summary>
         private AbstractSala[,] tablero;
 
+        /// <summary>
+        /// Personaje del jugador
+        /// </summary>
         private AbstractJugador jugador;
 
+        /// <summary>
+        /// Fábrica de objetos
+        /// </summary>
         private Fabrica fabrica;
 
+        /// <summary>
+        /// Coordenada X del jugador
+        /// </summary>
         private int jugadorX;
+        /// <summary>
+        /// Coordenada Y del jugador
+        /// </summary>
         private int jugadorY;
+        /// <summary>
+        /// Resultado de la partida
+        /// </summary>
         private int resultado;
+        /// <summary>
+        /// Piso en el que se encuentra el jugador.
+        /// </summary>
         private int nivelActual;
+        /// <summary>
+        /// Número de pisos necesarios para ganar la partida
+        /// </summary>
         private int nivelMax;
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
         public Partida()
         {
             nivelActual = 0;
@@ -52,6 +82,10 @@ namespace SquareDungeon.Modelo
             jugador = fabrica.GetJugador();
         }
 
+        /// <summary>
+        /// Inicia la partida desde el nivel actual hasta el nivel máximo
+        /// </summary>
+        /// <returns><see cref="resultado"/> de la partida</returns>
         public int JugarNiveles()
         {
             while (nivelActual < nivelMax)
@@ -67,6 +101,9 @@ namespace SquareDungeon.Modelo
             return resultado;
         }
 
+        /// <summary>
+        /// Contiene toda la lógica de un nivel del juego
+        /// </summary>
         private void jugar()
         {
             do
@@ -143,6 +180,11 @@ namespace SquareDungeon.Modelo
             } while (resultado == RESULTADO_EN_JUEGO);
         }
 
+        /// <summary>
+        /// Establece el resultado de la partida
+        /// </summary>
+        /// <param name="resultado"><see cref="resultado"/></param>
+        /// <exception cref="ArgumentOutOfRangeException">Lanza una excepción si se establece un resultado erróneo</exception>
         public void SetResultado(int resultado)
         {
             if (resultado < 0 || resultado > 3)
@@ -152,14 +194,30 @@ namespace SquareDungeon.Modelo
             this.resultado = resultado;
         }
 
+        /// <summary>
+        /// Devuelve el nivel mínimo de los enemigos en función del piso en el que se encuentren
+        /// </summary>
+        /// <returns>nivel mínimo de los enemigos</returns>
         public int GetNivelPiso() => nivelActual * DIFERENCIA_NIVEL;
 
+        /// <summary>
+        /// Establece la posición del jugador en el tablero
+        /// </summary>
+        /// <param name="x">Coordenada X del jugador</param>
+        /// <param name="y">Coordenada Y del jugador</param>
         public void SetPosicionJugador(int x, int y)
         {
             jugadorX = x;
             jugadorY = y;
         }
 
+        /// <summary>
+        /// Contiene toda la lógica del combate
+        /// </summary>
+        /// <param name="jugador">Personaje del jugador</param>
+        /// <param name="enemigo"><see cref="AbstractEnemigo">Enemigo</see> al que se enfrenta el jugador</param>
+        /// <param name="sala"><see cref="SalaEnemigo">Sala</see> en la que se libra el combate</param>
+        /// <returns>resultado del combate</returns>
         public int Combatir(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             int resultado;
@@ -281,6 +339,14 @@ namespace SquareDungeon.Modelo
             return resultado;
         }
 
+        /// <summary>
+        /// Contiene toda la lógica empleada en el ataque del <see cref="jugador"/> al <see cref="AbstractEnemigo">enemigo</see>
+        /// </summary>
+        /// <param name="jugador"><see cref="jugador"/></param>
+        /// <param name="enemigo"><see cref="AbstractEnemigo">enemigo</see> al que se enfrenta el jugador</param>
+        /// <param name="ejecutorJugador"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del jugador</param>
+        /// <param name="ejecutorEnemigo"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del enemigo</param>
+        /// <returns>resultado del combate</returns>
         private int ataqueJugador(AbstractJugador jugador, AbstractEnemigo enemigo, EjecutorHabilidades ejecutorJugador, EjecutorHabilidades ejecutorEnemigo)
         {
             int dano = ejecutorJugador.EjecutarAtaque();
@@ -307,6 +373,14 @@ namespace SquareDungeon.Modelo
             return enemigo.Danar(dano) ? RESULTADO_JUGADOR_GANA : RESULTADO_EN_JUEGO;
         }
 
+        /// <summary>
+        /// Contiene toda la lógica empleada en el ataque del <see cref="AbstractEnemigo">enemigo</see> al <see cref="jugador"/>
+        /// </summary>
+        /// <param name="jugador"><see cref="jugador"/></param>
+        /// <param name="enemigo"><see cref="AbstractEnemigo">enemigo</see> al que se enfrenta el jugador</param>
+        /// <param name="ejecutorJugador"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del jugador</param>
+        /// <param name="ejecutorEnemigo"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del enemigo</param>
+        /// <returns>true si el jugador ha sido derrotado, false en caso contrario</returns>
         private bool atacarEnemigo(AbstractEnemigo enemigo, AbstractJugador jugador, EjecutorHabilidades ejecutorEnemigo, EjecutorHabilidades ejecutorJugador)
         {
             int dano = ejecutorEnemigo.EjecutarAtaque();
@@ -330,12 +404,20 @@ namespace SquareDungeon.Modelo
             return jugador.Danar(dano);
         }
 
+        /// <summary>
+        /// Realiza la lógica necesaria cuando un jugador entra en una sala
+        /// </summary>
+        /// <param name="sala"><see cref="AbstractSala">Sala</see> en la que entra el jugador</param>
+        /// <param name="jugador"><see cref="jugador"/></param>
         private void entrarEnSala(AbstractSala sala, AbstractJugador jugador)
         {
             if (sala.AbrirSala(jugador))
                 sala.Entrar(this, jugador);
         }
 
+        /// <summary>
+        /// Establece los valores iniciales al acceder a un nivel
+        /// </summary>
         private void iniciarNivel()
         {
             tablero = fabrica.GenerarTablero();

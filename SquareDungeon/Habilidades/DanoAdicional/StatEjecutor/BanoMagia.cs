@@ -6,6 +6,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.DanoAdicional.StatEjecutor
 {
+    /// <summary>
+    /// Aumenta el daño en función de la magia del ejecutor
+    /// </summary>
     class BanoMagia : AbstractHabilidad
     {
         public BanoMagia() : base(40, PRIORIDAD_MEDIA, NOMBRE_BANO_MAGIA, DESC_BANO_MAGIA, Categorias.DANO_ADICOINAL_STAT_EJECUTOR)

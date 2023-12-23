@@ -1,16 +1,14 @@
 ﻿using SquareDungeon.Modelo;
 using SquareDungeon.Salas;
 using SquareDungeon.Entidades.Mobs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.ReducirDano
 {
+    /// <summary>
+    /// Reduce el daño infligido al ejecutor e incrementa al daño de su siguiente ataque en función al daño reducido
+    /// </summary>
     class Rencor : AbstractHabilidad
     {
         private int danoReducido;

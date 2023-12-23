@@ -1,13 +1,13 @@
 ﻿using SquareDungeon.Modelo;
-using SquareDungeon.Armas;
 using SquareDungeon.Entidades.Mobs;
-using SquareDungeon.Entidades.Mobs.Enemigos;
-using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Salas;
 using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.DobleGolpe
 {
+    /// <summary>
+    /// El ejecutor de la habilidad ataca dos veces
+    /// </summary>
     class DosPorUno : AbstractHabilidad
     {
 
@@ -25,21 +25,20 @@ namespace SquareDungeon.Habilidades.DobleGolpe
 
         public override int RealizarAccionAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
-            int dano = 0;
-            if (ejecutor is AbstractJugador)
-            {
-                dano += Util.GetDano(ejecutor, victima);
-                // TODO añadir mecánica de esquivar
-                dano += Util.GetDano(ejecutor, victima);
-            }
-            else if (ejecutor is AbstractEnemigo)
-            {
-                dano += Util.GetDano(ejecutor, victima);
-                // TODO añadir mecánica de esquivar
-                dano += Util.GetDano(ejecutor, victima);
-            }
+            int danoTotal = 0;
+            int dano = Util.GetDano(ejecutor, victima);
+            if (victima.Esquivar(ejecutor))
+                EntradaSalida.MostrarEsquivar(victima, ejecutor);
+            else
+                danoTotal += dano;
 
-            return dano;
+            dano = Util.GetDano(ejecutor, victima);
+            if (victima.Esquivar(ejecutor))
+                EntradaSalida.MostrarEsquivar(victima, ejecutor);
+            else
+                danoTotal += dano;
+
+            return danoTotal;
         }
     }
 }

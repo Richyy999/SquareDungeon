@@ -5,6 +5,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
+    /// <summary>
+    /// Espada básica
+    /// </summary>
     class EspadaHierro : AbstractArmaFisica
     {
         private const int USOS_MAX = 50;

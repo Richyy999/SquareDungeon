@@ -5,6 +5,9 @@ using static SquareDungeon.Habilidades.SinHabilidad;
 
 namespace SquareDungeon.Armas.ArmasMagicas
 {
+    /// <summary>
+    /// Grimorio básico
+    /// </summary>
     class GrimorioBasico : AbstractArmaMagica
     {
         private const int USOS_MAX = 50;

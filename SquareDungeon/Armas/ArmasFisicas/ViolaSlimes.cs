@@ -10,6 +10,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Armas.ArmasFisicas
 {
+    /// <summary>
+    /// Espada efectiva contra <see cref="Slime">slimes</see> que triplica el daño contra estos enemigos.<br/>Posee la habilidad <see cref="Habilidades.DanoAdicional.TipoEnemigo.AntiSlime">Anti slime</see>
+    /// </summary>
     class ViolaSlimes : AbstractArmaFisica
     {
         private const int USOS_MAX = 20;

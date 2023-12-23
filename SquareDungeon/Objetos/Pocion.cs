@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
+    /// <summary>
+    /// Objeto que restaura la salud del jugador
+    /// </summary>
     class Pocion : AbstractObjeto
     {
         public Pocion() : base(1, NOMBRE_POCION, DESC_POCION) { }

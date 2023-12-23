@@ -8,6 +8,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Armas.ArmasMagicas
 {
+    /// <summary>
+    /// Grimorio capaz de aumentar la probabilidad de crítico de su <see cref="AbstractArma.portador">portador</see>
+    /// </summary>
     class GrimorioLetal : AbstractArmaMagica
     {
         private const int USOS_MAX = 15;

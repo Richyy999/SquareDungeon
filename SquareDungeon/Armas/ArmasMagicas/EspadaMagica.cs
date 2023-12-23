@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Armas.ArmasMagicas
 {
+    /// <summary>
+    /// Espada que ataca al enemigo en función de la magia del <see cref="AbstractArma.portador">portador</see> y de la defensa física del enemigo
+    /// </summary>
     class EspadaMagica : AbstractArmaMagica
     {
         private const int USOS_MAX = 25;

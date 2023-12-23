@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
+    /// <summary>
+    /// Objeto que aumenta la magia del jugador en combate
+    /// </summary>
     class PocionMagia : AbstractObjeto
     {
         public PocionMagia() : base(1, NOMBRE_POCION_MAGIA, DESC_POCION_MAGIA) { }

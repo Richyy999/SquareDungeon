@@ -13,9 +13,9 @@ namespace SquareDungeon.Salas
 {
     class SalaCofre : AbstractSala
     {
-        private Cofre cofre;
+        private AbstractCofre cofre;
 
-        public SalaCofre(int x, int y, Cofre cofre) : base(x, y)
+        public SalaCofre(int x, int y, AbstractCofre cofre) : base(x, y)
         {
             this.cofre = cofre;
         }

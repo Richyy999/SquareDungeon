@@ -6,6 +6,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.Cura
 {
+    /// <summary>
+    /// Sana al ejecutor de la habilidad una cantidad equivalente al daño infligido
+    /// </summary>
     class GolpeSanador : AbstractSanacion
     {
         public GolpeSanador() : base(15, PRIORIDAD_MEDIA, NOMBRE_GOLPE_SANADOR, DESC_GOLPE_SANADOR, Categorias.CURAR)

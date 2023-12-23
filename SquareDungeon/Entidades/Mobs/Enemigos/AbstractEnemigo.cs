@@ -2,14 +2,48 @@
 
 namespace SquareDungeon.Entidades.Mobs.Enemigos
 {
+    /// <summary>
+    /// Clase básica que define a los enemigos. Todos los enemigos deben heredar de esta clase
+    /// </summary>
     abstract class AbstractEnemigo : AbstractMob
     {
         private const int TOTAL_STATS_ENEMIGO = 16;
 
+        /// <summary>
+        /// Objeto que deja al jugador cuando el enemigo es derrotado
+        /// </summary>
         protected AbstractObjeto drop;
 
+        /// <summary>
+        /// Experiencia que deja al jugador cuando el enemigo es derrotado
+        /// </summary>
         private int dropExp;
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="pv">Vida inicial del enemigo</param>
+        /// <param name="fue">Fuerza inicial del enemigo</param>
+        /// <param name="mag">Magia inicial del enemigo</param>
+        /// <param name="agi">Agilidad inicial del enemigo</param>
+        /// <param name="hab">Habilidad inicial del enemigo</param>
+        /// <param name="def">Defensa inicial del enemigo</param>
+        /// <param name="res">Resistencia mágica inicial del enemigo</param>
+        /// <param name="probCrit">Probabilidad de crítico inicial del enemigo</param>
+        /// <param name="danCrit">Daño crítico inicial del enemigo</param>
+        /// <param name="pvMax">Vida máxima del enemigo</param>
+        /// <param name="fueMax">Fuerza máxima del enemigo</param>
+        /// <param name="magMax">Magia máxima del enemigo</param>
+        /// <param name="agiMax">Agilidad máxima del enemigo</param>
+        /// <param name="habMax">habilidad máxima del enemigo</param>
+        /// <param name="defMax">Defensa máxima del enemigo</param>
+        /// <param name="resMax">Resistencia mágica máxima del enemigo</param>
+        /// <param name="probCritMax">Probabilidad de crítico máxima del enemigo</param>
+        /// <param name="danCritMax">Daño crítico máximo del enemigo</param>
+        /// <param name="nombre">Nombre del enemigo</param>
+        /// <param name="descripcion">Descripción del enemigo</param>
+        /// <param name="dropExp">Experiencia que deja al jugador cuando el enemigo es derrotado</param>
+        /// <param name="drop">Objeto que deja al jugador cuando el enemigo es derrotado</param>
         protected AbstractEnemigo(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax, int probCritMax, int danCritMax,
             string nombre, string descripcion, int dropExp, AbstractObjeto drop) :
@@ -21,6 +55,11 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             this.drop = drop;
         }
 
+        /// <summary>
+        /// Calcula el daño que hace al jugador al atacarlo
+        /// </summary>
+        /// <param name="jugador"><see cref="AbstractMob">Jugador</see> al que ataca</param>
+        /// <returns>Daño realizado al jugador</returns>
         public virtual int Atacar(AbstractMob jugador)
         {
             int ata = (int)(fueCom * 1.2);
@@ -74,6 +113,12 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
                 subirStat(INDICE_DANO_CRITICO, diferencia, danCritMax);
         }
 
+        /// <summary>
+        /// Calcula la cantidad que debe aumentar un stat para que cuando llegue al nivel máximo tenga la el valor máximo de dicho stat
+        /// </summary>
+        /// <param name="stat">Valor del stat a aumentar</param>
+        /// <param name="statMax">Valor máximo del stat a aumentar</param>
+        /// <returns>Cantidad que debe aumentar un stat para que cuando llegue al nivel máximo tenga la el valor máximo de dicho stat</returns>
         private int getDiferenciaStat(int stat, int statMax)
         {
             int statSubido = (statMax * nivel) / NIVEL_MAX;
@@ -81,10 +126,21 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos
             return statSubido - stat;
         }
 
+        /// <summary>
+        /// Devuelve el drop que posee al jugador
+        /// </summary>
+        /// <returns>Drop del enemigo</returns>
         public virtual AbstractObjeto Drop() => drop;
 
+        /// <summary>
+        /// Devuelve la experiencia del enemigo
+        /// </summary>
+        /// <returns>Experiencia del enemigo</returns>
         public int GetExp() => dropExp;
 
+        /// <summary>
+        /// Cura completamente al enemigo
+        /// </summary>
         public void CurarCompleto()
         {
             this.pv = this.pvTotal;

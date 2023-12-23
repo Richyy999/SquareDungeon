@@ -5,7 +5,10 @@ using static System.IO.File;
 
 namespace SquareDungeon.Resources
 {
-    class Resource
+    /// <summary>
+    /// Clase que obtiene los recursos del juego
+    /// </summary>
+    static class Resource
     {
         // Nombre ficheros
         public const string FICHERO_NOMBRE_ARMAS = @"\Resources\NombreArmas.properties";
@@ -116,6 +119,12 @@ namespace SquareDungeon.Resources
 
         private const string SEPARADOR = "=";
 
+        /// <summary>
+        /// Obtiene el recurso de un fichero properties
+        /// </summary>
+        /// <param name="file">Fichero a leer</param>
+        /// <param name="propiedad">Propiedad a obtener</param>
+        /// <returns>Propiedad indicada</returns>
         public static string GetPropiedad(string file, string propiedad)
         {
             string root = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));

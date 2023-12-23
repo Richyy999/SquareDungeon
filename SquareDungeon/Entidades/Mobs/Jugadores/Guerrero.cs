@@ -1,4 +1,6 @@
 ﻿using System;
+
+using SquareDungeon.Objetos;
 using SquareDungeon.Armas;
 using SquareDungeon.Armas.ArmasFisicas;
 using SquareDungeon.Habilidades;
@@ -13,7 +15,12 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             75, 80, 5, 50, 60, 60, 35,
             60, 55, 15, 35, 40, 45, 30,
             nombre, DESC_GUERRERO, habilidad)
-        { }
+        {
+            for(int i = 0; i < objetos.Length; i++)
+            {
+                objetos[i] = new PocionFuerza();
+            }
+        }
 
         public override bool EquiparArma(AbstractArma arma)
         {

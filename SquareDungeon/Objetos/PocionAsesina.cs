@@ -7,6 +7,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Objetos
 {
+    /// <summary>
+    /// Objeto que aumenta la probabilidad de crítico del jugador en combate
+    /// </summary>
     class PocionAsesina : AbstractObjeto
     {
         public PocionAsesina() : base(1, NOMBRE_POCION_ASESINA, DESC_POCION_ASESINA) { }
