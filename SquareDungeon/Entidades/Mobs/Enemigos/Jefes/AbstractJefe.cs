@@ -33,6 +33,7 @@ namespace SquareDungeon.Entidades.Mobs.Enemigos.Jefes
         /// <param name="descripcion">Descripción del enemigo</param>
         /// <param name="dropExp">Experiencia que deja al jugador cuando el enemigo es derrotado</param>
         /// <param name="drop">Objeto que deja al jugador cuando el enemigo es derrotado</param>
+        /// <param name="habilidad">Habilidad del jefe</param>
         protected AbstractJefe(int pv, int fue, int mag, int agi, int hab, int def, int res, int probCrit, int danCrit,
             int pvMax, int fueMax, int magMax, int agiMax, int habMax, int defMax, int resMax, int probCritMax, int danCritMax,
             string nombre, string descripcion, int dropExp, AbstractObjeto drop, AbstractHabilidad habilidad) :

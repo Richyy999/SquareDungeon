@@ -84,7 +84,7 @@ namespace SquareDungeon.Modelo
         /// <summary>
         /// Ejecuta las habilidades pre-ataque y devuelve el resultado de la ejecución
         /// </summary>
-        /// <returns>true si se ha ejecutado alguna habilidad. false en caso contrario
+        /// <returns>true si se ha ejecutado alguna habilidad. false en caso contrario</returns>
         public bool EjecutarPreAtaque()
         {
             bool ejecutado = false;
@@ -175,7 +175,7 @@ namespace SquareDungeon.Modelo
         /// <summary>
         /// Ejecuta las habilidades post-combate y devuelve el resultado de la ejecución
         /// </summary>
-        /// <returns>true si se ha ejecutado alguna habilidad. false en caso contrario
+        /// <returns>true si se ha ejecutado alguna habilidad. false en caso contrario</returns>
         public bool EjecutarPostCombate()
         {
             bool ejecutado = false;

@@ -309,7 +309,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         /// <summary>
         /// Añade una habilidad al jugador si el jugador no la posee
         /// </summary>
-        /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad a añadir</param>
+        /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad</see> a añadir</param>
         /// <returns>true si la habilidad se ha añadido, false en caso de que ya posea la habilidad</returns>
         public bool AnadirHabilidad(AbstractHabilidad habilidad)
         {
