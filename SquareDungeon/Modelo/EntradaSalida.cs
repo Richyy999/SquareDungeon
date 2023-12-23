@@ -39,6 +39,11 @@ namespace SquareDungeon.Modelo
         private const string CASILLA_VACIA = " \\ ";
         private const string CASILLA_SIN_VISITAR = "   ";
 
+        public static void MostrarMensaje(string mensaje)
+        {
+            Console.WriteLine(mensaje);
+        }
+
         public static void MostrarPV(AbstractMob mob, int pvIniciales, int pvActuales)
         {
             string nombre = mob.GetNombre();
@@ -408,7 +413,11 @@ namespace SquareDungeon.Modelo
             {
                 Console.WriteLine("Tu inventario está lleno, elimina un objeto para ganar espacio");
                 AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
-                jugador.EliminarObjeto(objeto);
+                if (objeto != null)
+                {
+                    jugador.EliminarObjeto(objeto);
+                    jugador.AnadirObjeto(drop);
+                }
             }
             Console.WriteLine($"¡Obtuviste {enemigo.GetExp()} puntos de experiencia!");
             if (jugador.SubirNivel(enemigo.GetExp()))
@@ -700,7 +709,7 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para continuar");
         }
 
-        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             Console.Clear();
             Console.WriteLine(objeto.GetNombre() + " x " + objeto.GetCantidad());
@@ -725,7 +734,7 @@ namespace SquareDungeon.Modelo
             {
                 try
                 {
-                    objeto.RealizarAccion(jugador, enemigo, sala);
+                    objeto.RealizarAccion(jugador, enemigo, sala, partida);
                     if (objeto.GetCantidad() == 0)
                         Console.WriteLine($"Te quedaste sin {objeto.GetNombre()}");
                 }

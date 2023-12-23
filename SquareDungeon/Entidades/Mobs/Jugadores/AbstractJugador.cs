@@ -113,6 +113,11 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         protected AbstractObjeto[] objetos;
 
         /// <summary>
+        /// Llave que abre la sala del jefe
+        /// </summary>
+        private LlaveJefe llaveJefe;
+
+        /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="pv">Vida inicial del jugador</param>
@@ -378,9 +383,36 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         }
 
         /// <summary>
-        /// Devuelve un array con los objetos del inventario del jugador
+        /// Devuelve la llave del jefe
         /// </summary>
-        /// <returns>Array con los objetos del inventario del jugador</returns>
+        /// <returns><see cref="LlaveJefe"/>, null si el jugador no la tiene</returns>
+        public LlaveJefe GetLlaveJefe() => llaveJefe;
+
+        /// <summary>
+        /// Establece la llave del jefe
+        /// </summary>
+        /// <param name="llaveJefe"><see cref="LlaveJefe"/></param>
+        /// <exception cref="ArgumentException">Lanza una excepción si el jugador ya posee la llave del jefe</exception>
+        public void SetLlaveJefe(LlaveJefe llaveJefe)
+        {
+            if (this.llaveJefe != null)
+                throw new ArgumentException("Ya posees la llave del jefe");
+
+            this.llaveJefe = llaveJefe;
+        }
+
+        /// <summary>
+        /// Elimina la llave del jefe
+        /// </summary>
+        public void EliminarLlaveJefe()
+        {
+            llaveJefe = null;
+        }
+
+        /// <summary>
+        /// Devuelve un array con los objetos del jugador
+        /// </summary>
+        /// <returns>Objetos del jugador</returns>
         public AbstractObjeto[] GetObjetos() => objetos;
 
         /// <summary>

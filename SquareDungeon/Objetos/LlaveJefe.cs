@@ -1,4 +1,5 @@
 ﻿using SquareDungeon.Salas;
+using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 
@@ -13,7 +14,7 @@ namespace SquareDungeon.Objetos
     {
         public LlaveJefe() : base(1, NOMBRE_LLAVE_JEFE, DESC_LLAVE_JEFE) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             if (sala is SalaJefe)
                 jugador.EliminarObjeto(this);

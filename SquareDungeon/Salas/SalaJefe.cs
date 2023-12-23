@@ -7,13 +7,32 @@ using SquareDungeon.Entidades.Mobs.Enemigos.Jefes;
 
 namespace SquareDungeon.Salas
 {
+    /// <summary>
+    /// Sala del jefe del piso. Debe ser derrotado para avanzar al siguiente piso
+    /// </summary>
     class SalaJefe : SalaEnemigo
     {
+        /// <summary>
+        /// Jefe del nivel
+        /// </summary>
         private AbstractJefe jefe;
 
+        /// <summary>
+        /// Indicador para subir o no el nivel del jefe
+        /// </summary>
+        /// <seealso cref="SalaEnemigo.subirNivelEnemigo(Partida, AbstractJugador)"/>
         private bool subirNivel;
+        /// <summary>
+        /// Indicador de que la sala ha sido abierta
+        /// </summary>
         private bool abierta;
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="x">Coordenada X de la sala en el tablero</param>
+        /// <param name="y">Coordenada Y de la sala en el tablero</param>
+        /// <param name="jefe">Jefe de la sala</param>
         public SalaJefe(int x, int y, AbstractJefe jefe) : base(x, y, jefe)
         {
             this.jefe = jefe;
@@ -54,7 +73,7 @@ namespace SquareDungeon.Salas
                 if (llave == null)
                     return false;
 
-                llave.RealizarAccion(jugador, null, this);
+                llave.RealizarAccion(jugador, null, this, null);
                 SetEstado(ESTADO_SALA_JEFE_ABIERTA);
                 abierta = true;
                 return abierta;

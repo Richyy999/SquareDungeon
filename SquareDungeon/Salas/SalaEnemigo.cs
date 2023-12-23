@@ -7,15 +7,32 @@ using SquareDungeon.Entidades.Mobs.Enemigos;
 
 namespace SquareDungeon.Salas
 {
+    /// <summary>
+    /// Sala que contiene un enemigo que el jugador deberá enfrentar
+    /// </summary>
     class SalaEnemigo : AbstractSala
     {
+        /// <summary>
+        /// Enemigo al que se debe enfrentar el jugador
+        /// </summary>
         private AbstractEnemigo enemigo;
 
+        /// <summary>
+        /// Constructor de la clase
+        /// </summary>
+        /// <param name="x">Coordenada X de la sala en el tablero</param>
+        /// <param name="y">Coordenada Y de la sala en el tablero</param>
+        /// <param name="enemigo">Enemigo de la sala</param>
         public SalaEnemigo(int x, int y, AbstractEnemigo enemigo) : base(x, y)
         {
             this.enemigo = enemigo;
         }
 
+        /// <summary>
+        /// Sube el nivel del <see cref="enemigo"/> al nivel mínimo del nivel o al nivel del usuario variando entre 0 y 3 niveles
+        /// </summary>
+        /// <param name="partida">Instancia de la partida</param>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que enfrenta el enemigo</param>
         protected virtual void subirNivelEnemigo(Partida partida, AbstractJugador jugador)
         {
             int nivelJugador = jugador.GetNivel();
@@ -24,7 +41,7 @@ namespace SquareDungeon.Salas
             int nivelBase = nivelJugador > nivelPiso ? nivelJugador : nivelPiso;
 
             Random random = new Random();
-            int diferencia = random.Next(2);
+            int diferencia = random.Next(4);
             int nivelEnemigo = nivelBase + diferencia;
 
             if (nivelEnemigo >= 0)
@@ -33,6 +50,11 @@ namespace SquareDungeon.Salas
             enemigo.CurarCompleto();
         }
 
+        /// <summary>
+        /// Contiene toda la lógica del combate entre el <see cref="enemigo"/> y el <see cref="AbstractJugador">jugador</see>
+        /// </summary>
+        /// <param name="partida">Instancia de la partida</param>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que enfrenta al enemigo</param>
         protected virtual void combatir(Partida partida, AbstractJugador jugador)
         {
             int res = partida.Combatir(jugador, enemigo, this);

@@ -1,6 +1,7 @@
 ﻿using System;
 
 using SquareDungeon.Salas;
+using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 
@@ -53,7 +54,8 @@ namespace SquareDungeon.Objetos
         /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> portador del objeto</param>
         /// <param name="enemigo"><see cref="AbstractEnemigo">Enemigo</see> sobre el que se realiza la acción</param>
         /// <param name="sala"><see cref="AbstractSala">Sala</see> en la qiue se encuentra el <paramref name="jugador"/></param>
-        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        /// <param name="partida">Instancia de la partida</param>
+        public virtual void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             cantidad--;
             if (cantidad == 0)

@@ -1,5 +1,9 @@
 ﻿using System;
 
+using SquareDungeon.Modelo;
+using SquareDungeon.Salas;
+using SquareDungeon.Entidades.Mobs.Jugadores;
+
 namespace SquareDungeon.Entidades.Cofres
 {
     /// <summary>
@@ -25,9 +29,15 @@ namespace SquareDungeon.Entidades.Cofres
         }
 
         /// <summary>
+        /// Realiza la lógica que abre el cofre
+        /// </summary>
+        /// <returns>true si el cofre se ha abuerto, false en caso contrario</returns>
+        public abstract bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida);
+
+        /// <summary>
         /// Devuelve el contenido del cofre
         /// </summary>
         /// <returns>Contenido del cofre</returns>
-        public abstract object AbrirCofre();
+        protected abstract object getContenido();
     }
 }

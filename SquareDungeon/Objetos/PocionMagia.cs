@@ -1,4 +1,5 @@
 ﻿using SquareDungeon.Salas;
+using SquareDungeon.Modelo;
 using SquareDungeon.Entidades.Mobs;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
@@ -14,9 +15,9 @@ namespace SquareDungeon.Objetos
     {
         public PocionMagia() : base(1, NOMBRE_POCION_MAGIA, DESC_POCION_MAGIA) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
-            base.RealizarAccion(jugador, enemigo, sala);
+            base.RealizarAccion(jugador, enemigo, sala, partida);
             int magCom = jugador.GetStatCombate(AbstractMob.INDICE_MAGIA);
             jugador.AlterarStatCombate(AbstractMob.INDICE_MAGIA, (int)(magCom * 0.2));
         }
