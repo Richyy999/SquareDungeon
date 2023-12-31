@@ -23,8 +23,7 @@ namespace SquareDungeon.Entidades.Cofres
                 bool armaEquipada = jugador.EquiparArma(getContenido());
                 if (!armaEquipada)
                 {
-                    EntradaSalida.MostrarMensaje("No puedes llevar más armas, elimina una para tener espacio");
-                    AbstractArma armaSeleccionada = EntradaSalida.ElegirArma(jugador.GetArmas());
+                    AbstractArma armaSeleccionada = EntradaSalida.Elegir("No puedes llevar más armas, elimina una para tener espacio", true, jugador.GetArmas());
                     if (armaSeleccionada != null)
                     {
                         jugador.EliminarArma(armaSeleccionada);

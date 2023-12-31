@@ -44,5 +44,7 @@ namespace SquareDungeon.Entidades
         /// </summary>
         /// <returns><see cref="descripcion">Descripción</see> de la entidad</returns>
         public string GetDescripcion() => descripcion;
+
+        public override string ToString() => GetNombre();
     }
 }

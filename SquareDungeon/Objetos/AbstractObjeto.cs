@@ -95,5 +95,7 @@ namespace SquareDungeon.Objetos
         /// </summary>
         /// <returns>Descripción del personaje</returns>
         public string GetDescripcion() => descripcion;
+
+        public override string ToString() => $"{GetNombre()} x{GetCantidad()}";
     }
 }

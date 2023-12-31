@@ -15,21 +15,33 @@ using static SquareDungeon.Salas.AbstractSala;
 
 namespace SquareDungeon.Modelo
 {
+    /// <summary>
+    /// Clase encargada de mostrar y capturar la información por consola
+    /// </summary>
     static class EntradaSalida
     {
         public const int VOLVER = -1;
 
-        public const int ELEGIR_ARMA = 0;
-        public const int ELEGIR_OBJETO = 1;
-        public const int ELEGIR_HUIR = 2;
+        public const string UN_NIVEL = "1 Nivel";
+        public const string DOS_NIVELES = "2 Niveles";
+        public const string TRES_NIVELES = "3 Niveles";
+        public const string CUATRO_NIVELES = "4 Niveles";
+        public const string CINCO_NIVELES = "5 Niveles";
 
-        public const int MENU_STATS = 10;
-        public const int MENU_ARMAS = 11;
-        public const int MENU_OBJETOS = 12;
-        public const int MENU_HABILIDADES = 13;
+        public const string ELEGIR_ARMA = "Atacar";
+        public const string ELEGIR_OBJETO = "Usar objeto";
+        public const string ELEGIR_HUIR = "Huir";
 
-        public const int ELECCION_GUERRERO = 100;
-        public const int ELECCION_MAGO = 101;
+        public const string MENU_STATS = "Ver Stats";
+        public const string MENU_ARMAS = "Ver armas";
+        public const string MENU_OBJETOS = "Ver objetos";
+        public const string MENU_HABILIDADES = "Ver habilidades";
+
+        public const string SI = "Sí";
+        public const string NO = "No";
+
+        public const string GUERRERO = "Guerrero";
+        public const string MAGO = "Mago";
 
         private const string CASILLA_JUGADOR = " o ";
         private const string CASILLA_COFRE = " ? ";
@@ -39,30 +51,68 @@ namespace SquareDungeon.Modelo
         private const string CASILLA_VACIA = " \\ ";
         private const string CASILLA_SIN_VISITAR = "   ";
 
+        /// <summary>
+        /// Almacena el estado actualizado del juego. Ya sea la pantalla de combate o el tablero
+        /// </summary>
+        private static string migas = "";
+
+        /// <summary>
+        /// Muestra un mensaje en la consola
+        /// </summary>
+        /// <param name="mensaje">Mensaje a mostrar</param>
         public static void MostrarMensaje(string mensaje)
         {
             Console.WriteLine(mensaje);
         }
 
-        public static void MostrarPV(AbstractMob mob, int pvIniciales, int pvActuales)
+        /// <summary>
+        /// Muestra las barras de vida del enemigo y el jugador
+        /// </summary>
+        /// <param name="enemigo">Enemigo</param>
+        /// <param name="pvInicialesEnemigo">Vida total del enemigo</param>
+        /// <param name="pvActualesEnemigo">Vida actual del enemigo</param>
+        /// <param name="jugador">Jugador</param>
+        /// <param name="pvInicialesJugador">Vida total del jugador</param>
+        /// <param name="pvActualesJugador">Vida actual del jugador</param>
+        public static void MostrarBarrasPV(AbstractMob enemigo, int pvInicialesEnemigo, int pvActualesEnemigo, AbstractMob jugador, int pvInicialesJugador, int pvActualesJugador)
         {
+            iniciarMigas(MostrarPV(enemigo, pvInicialesEnemigo, pvActualesEnemigo), false);
+            anadirMiga(MostrarPV(jugador, pvInicialesJugador, pvActualesJugador), true);
+        }
+
+        /// <summary>
+        /// Muestra la barra de vida de un mob. Si el mob es un <see cref="AbstractJugador">jugador</see> muestra la cantidad de PV que posee
+        /// </summary>
+        /// <param name="mob">Mob cuya vida se mostrará</param>
+        /// <param name="pvIniciales">PV totales del mob</param>
+        /// <param name="pvActuales">PV actuales del mob</param>
+        public static string MostrarPV(AbstractMob mob, int pvIniciales, int pvActuales)
+        {
+            string output;
             string nombre = mob.GetNombre();
             string nivel = "Nv " + mob.GetNivel().ToString();
             while (nombre.Length + nivel.Length < 26)
             {
                 nivel = " " + nivel;
             }
-            Console.WriteLine(nombre + nivel);
-            Console.WriteLine(calcularBarraPV(pvIniciales, pvActuales));
+            output = nombre + nivel + "\n";
+            output += calcularBarraPV(pvIniciales, pvActuales) + "\n";
             if (mob is AbstractJugador)
             {
                 string pv = mob.GetStat(AbstractMob.INDICE_VIDA).ToString();
                 string pvTotal = mob.GetStat(AbstractMob.INDICE_VIDA_TOTAL).ToString();
-                Console.WriteLine(pv + "/" + pvTotal);
+                output += pv + "/" + pvTotal + "\n";
             }
-            Console.WriteLine();
+
+            return output;
         }
 
+        /// <summary>
+        /// Genera la barra de vida en función de los PV totales y actuales de un mob
+        /// </summary>
+        /// <param name="pvIniciales">PV totales del mob</param>
+        /// <param name="pvActuales">PV actuales del mob</param>
+        /// <returns>String con la barra de vida</returns>
         private static string calcularBarraPV(int pvIniciales, int pvActuales)
         {
             int numPuntos = (25 * pvActuales) / pvIniciales;
@@ -81,216 +131,241 @@ namespace SquareDungeon.Modelo
             return puntos;
         }
 
-        public static AbstractArma ElegirArma(AbstractArma[] armas)
+        /// <summary>
+        /// Da a elegir uno de los elementos de la lista y devuelve la selección
+        /// </summary>
+        /// <typeparam name="T">Tipo de los elementos a elegir</typeparam>
+        /// <param name="mensaje">Mensaje para mostrar en la selección</param>
+        /// <param name="nullable">true si el resultado puede ser nulo, false en caso contrario</param>
+        /// <param name="lista">Lista de elementos a mostrar</param>
+        /// <returns>Elección del jugador</returns>
+        public static T Elegir<T>(string mensaje, bool nullable, List<T> lista)
         {
-            string textoArmas = "Elige un arma:";
-            int numArmas = 0;
-
-            for (int i = 0; i < armas.Length; i++)
-            {
-                if (armas[i] == null)
-                    break;
-
-                textoArmas += $"\n{(i + 1)}) {armas[i].GetNombre()} {armas[i].GetUsos()}/{armas[i].GetUsosMaximos()}";
-                numArmas++;
-            }
-            numArmas++;
-            textoArmas += $"\n{numArmas}) Cancelar";
-            int armaElegida = 1;
-            bool incorrecto;
-            do
-            {
-                Console.WriteLine(textoArmas);
-                string input = Console.ReadLine().Trim();
-                try
-                {
-                    armaElegida = int.Parse(input);
-                    incorrecto = (armaElegida < 1 || armaElegida > numArmas);
-                    if (armaElegida == numArmas)
-                        return null;
-
-                    if (incorrecto)
-                        Console.WriteLine("Elige un arma dentro del rango de armas disponibles");
-                }
-                catch (FormatException)
-                {
-                    incorrecto = true;
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-
-            } while (incorrecto);
-            return armas[armaElegida - 1];
+            return Elegir(mensaje, nullable, lista.ToArray());
         }
 
+        /// <summary>
+        /// Da a elegir uno de los elementos de la lista y devuelve la selección
+        /// </summary>
+        /// <typeparam name="T">Tipo de los elementos a elegir</typeparam>
+        /// <param name="mensaje">Mensaje para mostrar en la selección</param>
+        /// <param name="nullable">true si el resultado puede ser nulo, false en caso contrario</param>
+        /// <param name="elementos">Lista de elementos a mostrar</param>
+        /// <returns>Elección del jugador</returns>
+        public static T Elegir<T>(string mensaje, bool nullable, params T[] elementos)
+        {
+            var res = paginar(elementos, mensaje, nullable, 0);
+            if (!EqualityComparer<T>.Default.Equals(res, default(T)) || nullable)
+                return res;
+
+            return Elegir(mensaje, nullable, elementos);
+        }
+
+        /// <summary>
+        /// Muestra la lista de elementos a seleccionar. Si la lista supera los 9 elementos, se podrá paginar la lista
+        /// </summary>
+        /// <typeparam name="T">Tipo de los elementos a elegir</typeparam>
+        /// <param name="array">Lista de elementos a mostrar</param>
+        /// <param name="mensaje">Mensaje para mostrar en la selección</param>
+        /// <param name="nullable">true si se puede cancelar la elección, false en caso contrario</param>
+        /// <param name="primeraPosicion">Índice del array en la primera posición de la paginacióon</param>
+        /// <returns>Elemento del array seleccionado</returns>
+        private static T paginar<T>(T[] array, string mensaje, bool nullable, int primeraPosicion)
+        {
+            do
+            {
+                Clear();
+                if (!string.IsNullOrEmpty(migas))
+                    mostrarMigas();
+
+                if (!string.IsNullOrEmpty(mensaje))
+                    Console.WriteLine(mensaje);
+
+                bool subir = primeraPosicion > 0;
+                bool bajar = array.Length - primeraPosicion > 9;
+
+                if (array.Length < 9)
+                    Console.WriteLine("Usa las flechas para paginar");
+
+                int numEleccion = 1;
+                for (int i = primeraPosicion; i < array.Length && numEleccion < 10; i++)
+                {
+                    var elemento = array[i];
+                    Console.WriteLine(numEleccion + ") " + elemento.ToString());
+                    numEleccion++;
+                }
+
+                if (nullable)
+                    Console.WriteLine("\nEsc) Cancelar");
+
+                int indice = -1;
+                ConsoleKey key = Console.ReadKey(true).Key;
+                switch (key)
+                {
+                    case ConsoleKey.D1:
+                    case ConsoleKey.NumPad1:
+                        indice = 0 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D2:
+                    case ConsoleKey.NumPad2:
+                        indice = 1 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D3:
+                    case ConsoleKey.NumPad3:
+                        indice = 2 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D4:
+                    case ConsoleKey.NumPad4:
+                        indice = 3 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D5:
+                    case ConsoleKey.NumPad5:
+                        indice = 4 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D6:
+                    case ConsoleKey.NumPad6:
+                        indice = 5 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D7:
+                    case ConsoleKey.NumPad7:
+                        indice = 6 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D8:
+                    case ConsoleKey.NumPad8:
+                        indice = 7 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.D9:
+                    case ConsoleKey.NumPad9:
+                        indice = 8 + primeraPosicion;
+                        break;
+
+                    case ConsoleKey.UpArrow:
+                        if (subir)
+                            return paginar(array, mensaje, nullable, primeraPosicion - 1);
+                        break;
+
+                    case ConsoleKey.DownArrow:
+                        if (bajar)
+                            return paginar(array, mensaje, nullable, primeraPosicion + 1);
+                        break;
+
+                    case ConsoleKey.Escape:
+                        return default(T);
+                }
+
+                if (indice >= 0 && indice < array.Length)
+                    return array[indice];
+            }
+            while (true);
+        }
+
+        /// <summary>
+        /// Hace una pregunta de sí o no al jugador
+        /// </summary>
+        /// <param name="mensaje">Pregunta a realizar</param>
+        /// <returns>true si el jugador ha elegido Sí, false en caso contrario</returns>
+        /// <seealso cref="Elegir{T}(string, bool, List{T})"/>
+        /// <seealso cref="Elegir{T}(string, bool, T[])"/>
+        public static bool PreguntarSiNo(string mensaje)
+        {
+            string res = Elegir(mensaje, false, SI, NO);
+            return SI.Equals(res);
+        }
+
+        /// <summary>
+        /// Muestra todas las armas del jugador y le solicita que elija una
+        /// </summary>
+        /// <param name="armas">Armas del jugador</param>
+        /// <returns></returns>
+        public static AbstractArma ElegirArma(AbstractArma[] armas)
+        {
+            return Elegir("Elige un arma:", true, armas);
+        }
+
+        /// <summary>
+        /// Muestra por consola que un mob ha usado una habilidad
+        /// </summary>
+        /// <param name="mob">Mob que usa la habilidad</param>
+        /// <param name="habilidad">Habilidad que ha usado el mob</param>
         public static void MostrarHabilidad(AbstractMob mob, AbstractHabilidad habilidad)
         {
             Console.WriteLine($"¡{mob.GetNombre()} ha utilizado {habilidad.GetNombre()}!");
         }
 
+        /// <summary>
+        /// Muestra por consola que un arma ha usado una habilidad
+        /// </summary>
+        /// <param name="arma">Arma que usa la habilidad</param>
+        /// <param name="habilidad">Habilidad que ha usado el arma</param>
         public static void MostrarHabilidad(AbstractArma arma, AbstractHabilidad habilidad)
         {
             Console.WriteLine($"¡{arma.GetNombre()} ha utilizado {habilidad.GetNombre()}!");
         }
 
+        /// <summary>
+        /// Muestra un mensaje indicando que un mob ha atacado con un arma
+        /// </summary>
+        /// <param name="mob"></param>
+        /// <param name="arma"></param>
         public static void MostrarAtaque(AbstractMob mob, AbstractArma arma)
         {
             Console.WriteLine($"¡{mob.GetNombre()} ataca con {arma.GetNombre()}!");
         }
 
+        /// <summary>
+        /// Muestra por consola que un <see cref="AbstractEnemigo">enemigo</see> ha atacado
+        /// </summary>
+        /// <param name="enemigo"></param>
         public static void MostrarAtaque(AbstractEnemigo enemigo)
         {
             Console.WriteLine($"¡El {enemigo.GetNombre()} enemigo te ataca!");
         }
 
+        /// <summary>
+        /// Muestra por consola el daño que un mob ejerce a otro
+        /// </summary>
+        /// <param name="atacante">Mob que ataca</param>
+        /// <param name="victima">Mob que recibe el ataque</param>
+        /// <param name="dano">Daño realizado</param>
         public static void MostrarDano(AbstractMob atacante, AbstractMob victima, int dano)
         {
             Console.WriteLine($"{atacante.GetNombre()} le inlfigió {dano} puntos de daño a {victima.GetNombre()}");
         }
 
-        public static int ElegirArmaObjeto()
-        {
-            do
-            {
-                Console.WriteLine("1) Atacar\n2) Utilizar objeto\n3) Huir");
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-
-                    if (eleccion == 1)
-                        return ELEGIR_ARMA;
-
-                    if (eleccion == 2)
-                        return ELEGIR_OBJETO;
-
-                    if (eleccion == 3)
-                        return ELEGIR_HUIR;
-
-                    Console.WriteLine("Opción incorrecta, inténtalo otra vez");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
-        }
-
+        /// <summary>
+        /// Da a elegir un objeto del inventario
+        /// </summary>
+        /// <param name="objetos">Objetos del inventario</param>
+        /// <returns>Objeto seleccionado</returns>
         public static AbstractObjeto ElegirObjeto(AbstractObjeto[] objetos)
         {
             if (objetos[0] == null)
             {
-                Console.WriteLine("Tu inventario está vacío");
+                MostrarMensaje("Tu inventario está vacío");
                 return null;
             }
-            string textoObjetos = "Elige un objeto:";
-            int numObjetos = 0;
 
-            for (int i = 0; i < objetos.Length; i++)
-            {
-                AbstractObjeto objeto = objetos[i];
-                if (objeto == null)
-                    break;
-
-                textoObjetos += $"\n{i + 1}) {objeto.GetNombre()} x{objeto.GetCantidad()}";
-                numObjetos++;
-            }
-            numObjetos++;
-            textoObjetos += $"\n{numObjetos}) Cancelar";
-
-            do
-            {
-                Console.WriteLine(textoObjetos);
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    if (eleccion < 0 || eleccion > numObjetos)
-                        Console.WriteLine("Elige un objeto dentro del rango de onjetos disponibles.");
-                    else
-                        if (eleccion == numObjetos)
-                        return null;
-
-                    return objetos[eleccion - 1];
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
+            return Elegir("Elige un objeto:", true, objetos);
         }
 
-        public static LlaveJefe GetLlaveJefe(AbstractObjeto[] objetos)
-        {
-            if (objetos[0] == null)
-                return null;
-
-            LlaveJefe llave = null;
-            foreach (AbstractObjeto objeto in objetos)
-            {
-                if (objeto != null)
-                    if (objeto is LlaveJefe)
-                        llave = (LlaveJefe)objeto;
-            }
-
-            Console.WriteLine("¿Quieres abrir esta sala?");
-
-            if (llave == null)
-                return llave;
-
-            do
-            {
-                Console.WriteLine("1) Abrir sala\n2) No abrir la sala");
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-
-                    if (eleccion == 1)
-                        return llave;
-
-                    if (eleccion == 2)
-                        return null;
-
-                    Console.WriteLine("Opción no válida");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
-        }
-
-        public static bool PreguntarAbrirCofre()
-        {
-            do
-            {
-                Console.WriteLine("Esta sala contiene un cofre.\n¿Quieres abrirlo?\n1) Sí\n2) No");
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-
-                    if (eleccion == 1)
-                        return true;
-
-                    if (eleccion == 2)
-                        return false;
-
-                    Console.WriteLine("Opción no válida");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-
-            } while (true);
-        }
-
+        /// <summary>
+        /// Muestra el tablero del juego actualizado
+        /// </summary>
+        /// <param name="tablero">Tablero</param>
+        /// <param name="jugadorX">Coordenada X del jugador</param>
+        /// <param name="jugadorY">Coordenada Y del jugador</param>
         public static void MostrarTablero(AbstractSala[,] tablero, int jugadorX, int jugadorY)
         {
-            Console.Clear();
-            Console.WriteLine();
-            Console.WriteLine("---------------------------------");
+            Clear();
+            iniciarMigas("\n---------------------------------", false);
             for (int i = 0; i < 8; i++)
             {
                 string linea = "|";
@@ -330,89 +405,130 @@ namespace SquareDungeon.Modelo
                             break;
                     }
                 }
-                Console.WriteLine(linea);
+                anadirMiga(linea, false);
                 if (i < 7)
-                    Console.WriteLine("|---+---+---+---+---+---+---+---|");
+                    anadirMiga("|---+---+---+---+---+---+---+---|", false);
             }
 
-            Console.WriteLine("---------------------------------");
-            Console.WriteLine();
+            anadirMiga("---------------------------------", true);
         }
 
+        /// <summary>
+        /// Muestra por pantalla que un <see cref="AbstractMob">mob</see> ha esquivado el ataque de otro
+        /// </summary>
+        /// <param name="atacante"><see cref="AbstractMob">Mob</see> que realiza el ataque</param>
+        /// <param name="victima"><see cref="AbstractMob">Mob</see> esquiva el ataque</param>
         public static void MostrarEsquivar(AbstractMob atacante, AbstractMob victima)
         {
             Console.WriteLine($"{victima.GetNombre()} esquivó el ataque de {atacante.GetNombre()}");
         }
 
-        public static void IndicarAvanzarDialogos()
+        /// <summary>
+        /// Muestra un mensaje al jugador y espera a que pulse Enter para continuar con la ejecución
+        /// </summary>
+        /// <param name="mensaje">Mensaje a mostrar</param>
+        public static void Esperar(string mensaje)
         {
-            Console.WriteLine("Para avanzar los diálogos, pulsa Enter");
-            Esperar();
-        }
-
-        public static string Esperar(string mensaje)
-        {
-            if (mensaje.Length > 0)
+            if (!string.IsNullOrEmpty(mensaje))
                 Console.WriteLine(mensaje);
 
-            return Console.ReadLine().Trim();
+            ConsoleKey key;
+            do
+            {
+                key = Console.ReadKey(true).Key;
+            } while (key != ConsoleKey.Enter);
         }
 
-        public static string Esperar()
+        /// <summary>
+        /// Hace esperar al jugador hasta que pulse enter
+        /// </summary>
+        public static void Esperar()
         {
-            return Esperar("...");
+            Esperar("...");
         }
 
+        /// <summary>
+        /// Muestra el menú de acciones del tablero
+        /// </summary>
+        /// <returns></returns>
         public static int MenuAcciones()
         {
             do
             {
-                Console.WriteLine("1) Mover arriba\n2) Mover abajo\n3) Mover a la derecha\n4) Mover a la izquierda" +
-                    "\n5) Menu");
-                try
+                Clear();
+                Console.WriteLine(migas);
+                Console.WriteLine("Esc) Menú");
+                ConsoleKey key = Console.ReadKey().Key;
+                switch (key)
                 {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    switch (eleccion)
-                    {
-                        case 1:
-                            return MOVER_ARRIBA;
+                    case ConsoleKey.W:
+                        return MOVER_ARRIBA;
 
-                        case 2:
-                            return MOVER_ABAJO;
+                    case ConsoleKey.S:
+                        return MOVER_ABAJO;
 
-                        case 3:
-                            return MOVER_DERECHA;
+                    case ConsoleKey.D:
+                        return MOVER_DERECHA;
 
-                        case 4:
-                            return MOVER_IZQUIERDA;
+                    case ConsoleKey.A:
+                        return MOVER_IZQUIERDA;
 
-                        case 5:
-                            return ABRIR_MENU;
-
-                        default:
-                            Console.WriteLine("Opción no válida");
-                            break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
+                    case ConsoleKey.Escape:
+                        return ABRIR_MENU;
                 }
             } while (true);
         }
 
+        /// <summary>
+        /// Inicializa las migas y las muestra
+        /// </summary>
+        /// <param name="miga">miga nueva</param>
+        /// <param name="mostrar">true para mostrarlas</param>
+        private static void iniciarMigas(string miga, bool mostrar)
+        {
+            migas = miga + "\n";
+
+            if (mostrar)
+                mostrarMigas();
+        }
+
+        /// <summary>
+        /// Añade una miga y las muestra
+        /// </summary>
+        /// <param name="miga">miga a anadir</param>
+        /// <param name="mostrar">true para mostrar las migas</param>
+        private static void anadirMiga(string miga, bool mostrar)
+        {
+            migas += miga + "\n";
+            if (mostrar)
+                mostrarMigas();
+        }
+
+        /// <summary>
+        /// Muestra las <see cref="migas"/>
+        /// </summary>
+        private static void mostrarMigas()
+        {
+            Clear();
+            Console.WriteLine(migas);
+        }
+
+        /// <summary>
+        /// Muestra la pantalla de victoria cuando el jugador derrota al enemigo
+        /// </summary>
+        /// <param name="jugador"></param>
+        /// <param name="enemigo"></param>
         public static void MostrarVictoria(AbstractJugador jugador, AbstractEnemigo enemigo)
         {
-            Console.WriteLine("¡Victoria!");
+            anadirMiga("\n¡Victoria!", false);
             AbstractObjeto drop = enemigo.Drop();
             if (drop != null)
-                Console.WriteLine($"¡Obtuviste {drop.GetNombre()} x {drop.GetCantidad()}!");
+                anadirMiga($"¡Obtuviste {drop.GetNombre()} x {drop.GetCantidad()}!\n", true);
 
             if (!jugador.AnadirObjeto(drop))
             {
-                Console.WriteLine("Tu inventario está lleno, elimina un objeto para ganar espacio");
-                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
+                anadirMiga("Tu inventario está lleno, elimina un objeto para ganar espacio", true);
+                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos(false));
                 if (objeto != null)
                 {
                     jugador.EliminarObjeto(objeto);
@@ -420,20 +536,18 @@ namespace SquareDungeon.Modelo
                 }
             }
             Console.WriteLine($"¡Obtuviste {enemigo.GetExp()} puntos de experiencia!");
+            Esperar("\nPulsa Enter para continuar");
             if (jugador.SubirNivel(enemigo.GetExp()))
-            {
-                Esperar("\nPulsa Enter para continuar");
                 mostrarNivelSubido(jugador);
-            }
-            else
-            {
-                Esperar("\nPulsa Enter para continuar");
-            }
         }
 
+        /// <summary>
+        /// Indica al jugador que ha subido de nivel y muestra la subida de stats
+        /// </summary>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que ha subido de nivel</param>
         private static void mostrarNivelSubido(AbstractJugador jugador)
         {
-            Console.Clear();
+            Clear();
             Console.WriteLine($"¡Has subido al nivel {jugador.GetNivel()}!");
             int[,] stats = jugador.GetStatsNuevos();
             string texto = "";
@@ -506,78 +620,62 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para seguir");
         }
 
+        /// <summary>
+        /// Indica al jugador que ha obtenido un <see cref="AbstractObjeto">objeto</see>
+        /// </summary>
+        /// <param name="objeto"><see cref="AbstractObjeto">Objeto</see> obtenido</param>
         public static void MostrarObjetoConseguido(AbstractObjeto objeto)
         {
             Console.WriteLine($"¡Obtuviste {objeto.GetNombre()}!");
             Esperar("\nPulsa Enter para continuar");
         }
 
+        /// <summary>
+        /// Indica al jugador que ha obtenido una <see cref="AbstractHabilidad">habilidad</see>
+        /// </summary>
+        /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad</see> obtenida</param>
         public static void MostrarHabilidadObtenida(AbstractHabilidad habilidad)
         {
             Console.WriteLine($"¡Obtuviste {habilidad.GetNombre()}!");
             Esperar("\nPulsa Enter para continuar");
         }
 
+        /// <summary>
+        /// Indica al jugador que ha obtenido un <see cref="AbstractArma">arma</see>
+        /// </summary>
+        /// <param name="arma"><see cref="AbstractArma">Arma</see> obtenida</param>
         public static void MostrarArmaConseguida(AbstractArma arma)
         {
             Console.WriteLine($"¡Obtuviste {arma.GetNombre()}!");
             Esperar("\nPulsa Enter para continuar");
         }
 
+        /// <summary>
+        /// Indica al jugador que su personaje no puede usar un arma
+        /// </summary>
         public static void MostrarNoEquiparArma()
         {
             Console.WriteLine("Tu personaje no puede usar esta arma");
             Thread.Sleep(1000);
         }
 
+        /// <summary>
+        /// Indica al jugador que ya posee una <see cref="AbstractHabilidad">habilidad</see>
+        /// </summary>
+        /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad</see> que ya posee</param>
         public static void MostrarHabilidadEquipada(AbstractHabilidad habilidad)
         {
             Console.WriteLine($"Ya posees la habilidad {habilidad.GetNombre()}");
             Thread.Sleep(1000);
         }
 
-        public static int MostrarMenu(AbstractJugador jugador)
-        {
-            Console.Clear();
-            do
-            {
-                Console.WriteLine("1) Ver stats\n2) Ver armas\n3) Usar objeto\n4) Ver habilidades\n5) Volver");
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    switch (eleccion)
-                    {
-                        case 1:
-                            return MENU_STATS;
-
-                        case 2:
-                            return MENU_ARMAS;
-
-                        case 3:
-                            return MENU_OBJETOS;
-
-                        case 4:
-                            return MENU_HABILIDADES;
-
-                        case 5:
-                            return VOLVER;
-
-                        default:
-                            Console.WriteLine("Opción no válida");
-                            break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
-        }
-
+        /// <summary>
+        /// uestra los stats de un <see cref="AbstractJugador">jugador</see>
+        /// </summary>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> cuyos stats se mostrarán</param>
         public static void MostrarStats(AbstractJugador jugador)
         {
-            Console.Clear();
+            Clear();
             int[] stats = jugador.GetStats();
             string texto = "\nPV";
             string pv = jugador.GetStat(AbstractMob.INDICE_VIDA).ToString();
@@ -647,9 +745,13 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para volver");
         }
 
+        /// <summary>
+        /// Muestra los detalles de un <see cref="AbstractArma">arma</see>
+        /// </summary>
+        /// <param name="arma"><see cref="AbstractArma">Arma</see> a mostrar</param>
         public static void MostrarArma(AbstractArma arma)
         {
-            Console.Clear();
+            mostrarMigas();
             Console.WriteLine($"{arma.GetNombre()}:");
             Console.WriteLine(arma.GetDescripcion());
             Console.WriteLine($"\nDaño: {arma.GetDano()}");
@@ -661,6 +763,13 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para continuar\n");
         }
 
+        /// <summary>
+        /// Pide al jugador que eliga unas de sus habilidades.
+        /// <br/>
+        /// Si el jugador no posee ninguna habilidad, se informará de ello
+        /// </summary>
+        /// <param name="habilidades">Lista de las <see cref="AbstractHabilidad">habilidades</see> del jugador</param>
+        /// <returns>habilidad seleccionada, null si no elige ninguna o si no posee ninguna</returns>
         public static AbstractHabilidad ElegirHabilidad(List<AbstractHabilidad> habilidades)
         {
             if (habilidades.Count == 0)
@@ -669,68 +778,34 @@ namespace SquareDungeon.Modelo
                 return null;
             }
 
-            string texto = "Elige una habilidad:";
-            int numHabilidades = 0;
-            for (int i = 0; i < habilidades.Count; i++)
-            {
-                texto += $"\n{i + 1}) {habilidades[i].GetNombre()}";
-                numHabilidades++;
-            }
-            numHabilidades++;
-            texto += $"\n{numHabilidades}) Cancelar";
-
-
-            do
-            {
-                Console.WriteLine(texto);
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    if (eleccion < 0 || eleccion > numHabilidades)
-                        Console.WriteLine("Elige un objeto dentro del rango de onjetos disponibles.");
-                    else if (eleccion == numHabilidades)
-                        return null;
-                    else
-                        return habilidades[eleccion - 1];
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, que gracioso...");
-                }
-            } while (true);
+            return Elegir("Elige una habilidad:", true, habilidades);
         }
 
+        /// <summary>
+        /// Muestra los detalles de una <see cref="AbstractHabilidad">habilidad</see>
+        /// </summary>
+        /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad</see> a mostrar</param>
         public static void MostrarHabilidad(AbstractHabilidad habilidad)
         {
-            Console.Clear();
+            mostrarMigas();
             Console.WriteLine(habilidad.GetNombre());
             Console.WriteLine(habilidad.GetDescripcion());
             Esperar("\nPulsa Enter para continuar");
         }
 
+        /// <summary>
+        /// Muestra los detalles de un objeto y le pregunta si lo quiere usar
+        /// </summary>
+        /// <param name="objeto"><see cref="AbstractObjeto">Objeto</see> a usar</param>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que usará el objeto</param>
+        /// <param name="enemigo"><see cref="AbstractEnemigo">Enemigo</see> que sufrirá la acción del objeto</param>
+        /// <param name="sala"><see cref="AbstractSala">Sala</see> en la que se encuentra el jugador</param>
+        /// <param name="partida">Instancia de la clase</param>
         public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
-            Console.Clear();
-            Console.WriteLine(objeto.GetNombre() + " x " + objeto.GetCantidad());
-            Console.WriteLine(objeto.GetDescripcion());
-            Console.WriteLine("\n1) Usar\n2) Volver");
-            int eleccion = 0;
-            do
-            {
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    eleccion = int.Parse(input);
-                    if (eleccion != 1 && eleccion != 2)
-                        Console.WriteLine("Opción no válida");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (eleccion != 1 && eleccion != 2);
-            if (eleccion == 1)
+            anadirMiga("\n" + objeto.ToString() + "\n" + objeto.GetDescripcion(), false);
+
+            if (PreguntarSiNo("¿Quieres usar este objeto?"))
             {
                 try
                 {
@@ -746,15 +821,24 @@ namespace SquareDungeon.Modelo
             Esperar("\nPulsa Enter para continuar");
         }
 
+        /// <summary>
+        /// Informa al jugador de que ha encontrado la sala del jefe
+        /// </summary>
         public static void DescubrirJefe()
         {
-            Console.WriteLine("Has encontrado la sala del Jefe. Se necesita la Llave del Jefe para abrirla");
-            Thread.Sleep(1500);
+            anadirMiga("Has encontrado la sala del Jefe. Se necesita la Llave del Jefe para abrirla", true);
+            Thread.Sleep(100);
         }
 
+        /// <summary>
+        /// Pregunta al jugador el nombre de su personaje.
+        /// <br/>
+        /// El nombre no puede estar vacío ni superar los 20 caracteres
+        /// </summary>
+        /// <returns>Nombre del personaje</returns>
         public static string PedirNombre()
         {
-            Console.Clear();
+            Clear();
             Console.WriteLine("¡Bienvenido!\nEscribe tu nombre:");
             string nombre = "";
             do
@@ -762,75 +846,54 @@ namespace SquareDungeon.Modelo
                 nombre = Console.ReadLine().Trim();
                 if (nombre.Length > 20)
                     Console.WriteLine("El nombre no puede ser superior a 20 caracteres");
-            } while (nombre.Trim().Equals("") || nombre.Length > 20);
+            } while (string.IsNullOrEmpty(nombre) || nombre.Length > 20);
             return nombre.Trim();
         }
 
-        public static int PedirPersonaje()
-        {
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("Elige a tu personaje:");
-                Console.WriteLine("1) Guerrero");
-                Console.WriteLine("2) Mago");
-
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    switch (eleccion)
-                    {
-                        case 1:
-                            return ELECCION_GUERRERO;
-
-                        case 2:
-                            return ELECCION_MAGO;
-
-                        default:
-                            Console.WriteLine("Opción no válida. Elige uno de los personajes disponibles");
-                            break;
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
-        }
-
+        /// <summary>
+        /// Pinta una línea vacía
+        /// </summary>
         public static void NuevaLinea()
         {
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Limpia la consola
+        /// </summary>
         public static void Clear()
         {
             Console.Clear();
         }
 
+        /// <summary>
+        /// Pregunta al jugador cuántos niveles desea enfrentar
+        /// </summary>
+        /// <returns>Número de niveles que el jugador deberá enfrentar</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Lanza una excepción si se elige un nivel que no existe</exception>
         public static int PreguntarNiveles()
         {
-            Clear();
-            do
+            string nivel = Elegir("Selecciona el número de pisos que deseas enfrentar", false, UN_NIVEL, DOS_NIVELES, TRES_NIVELES, CUATRO_NIVELES, CINCO_NIVELES);
+            switch (nivel)
             {
-                Console.WriteLine("Selecciona el número de pisos que deseas enfrentar");
-                Console.WriteLine("1) 1 Nivel\n2) 2 Niveles\n3) 3 Niveles\n4) 4 Niveles\n5) 5 Niveles");
+                case UN_NIVEL:
+                    return 1;
 
-                try
-                {
-                    string input = Console.ReadLine().Trim();
-                    int eleccion = int.Parse(input);
-                    if (eleccion >= 1 && eleccion <= 5)
-                        return eleccion;
-                    else
-                        Console.WriteLine("Opción no válida");
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Ja ja ja, muy gracioso...");
-                }
-            } while (true);
+                case DOS_NIVELES:
+                    return 2;
+
+                case TRES_NIVELES:
+                    return 3;
+
+                case CUATRO_NIVELES:
+                    return 4;
+
+                case CINCO_NIVELES:
+                    return 5;
+
+                default:
+                    throw new ArgumentOutOfRangeException("Se ha elegido un nivel que no existe");
+            }
         }
     }
 }

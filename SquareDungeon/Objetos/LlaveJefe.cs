@@ -17,7 +17,7 @@ namespace SquareDungeon.Objetos
         public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
         {
             if (sala is SalaJefe)
-                jugador.EliminarObjeto(this);
+                jugador.EliminarLlaveJefe();
         }
     }
 }

@@ -18,15 +18,15 @@ namespace SquareDungeon.Entidades.Cofres
             bool objetoAnadido = jugador.AnadirObjeto(getContenido());
             if (!objetoAnadido)
             {
-                EntradaSalida.MostrarMensaje("Tu inventario está lleno, elimina un objeto para obtener más espacio");
-                AbstractObjeto objetoElegido = EntradaSalida.ElegirObjeto(jugador.GetObjetos());
+                AbstractObjeto objetoElegido = EntradaSalida.Elegir("Tu inventario está lleno, elimina un objeto para obtener más espacio", true, jugador.GetObjetos(false));
                 if (objetoElegido != null)
                 {
                     jugador.EliminarObjeto(objetoElegido);
                     jugador.AnadirObjeto(getContenido());
                     EntradaSalida.MostrarObjetoConseguido(getContenido());
                     return true;
-                } else
+                }
+                else
                 {
                     return false;
                 }

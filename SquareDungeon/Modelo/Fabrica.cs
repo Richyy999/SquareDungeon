@@ -50,18 +50,15 @@ namespace SquareDungeon.Modelo
         private AbstractJugador generarJugador()
         {
             string nombre = EntradaSalida.PedirNombre();
-            int eleccion = EntradaSalida.PedirPersonaje();
+            string eleccion = EntradaSalida.Elegir("Elige un personaje:", false, EntradaSalida.GUERRERO, EntradaSalida.MAGO);
             switch (eleccion)
             {
-                case EntradaSalida.ELECCION_GUERRERO:
+                case EntradaSalida.GUERRERO:
                     jugador = new Guerrero(nombre, generarHabilidad());
                     jugador.EquiparArma(new EspadaHierro());
-                    jugador.EquiparArma(new ViolaSlimes());
-                    jugador.EquiparArma(new AplastaCraneos());
-                    jugador.EquiparArma(new EspadaMaldita());
                     break;
 
-                case EntradaSalida.ELECCION_MAGO:
+                case EntradaSalida.MAGO:
                     jugador = new Mago(nombre, generarHabilidad());
                     GrimorioBasico grimorio = new GrimorioBasico();
                     jugador.EquiparArma(grimorio);

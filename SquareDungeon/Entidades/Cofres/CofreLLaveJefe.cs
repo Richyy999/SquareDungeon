@@ -16,6 +16,7 @@ namespace SquareDungeon.Entidades.Cofres
         public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida)
         {
             jugador.SetLlaveJefe(getContenido());
+            EntradaSalida.MostrarObjetoConseguido(getContenido());
             return true;
         }
 

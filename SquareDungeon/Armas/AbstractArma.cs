@@ -177,5 +177,7 @@ namespace SquareDungeon.Armas
         /// </summary>
         /// <returns><see cref="usos">Descripción</see> del arma</returns>
         public string GetDescripcion() => descripcion;
+
+        public override string ToString() => $"{GetNombre()} {GetUsos()}/{GetUsosMaximos()}";
     }
 }

@@ -67,10 +67,14 @@ namespace SquareDungeon.Salas
         {
             if (GetEstado() == ESTADO_SIN_VISITAR || GetEstado() == ESTADO_SALA_JEFE_SIN_ABRIR)
             {
+                LlaveJefe llave = null;
                 EntradaSalida.DescubrirJefe();
-                LlaveJefe llave = EntradaSalida.GetLlaveJefe(jugador.GetObjetos());
                 SetEstado(ESTADO_SALA_JEFE_SIN_ABRIR);
+                llave = jugador.GetLlaveJefe();
                 if (llave == null)
+                    return false;
+
+                if (!EntradaSalida.PreguntarSiNo("¿Quieres abrir esta sala?"))
                     return false;
 
                 llave.RealizarAccion(jugador, null, this, null);

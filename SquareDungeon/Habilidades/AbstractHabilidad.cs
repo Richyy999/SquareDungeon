@@ -278,5 +278,7 @@ namespace SquareDungeon.Habilidades
 
             return prioridadMaxima[indice];
         }
+
+        public override string ToString() => GetNombre();
     }
 }

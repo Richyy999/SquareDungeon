@@ -412,8 +412,23 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         /// <summary>
         /// Devuelve un array con los objetos del jugador
         /// </summary>
+        /// <param name="llave">true para incluir la <see cref="llaveJefe">llave del jefe</see></param>
         /// <returns>Objetos del jugador</returns>
-        public AbstractObjeto[] GetObjetos() => objetos;
+        public AbstractObjeto[] GetObjetos(bool llave)
+        {
+            List<AbstractObjeto> objetos = new List<AbstractObjeto>();
+            for (int i = 0; i < this.objetos.Length; i++)
+            {
+                AbstractObjeto objeto = this.objetos[i];
+                if (objeto != null)
+                    objetos.Add(objeto);
+            }
+
+            if (llave && llaveJefe != null)
+                objetos.Add(llaveJefe);
+
+            return objetos.ToArray();
+        }
 
         /// <summary>
         /// Devuelve el tipo de arma que lleva el jugador

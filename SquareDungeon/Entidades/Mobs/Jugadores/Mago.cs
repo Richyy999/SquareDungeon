@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using SquareDungeon.Armas;
 using SquareDungeon.Armas.ArmasMagicas;
@@ -40,13 +41,15 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public override AbstractArmaMagica[] GetArmas()
         {
-            AbstractArmaMagica[] armas = new AbstractArmaMagica[this.armas.Length];
+            List<AbstractArmaMagica> armas = new List<AbstractArmaMagica>();
             for (int i = 0; i < this.armas.Length; i++)
             {
-                armas[i] = (AbstractArmaMagica)this.armas[i];
+                AbstractArma arma = this.armas[i];
+                if (arma != null)
+                    armas.Add((AbstractArmaMagica)arma);
             }
 
-            return armas;
+            return armas.ToArray();
         }
 
         public override AbstractArmaMagica GetArmaCombate() => (AbstractArmaMagica)armaCombate;

@@ -21,7 +21,7 @@ namespace SquareDungeon.Entidades.Cofres
             else
                 EntradaSalida.MostrarHabilidadEquipada(getContenido());
 
-            return habilidadAnadida;
+            return true;
         }
 
         protected override AbstractHabilidad getContenido() => (AbstractHabilidad)contenido;

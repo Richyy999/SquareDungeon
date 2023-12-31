@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 
-using SquareDungeon.Objetos;
 using SquareDungeon.Armas;
 using SquareDungeon.Armas.ArmasFisicas;
 using SquareDungeon.Habilidades;
@@ -15,12 +15,7 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
             75, 80, 5, 50, 60, 60, 35,
             60, 55, 15, 35, 40, 45, 30,
             nombre, DESC_GUERRERO, habilidad)
-        {
-            for(int i = 0; i < objetos.Length; i++)
-            {
-                objetos[i] = new PocionFuerza();
-            }
-        }
+        { }
 
         public override bool EquiparArma(AbstractArma arma)
         {
@@ -47,13 +42,15 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
 
         public override AbstractArmaFisica[] GetArmas()
         {
-            AbstractArmaFisica[] armas = new AbstractArmaFisica[4];
-            for (int i = 0; i < armas.Length; i++)
+            List<AbstractArmaFisica> armas = new List<AbstractArmaFisica>();
+            for (int i = 0; i < this.armas.Length; i++)
             {
-                armas[i] = (AbstractArmaFisica)this.armas[i];
+                AbstractArma arma = this.armas[i];
+                if (arma != null)
+                    armas.Add((AbstractArmaFisica)arma);
             }
 
-            return armas;
+            return armas.ToArray();
         }
 
         public override AbstractArmaFisica GetArmaCombate() => (AbstractArmaFisica)armaCombate;

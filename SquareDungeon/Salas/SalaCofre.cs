@@ -21,7 +21,7 @@ namespace SquareDungeon.Salas
             if (GetEstado() == ESTADO_SIN_VISITAR || GetEstado() == ESTADO_COFRE_SIN_ABRIR)
             {
                 SetEstado(ESTADO_COFRE_SIN_ABRIR);
-                if (EntradaSalida.PreguntarAbrirCofre())
+                if (EntradaSalida.PreguntarSiNo("Esta sala contiene un cofre.\n¿Quieres abrirlo?"))
                 {
                     bool cofreAbierto = cofre.AbrirCofre(jugador, this, partida);
                     if (cofreAbierto)

@@ -9,8 +9,6 @@ using SquareDungeon.Entidades.Mobs;
 using SquareDungeon.Entidades.Mobs.Enemigos;
 using SquareDungeon.Entidades.Mobs.Jugadores;
 
-using static SquareDungeon.Modelo.EntradaSalida;
-
 namespace SquareDungeon.Modelo
 {
     /// <summary>
@@ -31,6 +29,8 @@ namespace SquareDungeon.Modelo
         public const int ABRIR_MENU = 14;
 
         private const int DIFERENCIA_NIVEL = 10;
+
+        private static Partida partida;
 
         /// <summary>
         /// Tablero de juego
@@ -69,14 +69,27 @@ namespace SquareDungeon.Modelo
         private int nivelMax;
 
         /// <summary>
+        /// Devuelve la instancia de la partida. Si no existe, genera una nueva instancia
+        /// </summary>
+        /// <returns>Instancia de la clase</returns>
+        public static Partida GetInstance()
+        {
+            if (partida == null)
+                partida = new Partida();
+
+            return partida;
+        }
+
+        /// <summary>
         /// Constructor de la clase
         /// </summary>
-        public Partida()
+        private Partida()
         {
             nivelActual = 0;
 
             nivelMax = EntradaSalida.PreguntarNiveles();
-            EntradaSalida.IndicarAvanzarDialogos();
+            EntradaSalida.Clear();
+            EntradaSalida.Esperar("Avanza con w, a, s, d\nPulsa Enter para continuar\n...");
 
             fabrica = new Fabrica();
             jugador = fabrica.GetJugador();
@@ -108,8 +121,8 @@ namespace SquareDungeon.Modelo
         {
             do
             {
-                MostrarTablero(tablero, jugadorX, jugadorY);
-                int eleccion = MenuAcciones();
+                EntradaSalida.MostrarTablero(tablero, jugadorX, jugadorY);
+                int eleccion = EntradaSalida.MenuAcciones();
                 switch (eleccion)
                 {
                     case MOVER_ARRIBA:
@@ -145,33 +158,32 @@ namespace SquareDungeon.Modelo
                         break;
 
                     case ABRIR_MENU:
-                        int menu = MostrarMenu(jugador);
+                        EntradaSalida.MostrarTablero(tablero, jugadorX, jugadorY);
+                        string menu = EntradaSalida.Elegir("", true, EntradaSalida.MENU_STATS, EntradaSalida.MENU_ARMAS, EntradaSalida.MENU_OBJETOS, EntradaSalida.MENU_HABILIDADES);
                         switch (menu)
                         {
-                            case MENU_STATS:
-                                MostrarStats(jugador);
+                            case EntradaSalida.MENU_STATS:
+                                EntradaSalida.MostrarStats(jugador);
                                 break;
 
-                            case MENU_ARMAS:
-                                AbstractArma arma = ElegirArma(jugador.GetArmas());
+                            case EntradaSalida.MENU_ARMAS:
+                                AbstractArma arma = EntradaSalida.ElegirArma(jugador.GetArmas());
                                 if (arma != null)
-                                    MostrarArma(arma);
+                                    EntradaSalida.MostrarArma(arma);
 
                                 break;
 
-                            case MENU_HABILIDADES:
-                                AbstractHabilidad habilidad = ElegirHabilidad(jugador.GetHabilidades());
+                            case EntradaSalida.MENU_HABILIDADES:
+                                AbstractHabilidad habilidad = EntradaSalida.ElegirHabilidad(jugador.GetHabilidades());
                                 if (habilidad != null)
-                                    MostrarHabilidad(habilidad);
+                                    EntradaSalida.MostrarHabilidad(habilidad);
 
                                 break;
 
-                            case MENU_OBJETOS:
-                                AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
+                            case EntradaSalida.MENU_OBJETOS:
+                                AbstractObjeto objeto = EntradaSalida.ElegirObjeto(jugador.GetObjetos(true));
                                 if (objeto != null)
-                                    MostrarUsarObjeto(objeto, jugador, null, null, this);
-                                if (jugador.GetObjetos()[0] == null)
-                                    Thread.Sleep(1000);
+                                    EntradaSalida.MostrarUsarObjeto(objeto, jugador, null, null, this);
 
                                 break;
                         }
@@ -244,32 +256,32 @@ namespace SquareDungeon.Modelo
             do
             {
                 // Se muestran las barras de viada del enemigo y del jugador
-                EntradaSalida.Clear();
-                MostrarPV(enemigo, pvInicialesEnemigo, enemigo.GetStat(AbstractMob.INDICE_VIDA));
-                MostrarPV(jugador, pvInicialesJugador, jugador.GetStat(AbstractMob.INDICE_VIDA));
+                int pvActualesEnemigo = enemigo.GetStat(AbstractMob.INDICE_VIDA);
+                int pvActualesJugador = jugador.GetStat(AbstractMob.INDICE_VIDA);
+                EntradaSalida.MostrarBarrasPV(enemigo, pvInicialesEnemigo, pvActualesEnemigo, jugador, pvInicialesJugador, pvActualesJugador);
 
                 // Se elige entre utilizar un objeto, atacar con un arma o huir del combate
-                int eleccion = ElegirArmaObjeto();
+                string eleccion = EntradaSalida.Elegir("", false, EntradaSalida.ELEGIR_ARMA, EntradaSalida.ELEGIR_OBJETO, EntradaSalida.ELEGIR_HUIR);
 
-                if (eleccion == ELEGIR_HUIR)
+                if (EntradaSalida.ELEGIR_HUIR.Equals(eleccion))
                 {
-                    resultado = RESULTADO_HUIR;
+                    resultado = Partida.RESULTADO_HUIR;
                     break;
                 }
 
-                if (eleccion == ELEGIR_OBJETO)
+                if (EntradaSalida.ELEGIR_OBJETO.Equals(eleccion))
                 {
-                    AbstractObjeto objeto = ElegirObjeto(jugador.GetObjetos());
+                    AbstractObjeto objeto = EntradaSalida.ElegirObjeto(jugador.GetObjetos(false));
                     if (objeto == null)
-                        eleccion = ELEGIR_ARMA;
+                        eleccion = EntradaSalida.ELEGIR_ARMA;
                     else
-                        objeto.RealizarAccion(jugador, enemigo, sala, this);
+                        EntradaSalida.MostrarUsarObjeto(objeto, jugador, enemigo, sala, this);
                 }
 
-                if (eleccion == ELEGIR_ARMA)
+                if (EntradaSalida.ELEGIR_ARMA.Equals(eleccion))
                 {
                     // Se elige el arma con la que se va a atacar
-                    AbstractArma arma = ElegirArma(jugador.GetArmas());
+                    AbstractArma arma = EntradaSalida.ElegirArma(jugador.GetArmas());
                     if (arma == null)
                         continue;
 
@@ -295,14 +307,13 @@ namespace SquareDungeon.Modelo
 
                 ejecutorEnemigo.EjecutarPostAtaque();
 
-                Thread.Sleep(1000);
-
                 int velJugador = jugador.GetStatCombate(AbstractMob.INDICE_AGILIDAD);
                 int velEnemigo = enemigo.GetStatCombate(AbstractMob.INDICE_AGILIDAD);
 
                 // Ataque doble del jugador
-                if (velJugador - velEnemigo > 4 && eleccion == ELEGIR_ARMA)
+                if (velJugador - velEnemigo > 4 && eleccion == EntradaSalida.ELEGIR_ARMA)
                 {
+                    Thread.Sleep(500);
                     ejecutorJugador.EjecutarPreAtaque();
                     int res = ataqueJugador(jugador, enemigo, ejecutorJugador, ejecutorEnemigo);
                     if (res == RESULTADO_JUGADOR_GANA)
@@ -316,6 +327,7 @@ namespace SquareDungeon.Modelo
                 // Ataque doble del enemigo
                 if (velEnemigo - velJugador > 4)
                 {
+                    Thread.Sleep(500);
                     ejecutorEnemigo.EjecutarPreAtaque();
                     if (atacarEnemigo(enemigo, jugador, ejecutorEnemigo, ejecutorJugador))
                     {

@@ -8,18 +8,16 @@ namespace SquareDungeon
     {
         static void Main(string[] args)
         {
-            Partida partida = new Partida();
+            Partida partida = Partida.GetInstance();
             int res = partida.JugarNiveles();
 
             if (res == Partida.RESULTADO_JEFE_ELIMINADO)
-            {
-                Console.WriteLine("¡Derrotaste al jefe!");
-                Console.WriteLine("Fin del juego");
-            } else if (res == Partida.RESULTADO_ENEMIGO_GANA)
-            {
-                Console.WriteLine("Derrota...");
-                Console.WriteLine("Fin del juego");
-            }
+                EntradaSalida.MostrarMensaje("¡Derrotaste al jefe!");
+
+            else if (res == Partida.RESULTADO_ENEMIGO_GANA)
+                EntradaSalida.MostrarMensaje("Derrota...");
+
+            EntradaSalida.MostrarMensaje("Fin del juego");
         }
     }
 }
