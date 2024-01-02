@@ -6,6 +6,9 @@ using static SquareDungeon.Resources.Resource;
 
 namespace SquareDungeon.Habilidades.DanoAdicional
 {
+    /// <summary>
+    /// Envenena al emnemigo y le causa daño en cada turno
+    /// </summary>
     class Toxina : AbstractHabilidad
     {
 
