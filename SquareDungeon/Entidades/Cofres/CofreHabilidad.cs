@@ -13,7 +13,7 @@ namespace SquareDungeon.Entidades.Cofres
     {
         public CofreHabilidad(AbstractHabilidad habilidad) : base(NOMBRE_COFRE_HABILIDAD, DESC_COFRE_HABILIDAD, habilidad) { }
 
-        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida)
+        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala)
         {
             bool habilidadAnadida = jugador.AnadirHabilidad(getContenido());
             if (habilidadAnadida)

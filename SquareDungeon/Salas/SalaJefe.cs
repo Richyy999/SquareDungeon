@@ -53,8 +53,9 @@ namespace SquareDungeon.Salas
                 partida.SetResultado(Partida.RESULTADO_ENEMIGO_GANA);
         }
 
-        public override void Entrar(Partida partida, AbstractJugador jugador)
+        public override void Entrar(AbstractJugador jugador)
         {
+            Partida partida = Partida.GetInstance();
             if (subirNivel)
             {
                 subirNivelEnemigo(partida, jugador);
@@ -77,7 +78,7 @@ namespace SquareDungeon.Salas
                 if (!EntradaSalida.PreguntarSiNo("¿Quieres abrir esta sala?"))
                     return false;
 
-                llave.RealizarAccion(jugador, null, this, null);
+                llave.RealizarAccion(jugador, null, this);
                 SetEstado(ESTADO_SALA_JEFE_ABIERTA);
                 abierta = true;
                 return abierta;

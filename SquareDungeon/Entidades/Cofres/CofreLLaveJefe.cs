@@ -13,7 +13,7 @@ namespace SquareDungeon.Entidades.Cofres
     {
         public CofreLLaveJefe() : base(NOMBRE_COFRE_LLAVE_JEFE, DESC_COFRE_LLAVE_JEFE, new LlaveJefe()) { }
 
-        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida)
+        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala)
         {
             jugador.SetLlaveJefe(getContenido());
             EntradaSalida.MostrarObjetoConseguido(getContenido());

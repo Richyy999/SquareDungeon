@@ -15,9 +15,9 @@ namespace SquareDungeon.Objetos
     {
         public PocionMagia() : base(1, NOMBRE_POCION_MAGIA, DESC_POCION_MAGIA) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
-            base.RealizarAccion(jugador, enemigo, sala, partida);
+            base.RealizarAccion(jugador, enemigo, sala);
             int magCom = jugador.GetStatCombate(AbstractMob.INDICE_MAGIA);
             jugador.AlterarStatCombate(AbstractMob.INDICE_MAGIA, (int)(magCom * 0.2));
         }

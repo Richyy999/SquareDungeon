@@ -79,8 +79,9 @@ namespace SquareDungeon.Salas
             }
         }
 
-        public override void Entrar(Partida partida, AbstractJugador jugador)
+        public override void Entrar(AbstractJugador jugador)
         {
+            Partida partida = Partida.GetInstance();
             if (GetEstado() == ESTADO_SIN_VISITAR)
             {
                 subirNivelEnemigo(partida, jugador);

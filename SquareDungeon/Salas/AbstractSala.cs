@@ -57,9 +57,8 @@ namespace SquareDungeon.Salas
         /// <summary>
         /// Realiza la lógica cuando el jugador entra en la sala
         /// </summary>
-        /// <param name="partida"></param>
         /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que entra en la sala</param>
-        public abstract void Entrar(Partida partida, AbstractJugador jugador);
+        public abstract void Entrar(AbstractJugador jugador);
 
         /// <summary>
         /// Realiza la lógica para que el jugador entre en la sala

@@ -14,7 +14,7 @@ namespace SquareDungeon.Objetos
     {
         public LlaveJefe() : base(1, NOMBRE_LLAVE_JEFE, DESC_LLAVE_JEFE) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             if (sala is SalaJefe)
                 jugador.EliminarLlaveJefe();

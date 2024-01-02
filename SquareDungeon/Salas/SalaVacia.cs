@@ -10,9 +10,9 @@ namespace SquareDungeon.Salas
     {
         public SalaVacia(int x, int y) : base(x, y) { }
 
-        public override void Entrar(Partida partida, AbstractJugador jugador)
+        public override void Entrar(AbstractJugador jugador)
         {
-            partida.SetPosicionJugador(x, y);
+            Partida.GetInstance().SetPosicionJugador(x, y);
             SetEstado(ESTADO_VISITADO);
         }
     }

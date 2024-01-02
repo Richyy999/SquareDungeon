@@ -15,9 +15,9 @@ namespace SquareDungeon.Objetos
     {
         public PocionAsesina() : base(1, NOMBRE_POCION_ASESINA, DESC_POCION_ASESINA) { }
 
-        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
+        public override void RealizarAccion(AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
-            base.RealizarAccion(jugador, enemigo, sala, partida);
+            base.RealizarAccion(jugador, enemigo, sala);
             int probCritCom = jugador.GetStatCombate(AbstractMob.INDICE_PROBABILIDAD_CRITICO);
             jugador.AlterarStatCombate(AbstractMob.INDICE_PROBABILIDAD_CRITICO, (int)(probCritCom * 0.15));
         }

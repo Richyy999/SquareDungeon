@@ -800,8 +800,7 @@ namespace SquareDungeon.Modelo
         /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que usará el objeto</param>
         /// <param name="enemigo"><see cref="AbstractEnemigo">Enemigo</see> que sufrirá la acción del objeto</param>
         /// <param name="sala"><see cref="AbstractSala">Sala</see> en la que se encuentra el jugador</param>
-        /// <param name="partida">Instancia de la clase</param>
-        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala, Partida partida)
+        public static void MostrarUsarObjeto(AbstractObjeto objeto, AbstractJugador jugador, AbstractEnemigo enemigo, AbstractSala sala)
         {
             anadirMiga("\n" + objeto.ToString() + "\n" + objeto.GetDescripcion(), false);
 
@@ -809,7 +808,7 @@ namespace SquareDungeon.Modelo
             {
                 try
                 {
-                    objeto.RealizarAccion(jugador, enemigo, sala, partida);
+                    objeto.RealizarAccion(jugador, enemigo, sala);
                     if (objeto.GetCantidad() == 0)
                         Console.WriteLine($"Te quedaste sin {objeto.GetNombre()}");
                 }

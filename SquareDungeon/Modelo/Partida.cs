@@ -183,7 +183,7 @@ namespace SquareDungeon.Modelo
                             case EntradaSalida.MENU_OBJETOS:
                                 AbstractObjeto objeto = EntradaSalida.ElegirObjeto(jugador.GetObjetos(true));
                                 if (objeto != null)
-                                    EntradaSalida.MostrarUsarObjeto(objeto, jugador, null, null, this);
+                                    EntradaSalida.MostrarUsarObjeto(objeto, jugador, null, null);
 
                                 break;
                         }
@@ -275,7 +275,7 @@ namespace SquareDungeon.Modelo
                     if (objeto == null)
                         eleccion = EntradaSalida.ELEGIR_ARMA;
                     else
-                        EntradaSalida.MostrarUsarObjeto(objeto, jugador, enemigo, sala, this);
+                        EntradaSalida.MostrarUsarObjeto(objeto, jugador, enemigo, sala);
                 }
 
                 if (EntradaSalida.ELEGIR_ARMA.Equals(eleccion))
@@ -424,7 +424,7 @@ namespace SquareDungeon.Modelo
         private void entrarEnSala(AbstractSala sala, AbstractJugador jugador)
         {
             if (sala.AbrirSala(jugador))
-                sala.Entrar(this, jugador);
+                sala.Entrar(jugador);
         }
 
         /// <summary>

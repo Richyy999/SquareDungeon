@@ -31,8 +31,10 @@ namespace SquareDungeon.Entidades.Cofres
         /// <summary>
         /// Realiza la lógica que abre el cofre
         /// </summary>
+        /// <param name="jugador"><see cref="AbstractJugador">Jugador</see> que abre el cofre</param>
+        /// <param name="sala"><see cref="AbstractSala">Sala</see> que contiene el cofre</param>
         /// <returns>true si el cofre se ha abuerto, false en caso contrario</returns>
-        public abstract bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida);
+        public abstract bool AbrirCofre(AbstractJugador jugador, AbstractSala sala);
 
         /// <summary>
         /// Devuelve el contenido del cofre

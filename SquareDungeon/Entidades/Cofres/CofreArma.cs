@@ -16,7 +16,7 @@ namespace SquareDungeon.Entidades.Cofres
     {
         public CofreArma(AbstractArma arma) : base(NOMBRE_COFRE_ARMA, DESC_COFRE_ARMA, arma) { }
 
-        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida)
+        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala)
         {
             try
             {

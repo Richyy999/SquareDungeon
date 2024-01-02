@@ -13,7 +13,7 @@ namespace SquareDungeon.Entidades.Cofres
     {
         public CofreObjeto(AbstractObjeto objeto) : base(NOMBRE_COFRE_OBJETO, DESC_COFRE_OBJETO, objeto) { }
 
-        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala, Partida partida)
+        public override bool AbrirCofre(AbstractJugador jugador, AbstractSala sala)
         {
             bool objetoAnadido = jugador.AnadirObjeto(getContenido());
             if (!objetoAnadido)
