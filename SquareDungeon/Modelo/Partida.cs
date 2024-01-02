@@ -348,6 +348,8 @@ namespace SquareDungeon.Modelo
             ejecutorJugador.ResetearHabilidades();
             ejecutorEnemigo.ResetearHabilidades();
 
+            jugador.ResetearHabilidadesArmas();
+
             return resultado;
         }
 

@@ -431,6 +431,17 @@ namespace SquareDungeon.Entidades.Mobs.Jugadores
         }
 
         /// <summary>
+        /// Resetea las habilidades del jugador
+        /// </summary>
+        public void ResetearHabilidadesArmas()
+        {
+            foreach(AbstractArma arma in GetArmas())
+            {
+                arma.GetHabilidad().ResetearHabilidad();
+            }
+        }
+
+        /// <summary>
         /// Devuelve el tipo de arma que lleva el jugador
         /// </summary>
         /// <returns>Tipo de arma que lleva el jugador</returns>
