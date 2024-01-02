@@ -176,7 +176,7 @@ namespace SquareDungeon.Modelo
             {
                 Clear();
                 if (!string.IsNullOrEmpty(migas))
-                    mostrarMigas();
+                    MostrarMigas();
 
                 if (!string.IsNullOrEmpty(mensaje))
                     Console.WriteLine(mensaje);
@@ -184,7 +184,7 @@ namespace SquareDungeon.Modelo
                 bool subir = primeraPosicion > 0;
                 bool bajar = array.Length - primeraPosicion > 9;
 
-                if (array.Length < 9)
+                if (array.Length > 9)
                     Console.WriteLine("Usa las flechas para paginar");
 
                 int numEleccion = 1;
@@ -489,7 +489,7 @@ namespace SquareDungeon.Modelo
             migas = miga + "\n";
 
             if (mostrar)
-                mostrarMigas();
+                MostrarMigas();
         }
 
         /// <summary>
@@ -501,13 +501,13 @@ namespace SquareDungeon.Modelo
         {
             migas += miga + "\n";
             if (mostrar)
-                mostrarMigas();
+                MostrarMigas();
         }
 
         /// <summary>
         /// Muestra las <see cref="migas"/>
         /// </summary>
-        private static void mostrarMigas()
+        public static void MostrarMigas()
         {
             Clear();
             Console.WriteLine(migas);
@@ -520,6 +520,7 @@ namespace SquareDungeon.Modelo
         /// <param name="enemigo"></param>
         public static void MostrarVictoria(AbstractJugador jugador, AbstractEnemigo enemigo)
         {
+            Esperar();
             anadirMiga("\n¡Victoria!", false);
             AbstractObjeto drop = enemigo.Drop();
             if (drop != null)
@@ -751,7 +752,7 @@ namespace SquareDungeon.Modelo
         /// <param name="arma"><see cref="AbstractArma">Arma</see> a mostrar</param>
         public static void MostrarArma(AbstractArma arma)
         {
-            mostrarMigas();
+            MostrarMigas();
             Console.WriteLine($"{arma.GetNombre()}:");
             Console.WriteLine(arma.GetDescripcion());
             Console.WriteLine($"\nDaño: {arma.GetDano()}");
@@ -787,7 +788,7 @@ namespace SquareDungeon.Modelo
         /// <param name="habilidad"><see cref="AbstractHabilidad">Habilidad</see> a mostrar</param>
         public static void MostrarHabilidad(AbstractHabilidad habilidad)
         {
-            mostrarMigas();
+            MostrarMigas();
             Console.WriteLine(habilidad.GetNombre());
             Console.WriteLine(habilidad.GetDescripcion());
             Esperar("\nPulsa Enter para continuar");

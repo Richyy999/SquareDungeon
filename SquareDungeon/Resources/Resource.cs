@@ -43,6 +43,7 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_SANACION = "sanacion";
         public const string NOMBRE_GOLPE_SANADOR = "golpeSanador";
         public const string NOMBRE_RENCOR = "rencor";
+        public const string NOMBRE_TOXINA = "toxina";
 
         public const string NOMBRE_HABILIDAD_TROL = "habTrol";
 
@@ -92,6 +93,7 @@ namespace SquareDungeon.Resources
         public const string DESC_SANACION = "sanacion";
         public const string DESC_GOLPE_SANADOR = "golpeSanador";
         public const string DESC_RENCOR = "rencor";
+        public const string DESC_TOXINA = "toxina";
 
         public const string DESC_HABILIDAD_TROL = "habTrol";
 

@@ -265,9 +265,11 @@ namespace SquareDungeon.Modelo
 
                 if (EntradaSalida.ELEGIR_HUIR.Equals(eleccion))
                 {
-                    resultado = Partida.RESULTADO_HUIR;
+                    resultado = RESULTADO_HUIR;
                     break;
                 }
+
+                EntradaSalida.MostrarMigas();
 
                 if (EntradaSalida.ELEGIR_OBJETO.Equals(eleccion))
                 {

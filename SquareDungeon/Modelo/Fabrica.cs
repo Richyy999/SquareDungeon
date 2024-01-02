@@ -11,6 +11,7 @@ using SquareDungeon.Habilidades.Cura;
 using SquareDungeon.Habilidades.SubirStats;
 using SquareDungeon.Habilidades.DobleGolpe;
 using SquareDungeon.Habilidades.ReducirDano;
+using SquareDungeon.Habilidades.DanoAdicional;
 using SquareDungeon.Habilidades.DanoAdicional.TipoEnemigo;
 using SquareDungeon.Habilidades.DanoAdicional.StatEjecutor;
 using SquareDungeon.Entidades.Mobs.Enemigos;
@@ -269,7 +270,7 @@ namespace SquareDungeon.Modelo
         private AbstractHabilidad generarHabilidad()
         {
             Random random = new Random();
-            int num = random.Next(7);
+            int num = random.Next(8);
             AbstractHabilidad habilidad;
 
             switch (num)
@@ -300,6 +301,10 @@ namespace SquareDungeon.Modelo
 
                 case 6:
                     habilidad = new Rencor();
+                    break;
+
+                case 7:
+                    habilidad = new Toxina();
                     break;
 
                 default:

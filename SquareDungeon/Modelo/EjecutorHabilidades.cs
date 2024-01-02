@@ -72,8 +72,8 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPreCombate(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                    habilidad.RealizarAccionPreCombate(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    habilidad.RealizarAccionPreCombate(ejecutor, victima, sala);
                     ejecutado = true;
                 }
             }
@@ -93,8 +93,8 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPreAtaque(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                    habilidad.RealizarAccionPreAtaque(ejecutor, victima, sala);
                     EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    habilidad.RealizarAccionPreAtaque(ejecutor, victima, sala);
                     ejecutado = true;
                 }
             }
@@ -118,8 +118,8 @@ namespace SquareDungeon.Modelo
             if (habilidadesEjecutadas.Count > 0)
             {
                 AbstractHabilidad habilidad = AbstractHabilidad.GetHabilidadPorPrioridad(habilidadesEjecutadas);
-                int res = habilidad.RealizarAccionAtaque(ejecutor, victima, sala);
                 EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                int res = habilidad.RealizarAccionAtaque(ejecutor, victima, sala);
                 return res;
             }
 
@@ -143,8 +143,8 @@ namespace SquareDungeon.Modelo
             if (habilidadesEjecutadas.Count > 0)
             {
                 AbstractHabilidad habilidad = AbstractHabilidad.GetHabilidadPorPrioridad(habilidadesEjecutadas);
-                int dano = habilidad.RealizarAccionAtaqueRival(ejecutor, victima, sala, danoRecibido);
                 EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                int dano = habilidad.RealizarAccionAtaqueRival(ejecutor, victima, sala, danoRecibido);
                 return dano;
             }
 
@@ -163,9 +163,9 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPostAtaque(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                        habilidad.RealizarAccionPostAtaque(ejecutor, victima, sala);
-                        EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
-                        ejecutado = true;
+                    EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    habilidad.RealizarAccionPostAtaque(ejecutor, victima, sala);
+                    ejecutado = true;
                 }
             }
 
@@ -184,9 +184,9 @@ namespace SquareDungeon.Modelo
             {
                 if (habilidad.EjecutarPostCombate(ejecutor, victima, sala) && !habilidad.IsAnulada())
                 {
-                        habilidad.RealizarAccionPostCombate(ejecutor, victima, sala);
-                        EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
-                        ejecutado = true;
+                    EntradaSalida.MostrarHabilidad(ejecutor, habilidad);
+                    habilidad.RealizarAccionPostCombate(ejecutor, victima, sala);
+                    ejecutado = true;
                 }
             }
 

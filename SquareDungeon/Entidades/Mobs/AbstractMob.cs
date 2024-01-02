@@ -592,6 +592,22 @@ namespace SquareDungeon.Entidades.Mobs
         }
 
         /// <summary>
+        /// Daña al mob sin matarle, dejándole con 1 pv si el daño es letal
+        /// </summary>
+        /// <param name="dano">Daño a infligir</param>
+        /// <exception cref="ArgumentException">Lanza una excepción si el daño es negativo</exception>
+        public void DanarSinMatar(int dano)
+        {
+            if (dano < 0)
+                throw new ArgumentException("El daño no puede ser inferior a 0");
+
+            this.pv -= dano;
+
+            if (this.pv < 1)
+                this.pv = 1;
+        }
+
+        /// <summary>
         /// Esquiva el ataque de otro mob
         /// </summary>
         /// <param name="atacante">Mob atacante</param>
