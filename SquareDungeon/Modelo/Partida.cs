@@ -290,10 +290,9 @@ namespace SquareDungeon.Modelo
                     jugador.SetArmaCombate(arma);
 
                     ejecutorJugador.EjecutarPreAtaque();
-                    int res = ataqueJugador(jugador, enemigo, ejecutorJugador, ejecutorEnemigo);
-                    if (res == RESULTADO_JUGADOR_GANA)
+                    if (atacar(jugador, enemigo, ejecutorJugador, ejecutorEnemigo))
                     {
-                        resultado = res;
+                        resultado = RESULTADO_JUGADOR_GANA;
                         break;
                     }
                     ejecutorJugador.EjecutarPostAtaque();
@@ -301,7 +300,7 @@ namespace SquareDungeon.Modelo
 
                 // Ataca el enemigo
                 ejecutorEnemigo.EjecutarPreAtaque();
-                if (atacarEnemigo(enemigo, jugador, ejecutorEnemigo, ejecutorJugador))
+                if (atacar(enemigo, jugador, ejecutorEnemigo, ejecutorJugador))
                 {
                     resultado = RESULTADO_ENEMIGO_GANA;
                     break;
@@ -317,10 +316,9 @@ namespace SquareDungeon.Modelo
                 {
                     Thread.Sleep(500);
                     ejecutorJugador.EjecutarPreAtaque();
-                    int res = ataqueJugador(jugador, enemigo, ejecutorJugador, ejecutorEnemigo);
-                    if (res == RESULTADO_JUGADOR_GANA)
+                    if (atacar(jugador, enemigo, ejecutorJugador, ejecutorEnemigo))
                     {
-                        resultado = res;
+                        resultado = RESULTADO_JUGADOR_GANA;
                         break;
                     }
                     ejecutorJugador.EjecutarPostAtaque();
@@ -331,15 +329,15 @@ namespace SquareDungeon.Modelo
                 {
                     Thread.Sleep(500);
                     ejecutorEnemigo.EjecutarPreAtaque();
-                    if (atacarEnemigo(enemigo, jugador, ejecutorEnemigo, ejecutorJugador))
+                    if (atacar(enemigo, jugador, ejecutorEnemigo, ejecutorJugador))
                     {
                         resultado = RESULTADO_ENEMIGO_GANA;
                         break;
                     }
-
                     ejecutorEnemigo.EjecutarPostAtaque();
                 }
-
+                jugador.AplicarEfectos();
+                enemigo.AplicarEfectos();
                 EntradaSalida.Esperar();
             } while (true);
 
@@ -350,74 +348,74 @@ namespace SquareDungeon.Modelo
             ejecutorJugador.ResetearHabilidades();
             ejecutorEnemigo.ResetearHabilidades();
 
+            enemigo.EliminarEfectos();
+            jugador.EliminarEfectos();
+
             jugador.ResetearHabilidadesArmas();
 
             return resultado;
         }
 
         /// <summary>
-        /// Contiene toda la lógica empleada en el ataque del <see cref="jugador"/> al <see cref="AbstractEnemigo">enemigo</see>
+        /// Contiene toda la lógica empleada en el ataque de un <see cref="AbstractMob">atacante</see> a una <see cref="AbstractMob">víctima</see>/>
         /// </summary>
-        /// <param name="jugador"><see cref="jugador"/></param>
-        /// <param name="enemigo"><see cref="AbstractEnemigo">enemigo</see> al que se enfrenta el jugador</param>
-        /// <param name="ejecutorJugador"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del jugador</param>
-        /// <param name="ejecutorEnemigo"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del enemigo</param>
-        /// <returns>resultado del combate</returns>
-        private int ataqueJugador(AbstractJugador jugador, AbstractEnemigo enemigo, EjecutorHabilidades ejecutorJugador, EjecutorHabilidades ejecutorEnemigo)
+        /// <param name="atacante"><see cref="AbstractMob">Mob</see> que realiza el ataque</param>
+        /// <param name="victima"><see cref="AbstractMob">Mob</see> que recibe el ataque</param>
+        /// <param name="ejecutorAtacante"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del atacante</param>
+        /// <param name="ejecutorVictima"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> de la víctima</param>
+        /// <returns>true si el jugador ha sido derrotado, false en caso contrario</returns>
+        private bool atacar(AbstractMob atacante, AbstractMob victima, EjecutorHabilidades ejecutorAtacante, EjecutorHabilidades ejecutorVictima)
         {
-            int dano = ejecutorJugador.EjecutarAtaque();
-
+            int dano = ejecutorAtacante.EjecutarAtaque();
             if (dano == AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
             {
-                AbstractArma armaCombate = jugador.GetArmaCombate();
-                EntradaSalida.MostrarAtaque(jugador, armaCombate);
-                dano = jugador.Atacar(enemigo);
+                dano = getDano(atacante, victima);
             }
+            dano = ejecutorVictima.EjecutarAtaqueRival(dano);
 
-            dano = ejecutorEnemigo.EjecutarAtaqueRival(dano);
-
-            if (enemigo.Esquivar(jugador))
+            if (victima.Esquivar(atacante))
             {
                 dano = 0;
-                EntradaSalida.MostrarEsquivar(enemigo, jugador);
+                EntradaSalida.MostrarEsquivar(atacante, victima);
             }
             else
             {
-                EntradaSalida.MostrarDano(jugador, enemigo, dano);
+                EntradaSalida.MostrarDano(atacante, victima, dano);
             }
 
-            return enemigo.Danar(dano) ? RESULTADO_JUGADOR_GANA : RESULTADO_EN_JUEGO;
+            return victima.Danar(dano);
         }
 
         /// <summary>
-        /// Contiene toda la lógica empleada en el ataque del <see cref="AbstractEnemigo">enemigo</see> al <see cref="jugador"/>
+        /// Ejecuta un ataque de un mob a otro
         /// </summary>
-        /// <param name="jugador"><see cref="jugador"/></param>
-        /// <param name="enemigo"><see cref="AbstractEnemigo">enemigo</see> al que se enfrenta el jugador</param>
-        /// <param name="ejecutorJugador"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del jugador</param>
-        /// <param name="ejecutorEnemigo"><see cref="EjecutorHabilidades">Ejecutor de habilidades</see> del enemigo</param>
-        /// <returns>true si el jugador ha sido derrotado, false en caso contrario</returns>
-        private bool atacarEnemigo(AbstractEnemigo enemigo, AbstractJugador jugador, EjecutorHabilidades ejecutorEnemigo, EjecutorHabilidades ejecutorJugador)
+        /// <param name="atacante"><see cref="AbstractMob">Mob</see> atacante</param>
+        /// <param name="victima"><see cref="AbstractMob">Mob</see> que recibe el ataque</param>
+        /// <returns>Daño que inflige el atacante a la víctima</returns>
+        private int getDano(AbstractMob atacante, AbstractMob victima)
         {
-            int dano = ejecutorEnemigo.EjecutarAtaque();
-            if (dano == AbstractHabilidad.RESULTADO_SIN_ACTIVAR)
+            int dano = 0;
+
+            if (atacante is AbstractJugador)
             {
+                AbstractJugador jugador = (AbstractJugador)atacante;
+                AbstractEnemigo enemigo = (AbstractEnemigo)victima;
+
+                AbstractArma armaCombate = jugador.GetArmaCombate();
+                EntradaSalida.MostrarAtaque(jugador, armaCombate);
+                dano = jugador.Atacar(enemigo);
+
+            }
+            else if (atacante is AbstractEnemigo)
+            {
+                AbstractJugador jugador = (AbstractJugador)victima;
+                AbstractEnemigo enemigo = (AbstractEnemigo)atacante;
+
                 EntradaSalida.MostrarAtaque(enemigo);
                 dano = enemigo.Atacar(jugador);
             }
-            dano = ejecutorJugador.EjecutarAtaqueRival(dano);
 
-            if (jugador.Esquivar(enemigo))
-            {
-                dano = 0;
-                EntradaSalida.MostrarEsquivar(enemigo, jugador);
-            }
-            else
-            {
-                EntradaSalida.MostrarDano(enemigo, jugador, dano);
-            }
-
-            return jugador.Danar(dano);
+            return dano;
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using SquareDungeon.Modelo;
 using SquareDungeon.Salas;
 using SquareDungeon.Entidades.Mobs;
+using SquareDungeon.Efectos;
 
 using static SquareDungeon.Resources.Resource;
 
@@ -16,23 +17,8 @@ namespace SquareDungeon.Habilidades.DanoAdicional
 
         private bool aplicarToxina;
 
-        private int dano;
-
         public Toxina() : base(5, PRIORIDAD_MEDIA, NOMBRE_TOXINA, DESC_TOXINA, Categorias.DANO_ADICIONAL)
         { }
-
-        public override bool EjecutarPreAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
-        {
-            return aplicarToxina;
-        }
-
-        public override void RealizarAccionPreAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
-        {
-            victima.DanarSinMatar(dano);
-            dano += DANO_BASE * (victima.GetNivel() / 2);
-
-            EntradaSalida.MostrarDano(ejecutor, victima, dano);
-        }
 
         public override bool EjecutarAtaque(AbstractMob ejecutor, AbstractMob victima, AbstractSala sala)
         {
@@ -43,6 +29,7 @@ namespace SquareDungeon.Habilidades.DanoAdicional
         {
             aplicarToxina = true;
             EntradaSalida.MostrarMensaje($"{ejecutor.GetNombre()} envenenó a {victima.GetNombre()}");
+            victima.AnadirEfecto(new Veneno());
             return Util.GetDano(ejecutor, victima);
         }
 
@@ -50,7 +37,6 @@ namespace SquareDungeon.Habilidades.DanoAdicional
         {
             base.ResetearHabilidad();
             aplicarToxina = false;
-            dano = DANO_BASE;
         }
     }
 }

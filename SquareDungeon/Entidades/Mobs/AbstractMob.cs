@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using SquareDungeon.Modelo;
 using SquareDungeon.Habilidades;
+using SquareDungeon.Efectos;
 
 namespace SquareDungeon.Entidades.Mobs
 {
@@ -187,6 +188,11 @@ namespace SquareDungeon.Entidades.Mobs
         protected List<AbstractHabilidad> habilidades;
 
         /// <summary>
+        /// Lista con los efectos aplicados al mob
+        /// </summary>
+        private List<AbstractEfecto> efectos;
+
+        /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="pv">Vida inicial del mob</param>
@@ -248,6 +254,8 @@ namespace SquareDungeon.Entidades.Mobs
             this.exp = 0;
 
             this.habilidades = new List<AbstractHabilidad>();
+
+            this.efectos = new List<AbstractEfecto>();
 
             validarStats(statsMaximos);
         }
@@ -629,6 +637,38 @@ namespace SquareDungeon.Entidades.Mobs
         }
 
         /// <summary>
+        /// Añade un efecto al mob
+        /// </summary>
+        /// <param name="efecto">Efecto a añadir</param>
+        public void AnadirEfecto(AbstractEfecto efecto)
+        {
+            this.efectos.Add(efecto);
+        }
+
+        /// <summary>
+        /// Elimina todos los efectos del mob
+        /// </summary>
+        public void EliminarEfectos()
+        {
+            this.efectos.Clear();
+        }
+
+        /// <summary>
+        /// Aplica los efectos al mob
+        /// </summary>
+        public void AplicarEfectos()
+        {
+            foreach (AbstractEfecto efecto in this.efectos)
+            {
+                if (efecto.EsAplicarEfecto())
+                {
+                    efecto.AplicarEfecto(this);
+                    efecto.MostrarMensaje(this);
+                }
+            }
+        }
+
+        /// <summary>
         /// Devuelve el nivel actual del mob
         /// </summary>
         /// <returns>Nivel actual del mob</returns>
@@ -639,6 +679,12 @@ namespace SquareDungeon.Entidades.Mobs
         /// </summary>
         /// <returns>Lista de habilidades del mob</returns>
         public List<AbstractHabilidad> GetHabilidades() => habilidades;
+
+        /// <summary>
+        /// Devuelve la lista de efectos aplicados al mob
+        /// </summary>
+        /// <returns>Lista de efectos aplicados al mob</returns>
+        public List<AbstractEfecto> GetEfectos() => efectos;
 
         /// <summary>
         /// Aumenta el valor de un stat del mob

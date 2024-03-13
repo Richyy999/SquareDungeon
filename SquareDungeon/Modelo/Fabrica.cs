@@ -57,6 +57,7 @@ namespace SquareDungeon.Modelo
                 case EntradaSalida.GUERRERO:
                     jugador = new Guerrero(nombre, generarHabilidad());
                     jugador.EquiparArma(new EspadaHierro());
+                    jugador.AnadirHabilidad(new Toxina());
                     break;
 
                 case EntradaSalida.MAGO:

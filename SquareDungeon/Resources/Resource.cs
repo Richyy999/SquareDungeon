@@ -15,11 +15,13 @@ namespace SquareDungeon.Resources
         public const string FICHERO_NOMBRE_ENTIDADES = @"\Resources\NombreEntidades.properties";
         public const string FICHERO_NOMBRE_HABILIDADES = @"\Resources\NombreHabilidades.properties";
         public const string FICHERO_NOMBRE_OBJETOS = @"\Resources\NombreObjetos.properties";
+        public const string FICHERO_NOMBRE_EFECTOS = @"\Resources\NombreEfectos.properties";
 
         public const string FICHERO_DESC_ARMAS = @"\Resources\DescripcionArmas.properties";
         public const string FICHERO_DESC_ENTIDADES = @"\Resources\DescripcionEntidades.properties";
         public const string FICHERO_DESC_HABILIDADES = @"\Resources\DescripcionHabilidades.properties";
         public const string FICHERO_DESC_OBJETOS = @"\Resources\DescripcionObjetos.properties";
+        public const string FICHERO_DESC_EFECTOS = @"\Resources\DescripcionEfectos.properties";
 
         // Nombre jefes
         public const string NOMBRE_TROL = "trol";
@@ -66,6 +68,9 @@ namespace SquareDungeon.Resources
         public const string NOMBRE_POCION_MAGIA = "pocionMagia";
         public const string NOMBRE_POCION_LETAL = "pocionLetal";
         public const string NOMBRE_POCION_ASESINA = "pocionAsesina";
+
+        // Nombre efectos
+        public const string NOMBRE_VENENO = "veneno";
 
         // Descripción jugador
         public const string DESC_GUERRERO = "guerrero";
@@ -117,7 +122,10 @@ namespace SquareDungeon.Resources
         public const string DESC_POCION_LETAL = "pocionLetal";
         public const string DESC_POCION_ASESINA = "pocionAsesina";
 
-        public const char SALTO_LINEA = '/';
+        // Descripción efectos
+        public const string DESC_VENENO = "veneno";
+
+        public const char SALTO_LINEA = '\\';
 
         private const string SEPARADOR = "=";
 
